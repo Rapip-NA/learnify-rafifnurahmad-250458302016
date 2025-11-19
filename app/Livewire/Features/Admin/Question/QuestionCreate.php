@@ -1,0 +1,114 @@
+<?php
+
+namespace App\Livewire\Features\Admin\Question;
+
+use App\Models\Question;
+use App\Models\Competition;
+use App\Models\Category;
+use App\Models\Answer;
+use Livewire\Component;
+
+class QuestionCreate extends Component
+{
+    public $competition_id;
+    public $category_id;
+    public $question_text;
+    public $difficulty_level = 'easy';
+    public $point_weight;
+    public $validation_status = 'pending';
+
+    // For answers
+    public $answers = [];
+
+    public function mount()
+    {
+        // Initialize with one empty answer
+        $this->addAnswer();
+    }
+
+    public function addAnswer()
+    {
+        $this->answers[] = [
+            'answer_text' => '',
+            'is_correct' => false,
+        ];
+    }
+
+    public function removeAnswer($index)
+    {
+        unset($this->answers[$index]);
+        $this->answers = array_values($this->answers);
+    }
+
+    public function setCorrectAnswer($index)
+    {
+        foreach ($this->answers as $key => $answer) {
+            $this->answers[$key]['is_correct'] = ($key === $index);
+        }
+    }
+
+    protected function rules()
+    {
+        return [
+            'competition_id' => 'required|exists:competitions,id',
+            'category_id' => 'required|exists:categories,id',
+            'question_text' => 'required|string|min:10',
+            'difficulty_level' => 'required|in:easy,medium,hard',
+            'point_weight' => 'required|integer|min:1|max:1000',
+            'validation_status' => 'required|in:pending,approved,rejected',
+            'answers' => 'required|array|min:2',
+            'answers.*.answer_text' => 'required|string|min:1',
+            'answers.*.is_correct' => 'boolean',
+        ];
+    }
+
+    protected $messages = [
+        'answers.min' => 'You must provide at least 2 answers.',
+        'answers.*.answer_text.required' => 'All answer fields must be filled.',
+    ];
+
+    public function save()
+    {
+        $this->validate();
+
+        // Check if at least one answer is marked as correct
+        $hasCorrectAnswer = collect($this->answers)->contains('is_correct', true);
+
+        if (!$hasCorrectAnswer) {
+            $this->addError('answers', 'You must mark at least one answer as correct.');
+            return;
+        }
+
+        $question = Question::create([
+            'competition_id' => $this->competition_id,
+            'category_id' => $this->category_id,
+            'question_text' => $this->question_text,
+            'difficulty_level' => $this->difficulty_level,
+            'point_weight' => $this->point_weight,
+            'validation_status' => $this->validation_status,
+        ]);
+
+        // Save answers
+        foreach ($this->answers as $answer) {
+            Answer::create([
+                'question_id' => $question->id,
+                'answer_text' => $answer['answer_text'],
+                'is_correct' => $answer['is_correct'] ?? false,
+            ]);
+        }
+
+        session()->flash('message', 'Question created successfully.');
+        return redirect()->route('admin.questions.index');
+    }
+
+    public function render()
+    {
+        $competitions = Competition::select('id', 'title')->get();
+        $categories = Category::select('id', 'name')->get();
+
+        return view('livewire.features.admin.question.question-create', [
+            'competitions' => $competitions,
+            'categories' => $categories,
+        ]);
+    }
+}
