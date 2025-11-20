@@ -8,6 +8,7 @@ use App\Models\CompetitionParticipant;
 use App\Models\Question;
 use App\Models\ParticipantAnswer;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class CompetitionQuiz extends Component
 {
@@ -19,6 +20,8 @@ class CompetitionQuiz extends Component
     public $answers = [];
     public $startTime;
     public $isFinished = false;
+    public $remainingSeconds = 300;
+    public $timeExpired = false;
 
     public function mount($competitionId)
     {
@@ -38,6 +41,22 @@ class CompetitionQuiz extends Component
             ]
         );
 
+        // Check if already finished
+        if ($this->participant->finished_at) {
+            $this->isFinished = true;
+            return;
+        }
+
+        // Calculate remaining time
+        $this->calculateRemainingTime();
+
+        // Auto finish if time expired
+        if ($this->remainingSeconds <= 0) {
+            $this->timeExpired = true;
+            $this->autoFinishCompetition();
+            return;
+        }
+
         // Get approved questions
         $this->questions = $this->competition->questions()
             ->where('validation_status', 'approved')
@@ -48,10 +67,24 @@ class CompetitionQuiz extends Component
         $this->loadExistingAnswers();
 
         $this->startTime = now();
+    }
 
-        // Check if already finished
-        if ($this->participant->finished_at) {
-            $this->isFinished = true;
+    public function calculateRemainingTime()
+    {
+        $startedAt = Carbon::parse($this->participant->started_at);
+        $durationSeconds = $this->competition->duration_seconds ?? 320;
+        $endTime = $startedAt->copy()->addSeconds($durationSeconds);
+
+        $this->remainingSeconds = max(0, now()->diffInSeconds($endTime, false));
+    }
+
+    public function checkTimer()
+    {
+        $this->calculateRemainingTime();
+
+        if ($this->remainingSeconds <= 0 && !$this->isFinished) {
+            $this->timeExpired = true;
+            $this->autoFinishCompetition();
         }
     }
 
@@ -83,11 +116,18 @@ class CompetitionQuiz extends Component
 
     public function selectAnswer($answerId)
     {
+        if ($this->timeExpired || $this->isFinished) {
+            return;
+        }
         $this->selectedAnswer = $answerId;
     }
 
     public function submitAnswer()
     {
+        if ($this->timeExpired || $this->isFinished) {
+            return;
+        }
+
         if (!$this->selectedAnswer) {
             session()->flash('error', 'Pilih jawaban terlebih dahulu!');
             return;
@@ -185,12 +225,31 @@ class CompetitionQuiz extends Component
 
     public function finishCompetition()
     {
+        if ($this->isFinished) {
+            return;
+        }
+
         // Check if all questions answered
         if (count($this->answers) < count($this->questions)) {
             session()->flash('error', 'Jawab semua soal terlebih dahulu!');
             return;
         }
 
+        $this->processCompletition();
+    }
+
+    private function autoFinishCompetition()
+    {
+        if ($this->isFinished) {
+            return;
+        }
+
+        $this->processCompletition();
+        session()->flash('warning', 'Waktu habis! Kuis telah diselesaikan secara otomatis.');
+    }
+
+    private function processCompletition()
+    {
         DB::transaction(function () {
             // Calculate total score
             $totalScore = ParticipantAnswer::where('competition_participant_id', $this->participant->id)
@@ -222,7 +281,7 @@ class CompetitionQuiz extends Component
         });
 
         $this->isFinished = true;
-        session()->flash('success', 'Kompetisi selesai! Skor Anda: ' . $this->participant->total_score);
+        $this->participant->refresh();
     }
 
     private function updateLeaderboardRanks()
