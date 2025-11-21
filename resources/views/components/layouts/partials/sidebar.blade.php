@@ -54,7 +54,7 @@
                     </a>
                 </li>
 
-                <li class="sidebar-title">CRUD Sistem</li>
+                <li class="sidebar-title">Main Menu</li>
 
                 <li class="sidebar-item">
                     <a href="{{ route('admin.competitions.index') }}" class='sidebar-link'>
@@ -75,12 +75,12 @@
                     </a>
                 </li>
 
-                <li class="sidebar-title">Extra UI</li>
+                <li class="sidebar-title">List Anggota</li>
 
                 <li class="sidebar-item  ">
-                    <a href="index.html" class='sidebar-link'>
-                        <i class="bi bi-exclamation-circle"></i>
-                        <span>Example</span>
+                    <a href="{{ route('admin.peserta.index') }}" class='sidebar-link'>
+                        <i class="bi bi-people-fill"></i>
+                        <span>Peserta</span>
                     </a>
                 </li>
 
@@ -127,7 +127,6 @@
                 </li>
 
                 @endif
-
 
             </ul>
         </div>

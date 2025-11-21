@@ -10,6 +10,14 @@ Route::prefix('admin')
         //Menu Utama
         Route::get('/dashboard', Admin\Dashboard::class)->name('dashboard');
 
+        // Peserta Routes
+        Route::prefix('peserta')->name('peserta.')->group(function () {
+            Route::get('/', Admin\ListPeserta\PesertaList::class)->name('index');
+            Route::get('/create', Admin\ListPeserta\PesertaCreate::class)->name('create');
+            Route::get('/{id}', Admin\ListPeserta\PesertaShow::class)->name('show');
+            Route::get('/{id}/edit', Admin\ListPeserta\PesertaEdit::class)->name('edit');
+        });
+
         // Competition Routes
         Route::prefix('competitions')->name('competitions.')->group(function () {
             Route::get('/', Admin\Competitions\CompetitionIndex::class)->name('index');
