@@ -10,6 +10,13 @@ Route::prefix('admin')
         //Menu Utama
         Route::get('/dashboard', Admin\Dashboard::class)->name('dashboard');
 
+        Route::prefix('qualifier')->name('qualifier.')->group(function () {
+            Route::get('/', Admin\ListQualifier\QualifierList::class)->name('index');
+            Route::get('/create', Admin\ListQualifier\QualifierCreate::class)->name('create');
+            Route::get('/{id}', Admin\ListQualifier\QualifierShow::class)->name('show');
+            Route::get('/{id}/edit', Admin\ListQualifier\QualifierEdit::class)->name('edit');
+        });
+
         // Peserta Routes
         Route::prefix('peserta')->name('peserta.')->group(function () {
             Route::get('/', Admin\ListPeserta\PesertaList::class)->name('index');

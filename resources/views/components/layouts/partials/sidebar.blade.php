@@ -83,6 +83,12 @@
                         <span>Peserta</span>
                     </a>
                 </li>
+                <li class="sidebar-item  ">
+                    <a href="{{ route('admin.qualifier.index') }}" class='sidebar-link'>
+                        <i class="bi bi-people-fill"></i>
+                        <span>Qualifier</span>
+                    </a>
+                </li>
 
                 <li class="sidebar-title">Pages</li>
 
