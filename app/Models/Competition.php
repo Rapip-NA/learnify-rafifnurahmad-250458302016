@@ -17,12 +17,22 @@ class Competition extends Model
         'start_date',
         'end_date',
         'status',
-        'created_by'
+        'created_by',
+        'speed_bonus_enabled',
+        'speed_bonus_percentage',
+        'speed_bonus_time_threshold',
+        'penalty_enabled',
+        'penalty_percentage',
+        'duration_seconds',
     ];
 
     protected $casts = [
         'start_date' => 'datetime',
         'end_date' => 'datetime',
+        'speed_bonus_enabled' => 'boolean',
+        'penalty_enabled' => 'boolean',
+        'speed_bonus_percentage' => 'decimal:2',
+        'penalty_percentage' => 'decimal:2',
     ];
 
     public function creator(): BelongsTo

@@ -18,8 +18,15 @@ class ParticipantAnswer extends Model
         'answer_id',
         'is_correct',
         'time_spent',
+        'answered_at',
+        'score_earned',
         'verified_by',
         'validation_status',
+    ];
+
+    protected $casts = [
+        'answered_at' => 'datetime',
+        'score_earned' => 'decimal:2',
     ];
 
     public function competitionParticipant(): BelongsTo

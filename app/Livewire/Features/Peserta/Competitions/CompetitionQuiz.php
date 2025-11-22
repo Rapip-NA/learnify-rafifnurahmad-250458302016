@@ -9,6 +9,7 @@ use App\Models\Question;
 use App\Models\ParticipantAnswer;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Services\ScoringService;
 
 class CompetitionQuiz extends Component
 {
@@ -18,7 +19,7 @@ class CompetitionQuiz extends Component
     public $currentQuestionIndex = 0;
     public $selectedAnswer = null;
     public $answers = [];
-    public $startTime;
+    public $questionStartedAt; // Track when current question was started
     public $isFinished = false;
     public $remainingSeconds = 300;
     public $timeExpired = false;
@@ -66,7 +67,7 @@ class CompetitionQuiz extends Component
         // Load existing answers
         $this->loadExistingAnswers();
 
-        $this->startTime = now();
+        $this->questionStartedAt = now();
     }
 
     public function calculateRemainingTime()
@@ -141,9 +142,18 @@ class CompetitionQuiz extends Component
             return;
         }
 
-        $timeSpent = now()->diffInSeconds($this->startTime);
+        $timeSpent = now()->diffInSeconds($this->questionStartedAt);
 
-        // Save answer
+        // Calculate score using ScoringService
+        $scoringService = new ScoringService();
+        $scoreEarned = $scoringService->calculateAnswerScore(
+            $answer,
+            $question,
+            $this->competition,
+            $timeSpent
+        );
+
+        // Save answer with score
         ParticipantAnswer::updateOrCreate(
             [
                 'competition_participant_id' => $this->participant->id,
@@ -153,6 +163,8 @@ class CompetitionQuiz extends Component
                 'answer_id' => $this->selectedAnswer,
                 'is_correct' => $answer->is_correct,
                 'time_spent' => $timeSpent,
+                'answered_at' => now(),
+                'score_earned' => $scoreEarned,
                 'validation_status' => 'pending'
             ]
         );
@@ -165,7 +177,7 @@ class CompetitionQuiz extends Component
 
         // Reset for next question
         $this->selectedAnswer = null;
-        $this->startTime = now();
+        $this->questionStartedAt = now();
 
         session()->flash('success', 'Jawaban berhasil disimpan!');
     }
@@ -180,6 +192,8 @@ class CompetitionQuiz extends Component
                 $this->selectedAnswer = $this->answers[$this->currentQuestionIndex];
             } else {
                 $this->selectedAnswer = null;
+                // Reset timer for unanswered question
+                $this->questionStartedAt = now();
             }
         }
     }
@@ -194,6 +208,8 @@ class CompetitionQuiz extends Component
                 $this->selectedAnswer = $this->answers[$this->currentQuestionIndex];
             } else {
                 $this->selectedAnswer = null;
+                // Reset timer for unanswered question
+                $this->questionStartedAt = now();
             }
         }
     }
@@ -207,6 +223,8 @@ class CompetitionQuiz extends Component
             $this->selectedAnswer = $this->answers[$this->currentQuestionIndex];
         } else {
             $this->selectedAnswer = null;
+            // Reset timer for unanswered question
+            $this->questionStartedAt = now();
         }
     }
 
@@ -251,11 +269,9 @@ class CompetitionQuiz extends Component
     private function processCompletition()
     {
         DB::transaction(function () {
-            // Calculate total score
-            $totalScore = ParticipantAnswer::where('competition_participant_id', $this->participant->id)
-                ->where('is_correct', true)
-                ->join('questions', 'participant_answers.question_id', '=', 'questions.id')
-                ->sum('questions.point_weight');
+            // Calculate total score using ScoringService
+            $scoringService = new ScoringService();
+            $totalScore = $scoringService->calculateTotalScore($this->participant);
 
             // Update participant
             $this->participant->update([
