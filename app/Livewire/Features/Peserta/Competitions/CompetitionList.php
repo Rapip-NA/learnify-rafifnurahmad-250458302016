@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Features\Peserta\Competitions;
 
-use Livewire\Component;
 use App\Models\Competition;
 use App\Models\CompetitionParticipant;
+use Livewire\Component;
 
 class CompetitionList extends Component
 {
@@ -13,7 +13,7 @@ class CompetitionList extends Component
         $competitions = Competition::where('status', 'active')
             ->whereDate('start_date', '<=', now())
             ->whereDate('end_date', '>=', now())
-            ->with(['questions' => function($q) {
+            ->with(['questions' => function ($q) {
                 $q->where('validation_status', 'approved');
             }])
             ->get();
@@ -24,7 +24,7 @@ class CompetitionList extends Component
 
         return view('livewire.features.peserta.competitions.competition-list', [
             'competitions' => $competitions,
-            'myParticipations' => $myParticipations
+            'myParticipations' => $myParticipations,
         ]);
     }
 
@@ -37,17 +37,17 @@ class CompetitionList extends Component
             ->where('competition_id', $competitionId)
             ->first();
 
-        if (!$participant) {
+        if (! $participant) {
             $participant = CompetitionParticipant::create([
                 'user_id' => auth()->id(),
                 'competition_id' => $competitionId,
                 'started_at' => now(),
                 'total_score' => 0,
-                'progress_percentage' => 0
+                'progress_percentage' => 0,
             ]);
         }
 
-        return redirect()->route('competition.quiz', $competitionId);
+        return redirect()->route('peserta.competitions.quiz', $competitionId);
 
         // return view('livewire.features.peserta.competitions.competition-list');
     }

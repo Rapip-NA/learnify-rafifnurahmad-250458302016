@@ -19,6 +19,10 @@ class Leaderboard extends Model
         'rank',
     ];
 
+    protected $casts = [
+        'updated_at' => 'datetime',
+    ];
+
     public function competition(): BelongsTo
     {
         return $this->belongsTo(Competition::class);
@@ -27,5 +31,18 @@ class Leaderboard extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get position badge/icon for display
+     */
+    public function getPositionBadgeAttribute(): string
+    {
+        return match($this->rank) {
+            1 => '🥇',
+            2 => '🥈',
+            3 => '🥉',
+            default => "#{$this->rank}"
+        };
     }
 }

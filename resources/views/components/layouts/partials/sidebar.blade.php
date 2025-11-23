@@ -8,8 +8,8 @@
                 </div>
                 <div class="theme-toggle d-flex gap-2 align-items-center mt-2">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                        aria-hidden="true" role="img" class="iconify iconify--system-uicons" width="20" height="20"
-                        preserveAspectRatio="xMidYMid meet" viewBox="0 0 21 21">
+                        aria-hidden="true" role="img" class="iconify iconify--system-uicons" width="20"
+                        height="20" preserveAspectRatio="xMidYMid meet" viewBox="0 0 21 21">
                         <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round"
                             stroke-linejoin="round">
                             <path
@@ -44,94 +44,94 @@
             <ul class="menu">
 
                 @if (Auth::user()->role === 'admin')
+                    <li class="sidebar-title">Menu</li>
 
-                <li class="sidebar-title">Menu</li>
+                    <li class="sidebar-item  ">
+                        <a href="{{ route('admin.dashboard') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
 
-                <li class="sidebar-item  ">
-                    <a href="{{ route('admin.dashboard') }}" class='sidebar-link'>
-                        <i class="bi bi-grid-fill"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
+                    <li class="sidebar-title">Main Menu</li>
 
-                <li class="sidebar-title">Main Menu</li>
+                    <li class="sidebar-item">
+                        <a href="{{ route('admin.competitions.index') }}" class='sidebar-link'>
+                            <i class="bi bi-trophy"></i>
+                            <span>Competitions</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="{{ route('admin.categories.index') }}" class='sidebar-link'>
+                            <i class="bi bi-tags"></i>
+                            <span>Category</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="{{ route('admin.questions.index') }}" class='sidebar-link'>
+                            <i class="bi bi-card-checklist"></i>
+                            <span>Question</span>
+                        </a>
+                    </li>
 
-                <li class="sidebar-item">
-                    <a href="{{ route('admin.competitions.index') }}" class='sidebar-link'>
-                        <i class="bi bi-trophy"></i>
-                        <span>Competitions</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="{{ route('admin.categories.index') }}" class='sidebar-link'>
-                        <i class="bi bi-tags"></i>
-                        <span>Category</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="{{ route('admin.questions.index') }}" class='sidebar-link'>
-                        <i class="bi bi-card-checklist"></i>
-                        <span>Question</span>
-                    </a>
-                </li>
+                    <li class="sidebar-title">List Anggota</li>
 
-                <li class="sidebar-title">List Anggota</li>
+                    <li class="sidebar-item  ">
+                        <a href="{{ route('admin.peserta.index') }}" class='sidebar-link'>
+                            <i class="bi bi-people-fill"></i>
+                            <span>Peserta</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item  ">
+                        <a href="{{ route('admin.qualifier.index') }}" class='sidebar-link'>
+                            <i class="bi bi-people-fill"></i>
+                            <span>Qualifier</span>
+                        </a>
+                    </li>
 
-                <li class="sidebar-item  ">
-                    <a href="{{ route('admin.peserta.index') }}" class='sidebar-link'>
-                        <i class="bi bi-people-fill"></i>
-                        <span>Peserta</span>
-                    </a>
-                </li>
-                <li class="sidebar-item  ">
-                    <a href="{{ route('admin.qualifier.index') }}" class='sidebar-link'>
-                        <i class="bi bi-people-fill"></i>
-                        <span>Qualifier</span>
-                    </a>
-                </li>
+                    <li class="sidebar-title">Pages</li>
 
-                <li class="sidebar-title">Pages</li>
+                    <li class="sidebar-item  ">
+                        <a href="index.html" class='sidebar-link'>
+                            <i class="bi bi-exclamation-circle"></i>
+                            <span>Example</span>
+                        </a>
+                    </li>
 
-                <li class="sidebar-item  ">
-                    <a href="index.html" class='sidebar-link'>
-                        <i class="bi bi-exclamation-circle"></i>
-                        <span>Example</span>
-                    </a>
-                </li>
+                    <li class="sidebar-title">Raise Support</li>
 
-                <li class="sidebar-title">Raise Support</li>
-
-                <li class="sidebar-item  ">
-                    <a href="index.html" class='sidebar-link'>
-                        <i class="bi bi-exclamation-circle"></i>
-                        <span>Example</span>
-                    </a>
-                </li>
-
+                    <li class="sidebar-item  ">
+                        <a href="index.html" class='sidebar-link'>
+                            <i class="bi bi-exclamation-circle"></i>
+                            <span>Example</span>
+                        </a>
+                    </li>
                 @elseif (Auth::user()->role === 'peserta')
-
-                <li class="sidebar-item  ">
-                    <a href="{{ route('peserta.dashboard') }}" class='sidebar-link'>
-                        <i class="bi bi-grid-fill"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li class="sidebar-item  ">
-                    <a href="{{ route('competition.list') }}" class='sidebar-link'>
-                        <i class="bi bi-trophy-fill"></i>
-                        <span>Competitions</span>
-                    </a>
-                </li>
-
+                    <li class="sidebar-item  ">
+                        <a href="{{ route('peserta.dashboard') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item  ">
+                        <a href="{{ route('peserta.competitions.list') }}" class='sidebar-link'>
+                            <i class="bi bi-trophy-fill"></i>
+                            <span>Competitions</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item  ">
+                        <a href="{{ route('global.leaderboard') }}" class='sidebar-link'>
+                            <i class="bi bi-trophy-fill"></i>
+                            <span>Leaderboard</span>
+                        </a>
+                    </li>
                 @else
-
-                <li class="sidebar-item  ">
-                    <a href="index.html" class='sidebar-link'>
-                        <i class="bi bi-grid-fill"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-
+                    <li class="sidebar-item  ">
+                        <a href="index.html" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
                 @endif
 
             </ul>
