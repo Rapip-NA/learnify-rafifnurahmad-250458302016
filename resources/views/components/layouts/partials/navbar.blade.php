@@ -5,9 +5,8 @@
                 <i class="bi bi-justify fs-3"></i>
             </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -49,12 +48,46 @@
                             <hr class="dropdown-divider" />
                         </li>
                         <li>
-                            <a class="dropdown-item" href=""><i class="icon-mid bi bi-box-arrow-left me-2"></i>
-                                Logout</a>
+                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                data-bs-target="#logoutModal">
+                                <i class="icon-mid bi bi-box-arrow-left me-2"></i>
+                                Logout
+                            </a>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
     </nav>
+
+    {{-- Logout Confirmation Modal --}}
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">
+                        <i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>
+                        Konfirmasi Logout
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-0">Apakah Anda yakin ingin keluar dari sistem?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i>
+                        Batal
+                    </button>
+                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-box-arrow-right me-1"></i>
+                            Ya, Logout
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </header>
