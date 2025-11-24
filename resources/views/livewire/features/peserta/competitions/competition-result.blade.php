@@ -43,6 +43,37 @@
             </div>
         </div>
 
+        {{-- VISUALISASI PERFORMA INDIVIDU --}}
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <h4 class="fw-bold mb-3">
+                    <i class="bi bi-graph-up text-primary me-2"></i>
+                    Visualisasi Performa Individu
+                </h4>
+
+                <p class="text-muted mb-3">
+                    Grafik berikut menunjukkan perkembangan skor Anda dari awal hingga akhir kuis.
+                </p>
+
+                {{-- Toggle Mode --}}
+                <div class="btn-group mb-4" role="group">
+                    <button type="button" class="btn btn-primary" id="togglePerQuestion"
+                        onclick="switchChartMode('perQuestion')">
+                        <i class="bi bi-list-ol me-1"></i>
+                        Per Soal
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" id="togglePerTime"
+                        onclick="switchChartMode('perTime')">
+                        <i class="bi bi-clock me-1"></i>
+                        Per Waktu
+                    </button>
+                </div>
+
+                {{-- Chart Container --}}
+                <div id="performanceChart" style="min-height: 350px;"></div>
+            </div>
+        </div>
+
         {{-- REVIEW JAWABAN --}}
         @foreach ($answers as $index => $participantAnswer)
             <div class="card shadow mb-4">
@@ -137,3 +168,155 @@
     </div>
 
 </div>
+
+{{-- ApexCharts Library --}}
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<script>
+    // Performance data from backend
+    const performanceData = @json($performanceData);
+
+    let currentMode = 'perQuestion';
+    let chart = null;
+
+    // Initialize chart on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        renderChart('perQuestion');
+    });
+
+    function switchChartMode(mode) {
+        currentMode = mode;
+
+        // Update button states
+        document.getElementById('togglePerQuestion').classList.toggle('btn-primary', mode === 'perQuestion');
+        document.getElementById('togglePerQuestion').classList.toggle('btn-outline-primary', mode !== 'perQuestion');
+        document.getElementById('togglePerTime').classList.toggle('btn-primary', mode === 'perTime');
+        document.getElementById('togglePerTime').classList.toggle('btn-outline-primary', mode !== 'perTime');
+
+        // Re-render chart
+        renderChart(mode);
+    }
+
+    function renderChart(mode) {
+        const data = mode === 'perQuestion' ? performanceData.perQuestion : performanceData.perTime;
+
+        // Destroy existing chart if it exists
+        if (chart) {
+            chart.destroy();
+        }
+
+        const options = {
+            series: [{
+                name: 'Skor Kumulatif',
+                data: data
+            }],
+            chart: {
+                type: 'line',
+                height: 350,
+                toolbar: {
+                    show: true,
+                    tools: {
+                        download: true,
+                        selection: false,
+                        zoom: false,
+                        zoomin: false,
+                        zoomout: false,
+                        pan: false,
+                        reset: false
+                    }
+                },
+                animations: {
+                    enabled: true,
+                    easing: 'easeinout',
+                    speed: 800
+                }
+            },
+            stroke: {
+                curve: 'smooth',
+                width: 3
+            },
+            markers: {
+                size: 5,
+                hover: {
+                    size: 7
+                }
+            },
+            colors: ['#435ebe'],
+            xaxis: {
+                title: {
+                    text: mode === 'perQuestion' ? 'Nomor Soal' : 'Waktu (menit)',
+                    style: {
+                        fontSize: '14px',
+                        fontWeight: 600
+                    }
+                },
+                labels: {
+                    formatter: function(value) {
+                        if (mode === 'perQuestion') {
+                            return 'Soal ' + Math.round(value);
+                        } else {
+                            return value.toFixed(1) + ' min';
+                        }
+                    }
+                }
+            },
+            yaxis: {
+                title: {
+                    text: 'Skor Kumulatif',
+                    style: {
+                        fontSize: '14px',
+                        fontWeight: 600
+                    }
+                },
+                labels: {
+                    formatter: function(value) {
+                        return Math.round(value);
+                    }
+                }
+            },
+            tooltip: {
+                custom: function({
+                    series,
+                    seriesIndex,
+                    dataPointIndex,
+                    w
+                }) {
+                    const point = data[dataPointIndex];
+                    const questionPreview = point.questionText.length > 50 ?
+                        point.questionText.substring(0, 50) + '...' :
+                        point.questionText;
+
+                    return '<div class="p-3" style="background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">' +
+                        '<div style="font-weight: 600; margin-bottom: 8px; color: #435ebe;">' +
+                        (mode === 'perQuestion' ? 'Soal ' + point.x : 'Waktu: ' + point.x + ' menit') +
+                        '</div>' +
+                        '<div style="font-size: 12px; color: #6c757d; margin-bottom: 8px;">' + questionPreview +
+                        '</div>' +
+                        '<div style="font-size: 13px;">' +
+                        '<strong>Skor didapat:</strong> <span style="color: #198754;">+' + point.scoreEarned +
+                        '</span><br/>' +
+                        '<strong>Total skor:</strong> <span style="color: #435ebe;">' + point.y + '</span>' +
+                        '</div>' +
+                        '</div>';
+                }
+            },
+            grid: {
+                borderColor: '#e7e7e7',
+                strokeDashArray: 3
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shade: 'light',
+                    type: 'vertical',
+                    shadeIntensity: 0.3,
+                    opacityFrom: 0.7,
+                    opacityTo: 0.3,
+                }
+            }
+        };
+
+        chart = new ApexCharts(document.querySelector("#performanceChart"), options);
+        chart.render();
+    }
+</script>

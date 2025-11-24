@@ -115,8 +115,25 @@
                                         </div>
                                     </div>
 
-                                    <!-- Action button -->
-                                    @if (in_array($competition->id, $myParticipations))
+                                    {{-- Action button --}}
+                                    @if (in_array($competition->id, $completedCompetitions))
+                                        {{-- Completed: Show History Button --}}
+                                        <a href="{{ route('peserta.competitions.result', $competition->id) }}"
+                                            class="btn btn-lg w-100 fw-semibold rounded-pill shadow-sm"
+                                            style="
+                                            background: linear-gradient(135deg, #4facfe, #00f2fe);
+                                            color: white;
+                                            border: none;
+                                            padding: 0.75rem 1.5rem;
+                                            transition: all 0.3s ease;
+                                        "
+                                            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(79, 172, 254, 0.4)';"
+                                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)';">
+                                            <i class="bi bi-clock-history me-2"></i>
+                                            Lihat History
+                                        </a>
+                                    @elseif (in_array($competition->id, $myParticipations))
+                                        {{-- In Progress: Continue Quiz --}}
                                         <a href="{{ route('peserta.competitions.quiz', $competition->id) }}"
                                             class="btn btn-lg w-100 fw-semibold rounded-pill shadow-sm"
                                             style="
@@ -132,6 +149,7 @@
                                             Lanjutkan Quiz
                                         </a>
                                     @else
+                                        {{-- Not Started: Start Competition --}}
                                         <button wire:click="startCompetition({{ $competition->id }})"
                                             class="btn btn-lg w-100 fw-semibold rounded-pill shadow-sm"
                                             style="

@@ -50,6 +50,11 @@ class Competition extends Model
         return $this->hasMany(CompetitionParticipant::class);
     }
 
+    public function participants(): HasMany
+    {
+        return $this->hasMany(CompetitionParticipant::class);
+    }
+
     public function leaderboards(): HasMany
     {
         return $this->hasMany(Leaderboard::class);

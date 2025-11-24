@@ -31,8 +31,69 @@ class CompetitionResult extends Component
         $this->wrongAnswers = $this->answers->where('is_correct', false)->count();
     }
 
+    /**
+     * Get performance data for visualization chart
+     * Returns cumulative score progression over time/questions
+     */
+    public function getPerformanceData()
+    {
+        // Get all answers ordered by answered_at timestamp
+        $orderedAnswers = ParticipantAnswer::where('competition_participant_id', $this->participant->id)
+            ->with('question')
+            ->orderBy('answered_at', 'asc')
+            ->get();
+
+        $cumulativeScore = 0;
+        $dataPerQuestion = [];
+        $dataPerTime = [];
+        
+        $startTime = $this->participant->started_at;
+
+        foreach ($orderedAnswers as $index => $answer) {
+            // Calculate score for this answer
+            $scoreEarned = 0;
+            
+            // Only add score if answer is correct and approved (or pending)
+            if ($answer->is_correct && in_array($answer->validation_status, ['approved', 'pending'])) {
+                $scoreEarned = $answer->question->point_weight ?? 0;
+            }
+            
+            $cumulativeScore += $scoreEarned;
+            
+            // Data for "Per Question" mode
+            $dataPerQuestion[] = [
+                'x' => $index + 1, // Question number (1, 2, 3, ...)
+                'y' => (float) $cumulativeScore,
+                'questionText' => $answer->question->question_text ?? '',
+                'scoreEarned' => (float) $scoreEarned
+            ];
+            
+            // Data for "Per Time" mode
+            if ($answer->answered_at && $startTime) {
+                $timeElapsed = $answer->answered_at->diffInSeconds($startTime);
+                $dataPerTime[] = [
+                    'x' => round($timeElapsed / 60, 2), // Convert to minutes
+                    'y' => (float) $cumulativeScore,
+                    'questionText' => $answer->question->question_text ?? '',
+                    'scoreEarned' => (float) $scoreEarned
+                ];
+            }
+        }
+
+        return [
+            'perQuestion' => $dataPerQuestion,
+            'perTime' => $dataPerTime,
+            'finalScore' => (float) $cumulativeScore,
+            'totalQuestions' => count($orderedAnswers)
+        ];
+    }
+
     public function render()
     {
-        return view('livewire.features.peserta.competitions.competition-result');
+        $performanceData = $this->getPerformanceData();
+        
+        return view('livewire.features.peserta.competitions.competition-result', [
+            'performanceData' => $performanceData
+        ]);
     }
 }

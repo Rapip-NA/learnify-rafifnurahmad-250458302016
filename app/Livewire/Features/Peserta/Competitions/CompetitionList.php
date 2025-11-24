@@ -22,9 +22,16 @@ class CompetitionList extends Component
             ->pluck('competition_id')
             ->toArray();
 
+        // Get completed competitions (where finished_at is not null)
+        $completedCompetitions = CompetitionParticipant::where('user_id', auth()->id())
+            ->whereNotNull('finished_at')
+            ->pluck('competition_id')
+            ->toArray();
+
         return view('livewire.features.peserta.competitions.competition-list', [
             'competitions' => $competitions,
             'myParticipations' => $myParticipations,
+            'completedCompetitions' => $completedCompetitions,
         ]);
     }
 

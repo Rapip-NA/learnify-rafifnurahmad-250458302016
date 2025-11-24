@@ -20,6 +20,11 @@ class CompetitionParticipant extends Model
         'progress_percentage',
     ];
 
+    protected $casts = [
+        'started_at' => 'datetime',
+        'finished_at' => 'datetime',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

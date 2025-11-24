@@ -92,9 +92,9 @@
                     <li class="sidebar-title">Pages</li>
 
                     <li class="sidebar-item  ">
-                        <a href="index.html" class='sidebar-link'>
-                            <i class="bi bi-exclamation-circle"></i>
-                            <span>Example</span>
+                        <a href="{{ route('global.leaderboard') }}" class='sidebar-link'>
+                            <i class="bi bi-bar-chart-fill"></i>
+                            <span>Leaderboard</span>
                         </a>
                     </li>
 
@@ -121,7 +121,7 @@
                     </li>
                     <li class="sidebar-item  ">
                         <a href="{{ route('global.leaderboard') }}" class='sidebar-link'>
-                            <i class="bi bi-trophy-fill"></i>
+                            <i class="bi bi-bar-chart-fill"></i>
                             <span>Leaderboard</span>
                         </a>
                     </li>
@@ -130,6 +130,12 @@
                         <a href="index.html" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item  ">
+                        <a href="{{ route('global.leaderboard') }}" class='sidebar-link'>
+                            <i class="bi bi-bar-chart-fill"></i>
+                            <span>Leaderboard</span>
                         </a>
                     </li>
                 @endif
