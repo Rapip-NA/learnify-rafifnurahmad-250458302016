@@ -73,6 +73,12 @@
                             <span>Question</span>
                         </a>
                     </li>
+                    <li class="sidebar-item">
+                        <a href="{{ route('admin.badges.index') }}" class='sidebar-link'>
+                            <i class="bi bi-award"></i>
+                            <span>Badges</span>
+                        </a>
+                    </li>
 
                     <li class="sidebar-title">List Anggota</li>
 
@@ -98,12 +104,10 @@
                         </a>
                     </li>
 
-                    <li class="sidebar-title">Raise Support</li>
-
                     <li class="sidebar-item  ">
-                        <a href="index.html" class='sidebar-link'>
-                            <i class="bi bi-exclamation-circle"></i>
-                            <span>Example</span>
+                        <a href="{{ route('admin.analytics') }}" class='sidebar-link'>
+                            <i class="bi bi-graph-up"></i>
+                            <span>Analytics</span>
                         </a>
                     </li>
                 @elseif (Auth::user()->role === 'peserta')
@@ -120,6 +124,12 @@
                         </a>
                     </li>
                     <li class="sidebar-item  ">
+                        <a href="{{ route('peserta.my-badges') }}" class='sidebar-link'>
+                            <i class="bi bi-award-fill"></i>
+                            <span>My Badges</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item  ">
                         <a href="{{ route('global.leaderboard') }}" class='sidebar-link'>
                             <i class="bi bi-bar-chart-fill"></i>
                             <span>Leaderboard</span>
@@ -127,9 +137,15 @@
                     </li>
                 @else
                     <li class="sidebar-item  ">
-                        <a href="index.html" class='sidebar-link'>
+                        <a href="{{ route('qualifier.dashboard') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item  ">
+                        <a href="{{ route('qualifier.answer-validation') }}" class='sidebar-link'>
+                            <i class="bi bi-check2-square"></i>
+                            <span>Answer Validation</span>
                         </a>
                     </li>
                     <li class="sidebar-item  ">

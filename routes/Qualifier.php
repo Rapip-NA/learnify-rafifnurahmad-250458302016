@@ -8,5 +8,6 @@ Route::prefix('qualifier')
     ->group(function () {
 
         Route::get('/dashboard', Qualifier\Dashboard::class)->name('dashboard');
+        Route::get('/answer-validation', Qualifier\AnswerValidation::class)->name('answer-validation');
 
     });

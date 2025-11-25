@@ -10,6 +10,7 @@ use App\Models\ParticipantAnswer;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Services\ScoringService;
+use App\Services\BadgeService;
 
 class CompetitionQuiz extends Component
 {
@@ -294,6 +295,10 @@ class CompetitionQuiz extends Component
 
             // Recalculate ranks
             $this->updateLeaderboardRanks();
+
+            // Check and award badges automatically
+            $badgeService = new BadgeService();
+            $badgeService->checkAndAwardBadges(auth()->user());
         });
 
         $this->isFinished = true;

@@ -14,6 +14,9 @@ class Badge extends Model
         'name',
         'description',
         'condition',
+        'icon',
+        'image_url',
+        'badge_type',
     ];
 
     public function users(): BelongsToMany

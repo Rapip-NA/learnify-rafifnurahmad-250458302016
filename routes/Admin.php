@@ -9,6 +9,7 @@ Route::prefix('admin')
 
         //Menu Utama
         Route::get('/dashboard', Admin\Dashboard::class)->name('dashboard');
+        Route::get('/analytics', Admin\Analytics::class)->name('analytics');
 
         Route::prefix('qualifier')->name('qualifier.')->group(function () {
             Route::get('/', Admin\ListQualifier\QualifierList::class)->name('index');
@@ -47,6 +48,12 @@ Route::prefix('admin')
             Route::get('/create', Admin\Question\QuestionCreate::class)->name('create');
             Route::get('/{id}', Admin\Question\QuestionView::class)->name('view');
             Route::get('/{id}/edit', Admin\Question\QuestionEdit::class)->name('edit');
+        });
+
+        // Badge Routes
+        Route::prefix('badges')->name('badges.')->group(function () {
+            Route::get('/', Admin\Badge\BadgeIndex::class)->name('index');
+            Route::get('/{badge}', Admin\Badge\BadgeView::class)->name('view');
         });
 
     });

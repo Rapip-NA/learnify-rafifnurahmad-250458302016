@@ -9,6 +9,8 @@ Route::prefix('peserta')
 
         Route::get('/dashboard', Peserta\Dashboard::class)->name('dashboard');
 
+        Route::get('/my-badges', Peserta\MyBadges::class)->name('my-badges');
+
         Route::prefix('competitions')->name('competitions.')->group(function () {
             Route::get('/', Peserta\Competitions\CompetitionList::class)->name('list');
             Route::get('/{competitionId}/quiz', Peserta\Competitions\CompetitionQuiz::class)->name('quiz');
