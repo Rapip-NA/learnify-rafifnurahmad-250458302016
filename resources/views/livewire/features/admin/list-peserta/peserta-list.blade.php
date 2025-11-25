@@ -124,15 +124,17 @@
                 </div>
 
                 <!-- Pagination -->
-                <div class="mt-3">
-                    {{ $peserta->links() }}
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <div>
+                        <p class="text-muted small mb-0">
+                            Menampilkan {{ $peserta->firstItem() ?? 0 }} - {{ $peserta->lastItem() ?? 0 }} dari {{
+                            $peserta->total() }} peserta
+                        </p>
+                    </div>
+                    <div>
+                        {{ $peserta->links() }}
+                    </div>
                 </div>
-
-                <!-- Info -->
-                <p class="text-muted small mt-2">
-                    Menampilkan {{ $peserta->firstItem() ?? 0 }} - {{ $peserta->lastItem() ?? 0 }} dari {{
-                    $peserta->total() }} peserta
-                </p>
             </div>
         </div>
     </section>

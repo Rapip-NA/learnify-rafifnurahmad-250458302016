@@ -14,11 +14,11 @@
             <div class="card-body">
                 <!-- Flash Message -->
                 @if (session()->has('message'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <i class="bi bi-check-circle me-2"></i>
-                    {{ session('message') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle me-2"></i>
+                        {{ session('message') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
                 @endif
 
                 <!-- Search & Filter -->
@@ -45,24 +45,24 @@
                                 <th>
                                     <button wire:click="sortBy('id')" class="btn btn-link p-0 text-decoration-none">
                                         ID
-                                        @if($sortField === 'id')
-                                        <small>{{ $sortDirection === 'asc' ? '↑' : '↓' }}</small>
+                                        @if ($sortField === 'id')
+                                            <small>{{ $sortDirection === 'asc' ? '↑' : '↓' }}</small>
                                         @endif
                                     </button>
                                 </th>
                                 <th>
                                     <button wire:click="sortBy('name')" class="btn btn-link p-0 text-decoration-none">
                                         Nama
-                                        @if($sortField === 'name')
-                                        <small>{{ $sortDirection === 'asc' ? '↑' : '↓' }}</small>
+                                        @if ($sortField === 'name')
+                                            <small>{{ $sortDirection === 'asc' ? '↑' : '↓' }}</small>
                                         @endif
                                     </button>
                                 </th>
                                 <th>
                                     <button wire:click="sortBy('email')" class="btn btn-link p-0 text-decoration-none">
                                         Email
-                                        @if($sortField === 'email')
-                                        <small>{{ $sortDirection === 'asc' ? '↑' : '↓' }}</small>
+                                        @if ($sortField === 'email')
+                                            <small>{{ $sortDirection === 'asc' ? '↑' : '↓' }}</small>
                                         @endif
                                     </button>
                                 </th>
@@ -72,8 +72,8 @@
                                     <button wire:click="sortBy('created_at')"
                                         class="btn btn-link p-0 text-decoration-none">
                                         Terdaftar
-                                        @if($sortField === 'created_at')
-                                        <small>{{ $sortDirection === 'asc' ? '↑' : '↓' }}</small>
+                                        @if ($sortField === 'created_at')
+                                            <small>{{ $sortDirection === 'asc' ? '↑' : '↓' }}</small>
                                         @endif
                                     </button>
                                 </th>
@@ -82,59 +82,62 @@
                         </thead>
                         <tbody>
                             @forelse($qualifiers as $q)
-                            <tr>
-                                <td>{{ $q->id }}</td>
-                                <td class="fw-semibold">{{ $q->name }}</td>
-                                <td>{{ $q->email }}</td>
-                                <td class="text-center">
-                                    <span class="badge bg-primary">{{ $q->verified_questions_count }}</span>
-                                </td>
-                                <td class="text-center">
-                                    <span class="badge bg-success">{{ $q->verified_participant_answers_count }}</span>
-                                </td>
-                                <td>{{ $q->created_at->format('d M Y') }}</td>
-                                <td>
-                                    <div class="d-flex gap-2">
-                                        <a href="{{ route('admin.qualifier.show', $q->id) }}" wire:navigate
-                                            class="text-primary">
-                                            <i class="bi bi-eye"></i>
-                                        </a>
-                                        <a href="{{ route('admin.qualifier.edit', $q->id) }}" wire:navigate
-                                            class="text-success">
-                                            <i class="bi bi-pencil"></i>
-                                        </a>
-                                        <button wire:click="deleteQualifier({{ $q->id }})"
-                                            wire:confirm="Apakah Anda yakin ingin menghapus qualifier ini?"
-                                            class="btn btn-link text-danger p-0">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>{{ $q->id }}</td>
+                                    <td class="fw-semibold">{{ $q->name }}</td>
+                                    <td>{{ $q->email }}</td>
+                                    <td class="text-center">
+                                        <span class="badge bg-primary">{{ $q->verified_questions_count }}</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span
+                                            class="badge bg-success">{{ $q->verified_participant_answers_count }}</span>
+                                    </td>
+                                    <td>{{ $q->created_at->format('d M Y') }}</td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <a href="{{ route('admin.qualifier.show', $q->id) }}" wire:navigate
+                                                class="text-primary">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <a href="{{ route('admin.qualifier.edit', $q->id) }}" wire:navigate
+                                                class="text-success">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <button wire:click="deleteQualifier({{ $q->id }})"
+                                                wire:confirm="Apakah Anda yakin ingin menghapus qualifier ini?"
+                                                class="btn btn-link text-danger p-0">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
                             @empty
-                            <tr>
-                                <td colspan="7" class="text-center text-muted py-4">
-                                    @if($search)
-                                    Tidak ada qualifier ditemukan untuk "{{ $search }}"
-                                    @else
-                                    Belum ada qualifier terdaftar
-                                    @endif
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted py-4">
+                                        @if ($search)
+                                            Tidak ada qualifier ditemukan untuk "{{ $search }}"
+                                        @else
+                                            Belum ada qualifier terdaftar
+                                        @endif
+                                    </td>
+                                </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
 
                 <!-- Pagination -->
-                <div class="mt-3">
-                    {{ $qualifiers->links() }}
-                </div>
-
-                <!-- Info -->
-                <div class="text-muted small mt-2">
-                    Menampilkan {{ $qualifiers->firstItem() ?? 0 }} - {{ $qualifiers->lastItem() ?? 0 }} dari {{
-                    $qualifiers->total() }} qualifier
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <div>
+                        <p class="text-muted small mb-0">
+                            Menampilkan {{ $qualifiers->firstItem() ?? 0 }} - {{ $qualifiers->lastItem() ?? 0 }} dari
+                            {{ $qualifiers->total() }} qualifier
+                        </p>
+                    </div>
+                    <div>
+                        {{ $qualifiers->links() }}
+                    </div>
                 </div>
             </div>
         </div>

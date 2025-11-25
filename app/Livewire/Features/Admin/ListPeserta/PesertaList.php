@@ -10,6 +10,8 @@ class PesertaList extends Component
 {
     use WithPagination;
 
+    protected $paginationTheme = 'bootstrap';
+
     public $search = '';
     public $perPage = 10;
     public $sortField = 'created_at';
