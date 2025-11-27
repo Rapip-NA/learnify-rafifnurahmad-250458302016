@@ -31,7 +31,7 @@ class Register extends Component
 
         Auth::login($user);
 
-        return redirect()->intended('/');
+        return redirect()->route('peserta.dashboard');
     }
 
     public function render()
