@@ -15,7 +15,7 @@
 
     <section class="section">
         <div class="row justify-content-center">
-            <div class="col-12 col-lg-10">
+            <div class="col-12 col-lg-12 mt-4">
                 <div class="card">
                     <div class="card-content">
                         <div class="card-body">

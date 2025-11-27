@@ -22,7 +22,7 @@
             </div>
         @endif
 
-        <div class="card">
+        <div class="card mt-4">
             <div class="card-header">
                 <h4 class="card-title">Filter Questions</h4>
             </div>

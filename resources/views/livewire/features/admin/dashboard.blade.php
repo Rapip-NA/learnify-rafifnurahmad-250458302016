@@ -104,7 +104,7 @@
         {{-- CHARTS SECTION --}}
         <div class="row mb-4">
             {{-- Top Competitions Chart --}}
-            <div class="col-lg-8 col-md-12 mb-4">
+            <div class="col-lg-12 col-md-12 mb-4">
                 <div class="card shadow-sm">
                     <div class="card-header">
                         <h4 class="card-title">

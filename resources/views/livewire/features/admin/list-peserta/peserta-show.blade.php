@@ -22,7 +22,6 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="card-title">Informasi Peserta</h5>
                 <div class="d-flex gap-2">
-                    <a href="{{ route('admin.peserta.edit', $peserta->id) }}" class="btn btn-success">Edit</a>
                     <button wire:click="deletePeserta" wire:confirm="Apakah Anda yakin ingin menghapus peserta ini? Data tidak dapat dikembalikan!" class="btn btn-danger">Hapus</button>
                 </div>
             </div>
