@@ -44,7 +44,7 @@ class QualifierList extends Component
 
         if ($user && $user->role === 'qualifier') {
             $user->delete();
-            session()->flash('message', 'Qualifier berhasil dihapus.');
+            $this->dispatch('qualifier-deleted');
         }
     }
 

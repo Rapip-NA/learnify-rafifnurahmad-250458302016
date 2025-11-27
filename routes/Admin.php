@@ -13,17 +13,15 @@ Route::prefix('admin')
 
         Route::prefix('qualifier')->name('qualifier.')->group(function () {
             Route::get('/', Admin\ListQualifier\QualifierList::class)->name('index');
-            Route::get('/create', Admin\ListQualifier\QualifierCreate::class)->name('create');
             Route::get('/{id}', Admin\ListQualifier\QualifierShow::class)->name('show');
-            Route::get('/{id}/edit', Admin\ListQualifier\QualifierEdit::class)->name('edit');
+
         });
 
         // Peserta Routes
         Route::prefix('peserta')->name('peserta.')->group(function () {
             Route::get('/', Admin\ListPeserta\PesertaList::class)->name('index');
-            Route::get('/create', Admin\ListPeserta\PesertaCreate::class)->name('create');
             Route::get('/{id}', Admin\ListPeserta\PesertaShow::class)->name('show');
-            Route::get('/{id}/edit', Admin\ListPeserta\PesertaEdit::class)->name('edit');
+
         });
 
         // Competition Routes
@@ -53,6 +51,8 @@ Route::prefix('admin')
         // Badge Routes
         Route::prefix('badges')->name('badges.')->group(function () {
             Route::get('/', Admin\Badge\BadgeIndex::class)->name('index');
+            Route::get('/create', Admin\Badge\BadgeCreate::class)->name('create');
+            Route::get('/{badge}/edit', Admin\Badge\BadgeEdit::class)->name('edit');
             Route::get('/{badge}', Admin\Badge\BadgeView::class)->name('view');
         });
 

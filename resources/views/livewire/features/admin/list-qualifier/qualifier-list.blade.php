@@ -1,14 +1,4 @@
 <div>
-    <!-- Versi Admin Mazer: Daftar Qualifier -->
-    <div class="page-heading mb-4">
-        <div class="d-flex justify-content-between align-items-center">
-            <h3>Daftar Qualifier</h3>
-            <a href="{{ route('admin.qualifier.create') }}" wire:navigate class="btn btn-primary">
-                <i class="bi bi-plus-lg"></i> Tambah Qualifier
-            </a>
-        </div>
-    </div>
-
     <section class="section">
         <div class="card shadow-sm">
             <div class="card-body">
@@ -100,13 +90,9 @@
                                                 class="text-primary">
                                                 <i class="bi bi-eye"></i>
                                             </a>
-                                            <a href="{{ route('admin.qualifier.edit', $q->id) }}" wire:navigate
-                                                class="text-success">
-                                                <i class="bi bi-pencil"></i>
-                                            </a>
-                                            <button wire:click="deleteQualifier({{ $q->id }})"
-                                                wire:confirm="Apakah Anda yakin ingin menghapus qualifier ini?"
-                                                class="btn btn-link text-danger p-0">
+
+                                            <button onclick="confirmDeleteQualifier({{ $q->id }})"
+                                                class="btn btn-sm btn-outline-danger" title="Hapus">
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </div>
@@ -144,3 +130,32 @@
     </section>
 
 </div>
+
+<script>
+    function confirmDeleteQualifier(id) {
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Data qualifier ini akan dihapus secara permanen!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                @this.call('deleteQualifier', id);
+            }
+        });
+    }
+
+    window.addEventListener('qualifier-deleted', event => {
+        Swal.fire({
+            title: 'Berhasil!',
+            text: 'Qualifier berhasil dihapus.',
+            icon: 'success',
+            timer: 2000,
+            showConfirmButton: false
+        });
+    });
+</script>

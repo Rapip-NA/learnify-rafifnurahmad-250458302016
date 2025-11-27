@@ -40,6 +40,11 @@
                                 <input type="text" wire:model.live.debounce.300ms="search" class="form-control"
                                     placeholder="Cari badge...">
                             </div>
+                            <div class="col-md-4 text-end">
+                                <a href="{{ route('admin.badges.create') }}" wire:navigate class="btn btn-primary">
+                                    <i class="bi bi-plus-circle me-1"></i> Tambah Badge
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -78,12 +83,16 @@
                                         {{ $badge->users_count }} user earned
                                     </small>
                                     <div>
-                                        <a href="{{ route('admin.badges.view', $badge->id) }}"
-                                            class="btn btn-sm btn-outline-primary">
+                                        <a href="{{ route('admin.badges.view', $badge) }}"
+                                            class="btn btn-sm btn-outline-primary" wire:navigate>
                                             <i class="bi bi-eye"></i>
                                         </a>
-                                        <button wire:click="deleteBadge({{ $badge->id }})"
-                                            wire:confirm="Hapus badge ini?" class="btn btn-sm btn-outline-danger">
+                                        <a href="{{ route('admin.badges.edit', $badge) }}"
+                                            class="btn btn-sm btn-outline-success" wire:navigate>
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <button onclick="confirmDeleteBadge({{ $badge->id }})"
+                                            class="btn btn-sm btn-outline-danger">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </div>
@@ -106,9 +115,46 @@
 
         {{-- Pagination --}}
         @if ($badges->hasPages())
-            <div class="mt-4">
-                {{ $badges->links() }}
+            <div class="d-flex justify-content-between align-items-center mt-4">
+                <div>
+                    <p class="text-muted small mb-0">
+                        Menampilkan {{ $badges->firstItem() ?? 0 }} - {{ $badges->lastItem() ?? 0 }} dari
+                        {{ $badges->total() }} badges
+                    </p>
+                </div>
+                <div>
+                    {{ $badges->links() }}
+                </div>
             </div>
         @endif
     </div>
 </div>
+
+<script>
+    function confirmDeleteBadge(id) {
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Badge ini akan dihapus secara permanen!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                @this.call('deleteBadge', id);
+            }
+        });
+    }
+
+    window.addEventListener('badge-deleted', event => {
+        Swal.fire({
+            title: 'Berhasil!',
+            text: 'Badge berhasil dihapus.',
+            icon: 'success',
+            timer: 2000,
+            showConfirmButton: false
+        });
+    });
+</script>

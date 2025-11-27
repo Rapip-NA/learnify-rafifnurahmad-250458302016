@@ -15,11 +15,11 @@
 
     <section class="section">
         @if (session()->has('message'))
-        <div class="alert alert-light-success color-success alert-dismissible fade show" role="alert">
-            <i class="bi bi-check-circle"></i>
-            {{ session('message') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+            <div class="alert alert-light-success color-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle"></i>
+                {{ session('message') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         @endif
 
         <div class="card">
@@ -35,16 +35,17 @@
                     <div class="col-6 col-md-4 col-lg-2">
                         <select wire:model.live="filterCompetition" class="form-select">
                             <option value="">All Competitions</option>
-                            @foreach($competitions as $competition)
-                            <option value="{{ $competition->id }}">{{ Str::limit($competition->title, 20) }}</option>
+                            @foreach ($competitions as $competition)
+                                <option value="{{ $competition->id }}">{{ Str::limit($competition->title, 20) }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
                     <div class="col-6 col-md-4 col-lg-2">
                         <select wire:model.live="filterCategory" class="form-select">
                             <option value="">All Categories</option>
-                            @foreach($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -86,66 +87,65 @@
                         </thead>
                         <tbody>
                             @forelse($questions as $question)
-                            <tr>
-                                <td class="text-bold-500 text-nowrap">{{ $question->id }}</td>
-                                <td>
-                                    <div class="text-truncate" style="max-width: 200px;">
-                                        {{ Str::limit($question->question_text, 50) }}
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="text-truncate" style="max-width: 150px;">
-                                        {{ $question->competition->title ?? 'N/A' }}
-                                    </div>
-                                </td>
-                                <td class="text-nowrap">{{ $question->category->name ?? 'N/A' }}</td>
-                                <td class="text-nowrap">
-                                    <span class="badge
-                                            @if($question->difficulty_level === 'easy') bg-success
+                                <tr>
+                                    <td class="text-bold-500 text-nowrap">{{ $question->id }}</td>
+                                    <td>
+                                        <div class="text-truncate" style="max-width: 200px;">
+                                            {{ Str::limit($question->question_text, 50) }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="text-truncate" style="max-width: 150px;">
+                                            {{ $question->competition->title ?? 'N/A' }}
+                                        </div>
+                                    </td>
+                                    <td class="text-nowrap">{{ $question->category->name ?? 'N/A' }}</td>
+                                    <td class="text-nowrap">
+                                        <span
+                                            class="badge
+                                            @if ($question->difficulty_level === 'easy') bg-success
                                             @elseif($question->difficulty_level === 'medium') bg-warning
-                                            @else bg-danger
-                                            @endif">
-                                        {{ ucfirst($question->difficulty_level) }}
-                                    </span>
-                                </td>
-                                <td>{{ $question->point_weight }}</td>
-                                <td class="text-nowrap">
-                                    <span class="badge
-                                            @if($question->validation_status === 'approved') bg-success
+                                            @else bg-danger @endif">
+                                            {{ ucfirst($question->difficulty_level) }}
+                                        </span>
+                                    </td>
+                                    <td>{{ $question->point_weight }}</td>
+                                    <td class="text-nowrap">
+                                        <span
+                                            class="badge
+                                            @if ($question->validation_status === 'approved') bg-success
                                             @elseif($question->validation_status === 'pending') bg-info
-                                            @else bg-danger
-                                            @endif">
-                                        {{ ucfirst($question->validation_status) }}
-                                    </span>
-                                </td>
-                                <td class="text-end text-nowrap">
-                                    <div class="btn-group" role="group">
-                                        <a href="{{ route('admin.questions.view', $question->id) }}"
-                                            class="btn btn-sm btn-outline-info" title="View">
-                                            <i class="bi bi-eye"></i>
-                                        </a>
-                                        <a href="{{ route('admin.questions.edit', $question->id) }}"
-                                            class="btn btn-sm btn-outline-warning" title="Edit">
-                                            <i class="bi bi-pencil"></i>
-                                        </a>
-                                        <button wire:click="confirmDelete({{ $question->id }})"
-                                            class="btn btn-sm btn-outline-danger" title="Delete">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                                            @else bg-danger @endif">
+                                            {{ ucfirst($question->validation_status) }}
+                                        </span>
+                                    </td>
+                                    <td class="text-end text-nowrap">
+                                        <div class="btn-group" role="group">
+                                            <a href="{{ route('admin.questions.view', $question->id) }}"
+                                                class="btn btn-sm btn-outline-info" title="View">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <a href="{{ route('admin.questions.edit', $question->id) }}"
+                                                class="btn btn-sm btn-outline-warning" title="Edit">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <button onclick="confirmDeleteQuestion({{ $question->id }})"
+                                                class="btn btn-sm btn-outline-danger" title="Delete">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
                             @empty
-                            <tr>
-                                <td colspan="8" class="text-center py-5 text-muted">
-                                    <i class="bi bi-inbox-fill fs-1 mb-3 d-block"></i>
-                                    <p class="fs-5">No questions found.</p>
-                                    @if($search || $filterCompetition || $filterCategory || $filterDifficulty ||
-                                    $filterStatus)
-                                    <p class="text-sm mt-2">Try adjusting your filter criteria.</p>
-                                    @endif
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td colspan="8" class="text-center py-5 text-muted">
+                                        <i class="bi bi-inbox-fill fs-1 mb-3 d-block"></i>
+                                        <p class="fs-5">No questions found.</p>
+                                        @if ($search || $filterCompetition || $filterCategory || $filterDifficulty || $filterStatus)
+                                            <p class="text-sm mt-2">Try adjusting your filter criteria.</p>
+                                        @endif
+                                    </td>
+                                </tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -159,35 +159,31 @@
     </section>
 </div>
 
-@if($deleteId)
-<div class="modal fade show d-block" tabindex="-1" role="dialog" style="background-color: rgba(0, 0, 0, 0.5);"
-    aria-modal="true">
-    <div class="modal-dialog modal-dialog-centered" role="document" wire:key="delete-modal-{{ $deleteId }}">
-        <div class="modal-content" wire:click.stop>
-            <div class="modal-header bg-danger">
-                <h5 class="modal-title text-white"><i class="bi bi-exclamation-octagon-fill me-2"></i> Confirm Deletion
-                </h5>
-            </div>
-            <div class="modal-body text-center">
-                <div class="text-center mb-3">
-                    <i class="bi bi-trash-fill text-danger fs-1"></i>
-                </div>
-                <h5 class="fw-bold">Are you sure?</h5>
-                <p class="text-muted">Are you sure you want to delete this question? This action cannot be undone.</p>
-            </div>
-            <div class="modal-footer d-flex justify-content-center">
-                <button type="button" class="btn btn-light-secondary" wire:click="$set('deleteId', null)">
-                    Cancel
-                </button>
-                <button type="button" class="btn btn-danger" wire:click="delete" wire:loading.attr="disabled"
-                    wire:loading.class="opacity-50 cursor-not-allowed">
-                    <span wire:loading.remove wire:target="delete">Delete</span>
-                    <span wire:loading wire:target="delete"><span class="spinner-border spinner-border-sm" role="status"
-                            aria-hidden="true"></span> Deleting...</span>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal-backdrop fade show"></div>
-@endif
+<script>
+    function confirmDeleteQuestion(id) {
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Pertanyaan ini akan dihapus secara permanen beserta semua jawaban!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                @this.call('delete', id);
+            }
+        });
+    }
+
+    window.addEventListener('question-deleted', event => {
+        Swal.fire({
+            title: 'Berhasil!',
+            text: 'Pertanyaan berhasil dihapus.',
+            icon: 'success',
+            timer: 2000,
+            showConfirmButton: false
+        });
+    });
+</script>

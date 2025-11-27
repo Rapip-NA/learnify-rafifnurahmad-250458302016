@@ -13,7 +13,7 @@ class Login extends Component
     public string $password = '';
     public bool $remember = false;
 
-    #[Layout('components.layouts.auth')]
+    #[Layout('components.layouts.auth-custom')]
 
     protected $rules = [
         'email' => 'required|email',

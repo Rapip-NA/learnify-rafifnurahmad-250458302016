@@ -12,12 +12,13 @@ class QuestionIndex extends Component
 {
     use WithPagination;
 
+    protected $paginationTheme = 'bootstrap';
+
     public $search = '';
     public $filterCompetition = '';
     public $filterCategory = '';
     public $filterDifficulty = '';
     public $filterStatus = '';
-    public $deleteId = null;
 
     protected $queryString = [
         'search' => ['except' => ''],
@@ -52,17 +53,23 @@ class QuestionIndex extends Component
         $this->resetPage();
     }
 
-    public function confirmDelete($id)
-    {
-        $this->deleteId = $id;
-    }
 
-    public function delete()
+
+    public function delete($id)
     {
-        if ($this->deleteId) {
-            Question::find($this->deleteId)->delete();
-            session()->flash('message', 'Question deleted successfully.');
-            $this->deleteId = null;
+        $question = Question::find($id);
+        
+        if ($question) {
+            // Delete related answers first
+            $question->answers()->delete();
+            
+            // Delete related participant answers
+            $question->participantAnswers()->delete();
+            
+            // Finally delete the question
+            $question->delete();
+            
+            $this->dispatch('question-deleted');
         }
     }
 

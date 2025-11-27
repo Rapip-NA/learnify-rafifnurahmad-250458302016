@@ -35,9 +35,7 @@ class CompetitionCreate extends Component
             'created_by' => Auth::id(),
         ]);
 
-        session()->flash('message', 'Competition created successfully.');
-
-        return redirect()->route('admin.competitions.index');
+        return redirect()->route('admin.competitions.index')->with('competition-created', true);
     }
 
     public function render()

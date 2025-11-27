@@ -68,7 +68,7 @@ class PesertaEdit extends Component
 
         session()->flash('message', 'Data peserta berhasil diperbarui!');
 
-        return $this->redirect('/peserta', navigate: true);
+        return $this->redirect(route('admin.peserta.index'), navigate: true);
     }
 
     public function render()

@@ -14,7 +14,7 @@ class QualifierShow extends Component
         $this->qualifier = User::where('role', 'qualifier')
             ->with([
                 'verifiedQuestions.competition',
-                'verifiedParticipantAnswers.participant.user',
+                'verifiedParticipantAnswers.competitionParticipant.user',
             ])
             ->withCount('verifiedQuestions', 'verifiedParticipantAnswers')
             ->findOrFail($id);
@@ -29,7 +29,6 @@ class QualifierShow extends Component
 
     public function render()
     {
-        return view('livewire.features.admin.list-qualifier.qualifier-show')
-            ->layout('components.layouts.app');
+        return view('livewire.features.admin.list-qualifier.qualifier-show');
     }
 }

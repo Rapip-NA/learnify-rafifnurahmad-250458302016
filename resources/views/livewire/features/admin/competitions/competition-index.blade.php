@@ -13,12 +13,7 @@
         </div>
     </div>
 
-    @if (session()->has('message'))
-        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-            {{ session('message') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
+
 
     <section class="section mt-4">
         <div class="card">
@@ -27,10 +22,7 @@
             <div class="card-header">
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="Search competitions..."
+                        <input type="text" class="form-control" placeholder="Search competitions..."
                             wire:model.live.debounce.300ms="search">
                     </div>
 
@@ -65,8 +57,9 @@
                                 <tr>
                                     <td>
                                         <strong>{{ $competition->title }}</strong><br>
-                                        @if($competition->description)
-                                            <small class="text-muted">{{ Str::limit($competition->description, 50) }}</small>
+                                        @if ($competition->description)
+                                            <small
+                                                class="text-muted">{{ Str::limit($competition->description, 50) }}</small>
                                         @endif
                                     </td>
 
@@ -74,7 +67,7 @@
                                     <td>{{ $competition->end_date->format('M d, Y H:i') }}</td>
 
                                     <td>
-                                        @if($competition->status === 'draft')
+                                        @if ($competition->status === 'draft')
                                             <span class="badge bg-secondary">Draft</span>
                                         @elseif($competition->status === 'active')
                                             <span class="badge bg-success">Active</span>
@@ -86,13 +79,15 @@
                                     <td>{{ $competition->creator->name ?? 'N/A' }}</td>
 
                                     <td class="text-center">
-                                        <a href="{{ route('admin.competitions.view', $competition) }}" class="btn btn-sm btn-info">
+                                        <a href="{{ route('admin.competitions.view', $competition) }}"
+                                            class="btn btn-sm btn-info">
                                             <i class="bi bi-eye"></i>
                                         </a>
-                                        <a href="{{ route('admin.competitions.edit', $competition) }}" class="btn btn-sm btn-warning">
+                                        <a href="{{ route('admin.competitions.edit', $competition) }}"
+                                            class="btn btn-sm btn-warning">
                                             <i class="bi bi-pencil"></i>
                                         </a>
-                                        <button wire:click="confirmDelete({{ $competition->id }})"
+                                        <button onclick="confirmDelete({{ $competition->id }})"
                                             class="btn btn-sm btn-danger">
                                             <i class="bi bi-trash"></i>
                                         </button>
@@ -120,32 +115,54 @@
         </div>
     </section>
 
-    {{-- DELETE MODAL --}}
-    @if($deleteId)
-        <div class="modal fade show d-block" style="background: rgba(0,0,0,.5);" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
+    <script>
+        function confirmDelete(id) {
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Kompetisi ini akan dihapus secara permanen!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    @this.call('delete', id);
+                }
+            });
+        }
 
-                    <div class="modal-header">
-                        <h5 class="modal-title">Confirm Delete</h5>
-                        <button wire:click="$set('deleteId', null)" class="btn-close"></button>
-                    </div>
+        window.addEventListener('competition-deleted', event => {
+            Swal.fire({
+                title: 'Berhasil!',
+                text: 'Kompetisi berhasil dihapus.',
+                icon: 'success',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        });
 
-                    <div class="modal-body">
-                        Are you sure you want to delete this competition?
-                    </div>
+        // Success notification for created competition
+        @if (session('competition-created'))
+            Swal.fire({
+                title: 'Berhasil!',
+                text: 'Kompetisi berhasil dibuat.',
+                icon: 'success',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        @endif
 
-                    <div class="modal-footer">
-                        <button wire:click="$set('deleteId', null)" class="btn btn-secondary">
-                            Cancel
-                        </button>
-                        <button wire:click="delete" class="btn btn-danger">
-                            Delete
-                        </button>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    @endif
+        // Success notification for updated competition
+        @if (session('competition-updated'))
+            Swal.fire({
+                title: 'Berhasil!',
+                text: 'Kompetisi berhasil diperbarui.',
+                icon: 'success',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        @endif
+    </script>
 </div>

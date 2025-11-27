@@ -12,6 +12,8 @@ class BadgeIndex extends Component
 {
     use WithPagination;
 
+    protected $paginationTheme = 'bootstrap';
+
     #[Layout('components.layouts.app')]
     #[Title('Badge Management')]
 
@@ -28,7 +30,7 @@ class BadgeIndex extends Component
         
         if ($badge) {
             $badge->delete();
-            session()->flash('success', 'Badge berhasil dihapus');
+            $this->dispatch('badge-deleted');
         }
     }
 

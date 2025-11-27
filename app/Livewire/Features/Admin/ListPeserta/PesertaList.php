@@ -44,7 +44,7 @@ class PesertaList extends Component
 
         if ($user && $user->role === 'peserta') {
             $user->delete();
-            session()->flash('message', 'Peserta berhasil dihapus.');
+            $this->dispatch('peserta-deleted');
         }
     }
 

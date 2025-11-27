@@ -44,9 +44,7 @@ class CompetitionEdit extends Component
             'status' => $this->status,
         ]);
 
-        session()->flash('message', 'Competition updated successfully.');
-
-        return redirect()->route('competitions.index');
+        return redirect()->route('admin.competitions.index')->with('competition-updated', true);
     }
 
     public function render()

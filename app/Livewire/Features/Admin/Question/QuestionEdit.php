@@ -138,8 +138,7 @@ class QuestionEdit extends Component
             }
         }
 
-        session()->flash('message', 'Question updated successfully.');
-        return redirect()->route('admin.questions.index');
+        $this->dispatch('question-updated');
     }
 
     public function render()

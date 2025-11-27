@@ -10,9 +10,10 @@ class CategoryIndex extends Component
 {
     use WithPagination;
 
+    protected $paginationTheme = 'bootstrap';
+
     public $search = '';
     public $perPage = 10;
-    public $deleteId;
 
     protected $queryString = ['search'];
 
@@ -21,34 +22,24 @@ class CategoryIndex extends Component
         $this->resetPage();
     }
 
-    public function confirmDelete($id)
-    {
-        $this->deleteId = $id;
-    }
 
-    public function delete()
+
+    public function delete($id)
     {
         try {
-            if ($this->deleteId) {
-                $category = Category::find($this->deleteId);
+            $category = Category::find($id);
 
-                if ($category) {
-                    $categoryName = $category->name;
-                    $category->delete();
+            if ($category) {
+                $categoryName = $category->name;
+                $category->delete();
 
-                    $this->deleteId = null;
-
-                    session()->flash('success', "Category '{$categoryName}' deleted successfully.");
-
-                    // Reset to first page if current page is empty after deletion
-                    $this->resetPage();
-                } else {
-                    session()->flash('error', 'Category not found.');
-                }
+                $this->dispatch('category-deleted', ['name' => $categoryName]);
+                
+                // Reset to first page if current page is empty after deletion
+                $this->resetPage();
             }
         } catch (\Exception $e) {
-            session()->flash('error', 'Failed to delete category: ' . $e->getMessage());
-            $this->deleteId = null;
+            $this->dispatch('category-delete-failed', ['message' => $e->getMessage()]);
         }
     }
 

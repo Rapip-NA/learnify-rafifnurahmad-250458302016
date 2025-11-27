@@ -28,9 +28,21 @@ class QuestionView extends Component
     public function delete()
     {
         if ($this->deleteId) {
-            Question::find($this->deleteId)->delete();
-            session()->flash('message', 'Question deleted successfully.');
-            return redirect()->route('admin.questions.index');
+            $question = Question::find($this->deleteId);
+            
+            if ($question) {
+                // Delete related answers first
+                $question->answers()->delete();
+                
+                // Delete related participant answers
+                $question->participantAnswers()->delete();
+                
+                // Finally delete the question
+                $question->delete();
+                
+                session()->flash('message', 'Question deleted successfully.');
+                return redirect()->route('admin.questions.index');
+            }
         }
     }
 

@@ -28,12 +28,12 @@
                                     <select wire:model="competition_id"
                                         class="form-select @error('competition_id') is-invalid @enderror">
                                         <option value="">Select Competition</option>
-                                        @foreach($competitions as $competition)
-                                        <option value="{{ $competition->id }}">{{ $competition->title }}</option>
+                                        @foreach ($competitions as $competition)
+                                            <option value="{{ $competition->id }}">{{ $competition->title }}</option>
                                         @endforeach
                                     </select>
                                     @error('competition_id')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
@@ -42,22 +42,21 @@
                                     <select wire:model="category_id"
                                         class="form-select @error('category_id') is-invalid @enderror">
                                         <option value="">Select Category</option>
-                                        @foreach($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
                                     </select>
                                     @error('category_id')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div class="form-group mb-4">
                                     <label class="form-label">Question Text <span class="text-danger">*</span></label>
-                                    <textarea wire:model="question_text" rows="4"
-                                        class="form-control @error('question_text') is-invalid @enderror"
+                                    <textarea wire:model="question_text" rows="4" class="form-control @error('question_text') is-invalid @enderror"
                                         placeholder="Enter your question here..."></textarea>
                                     @error('question_text')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
@@ -73,7 +72,7 @@
                                                 <option value="hard">Hard</option>
                                             </select>
                                             @error('difficulty_level')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
@@ -82,11 +81,12 @@
                                         <div class="form-group">
                                             <label class="form-label">Point Weight <span
                                                     class="text-danger">*</span></label>
-                                            <input type="number" wire:model="point_weight" min="1" max="1000"
+                                            <input type="number" wire:model="point_weight" min="1"
+                                                max="1000"
                                                 class="form-control @error('point_weight') is-invalid @enderror"
                                                 placeholder="100">
                                             @error('point_weight')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
@@ -101,7 +101,7 @@
                                                 <option value="rejected">Rejected</option>
                                             </select>
                                             @error('validation_status')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
@@ -118,33 +118,36 @@
                                     </div>
 
                                     @error('answers')
-                                    <div class="alert alert-light-danger color-danger">{{ $message }}</div>
+                                        <div class="alert alert-light-danger color-danger">{{ $message }}</div>
                                     @enderror
 
-                                    @foreach($answers as $index => $answer)
-                                    <div class="d-flex gap-3 mb-3 align-items-center p-3 rounded **bg-white** border">
-                                        <div class="form-check form-check-inline">
-                                            <input type="radio" wire:click="setCorrectAnswer({{ $index }})"
-                                                name="correct_answer" {{ $answer['is_correct'] ? 'checked' : '' }}
-                                                class="form-check-input **cursor-pointer**">
-                                            <label class="form-check-label text-sm text-muted">Correct?</label>
+                                    @foreach ($answers as $index => $answer)
+                                        <div
+                                            class="d-flex gap-3 mb-3 align-items-center p-3 rounded **bg-white** border">
+                                            <div class="form-check form-check-inline">
+                                                <input type="radio"
+                                                    wire:click="setCorrectAnswer({{ $index }})"
+                                                    name="correct_answer" {{ $answer['is_correct'] ? 'checked' : '' }}
+                                                    class="form-check-input **cursor-pointer**">
+                                                <label class="form-check-label text-sm text-muted">Correct?</label>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <input type="text"
+                                                    wire:model="answers.{{ $index }}.answer_text"
+                                                    placeholder="Answer {{ $index + 1 }}"
+                                                    class="form-control form-control-sm @error('answers.' . $index . '.answer_text') is-invalid @enderror">
+                                                @error('answers.' . $index . '.answer_text')
+                                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            @if (count($answers) > 2)
+                                                <button type="button" wire:click="removeAnswer({{ $index }})"
+                                                    class="btn btn-danger btn-sm icon-left **text-nowrap**"
+                                                    title="Remove Answer">
+                                                    <i class="bi bi-x-lg"></i> Remove
+                                                </button>
+                                            @endif
                                         </div>
-                                        <div class="flex-grow-1">
-                                            <input type="text" wire:model="answers.{{ $index }}.answer_text"
-                                                placeholder="Answer {{ $index + 1 }}"
-                                                class="form-control form-control-sm @error('answers.' . $index . '.answer_text') is-invalid @enderror">
-                                            @error('answers.' . $index . '.answer_text')
-                                            <div class="invalid-feedback d-block">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        @if(count($answers) > 2)
-                                        <button type="button" wire:click="removeAnswer({{ $index }})"
-                                            class="btn btn-danger btn-sm icon-left **text-nowrap**"
-                                            title="Remove Answer">
-                                            <i class="bi bi-x-lg"></i> Remove
-                                        </button>
-                                        @endif
-                                    </div>
                                     @endforeach
 
                                     <p class="text-sm text-muted mt-3">
@@ -158,15 +161,9 @@
                                         class="btn btn-light-secondary px-4 py-2">
                                         Cancel
                                     </a>
-                                    <button type="submit" class="btn btn-primary icon-left px-4 py-2"
-                                        wire:loading.attr="disabled" wire:loading.class="opacity-50 cursor-not-allowed">
-                                        <span wire:loading.remove wire:target="update">
-                                            <i class="bi bi-check-circle"></i> Update Question
-                                        </span>
-                                        <span wire:loading wire:target="update">
-                                            <span class="spinner-border spinner-border-sm" role="status"
-                                                aria-hidden="true"></span> Updating...
-                                        </span>
+                                    <button type="button" onclick="confirmUpdate()"
+                                        class="btn btn-primary icon-left px-4 py-2">
+                                        <i class="bi bi-check-circle"></i> Update Question
                                     </button>
                                 </div>
                             </form>
@@ -177,3 +174,34 @@
         </div>
     </section>
 </div>
+
+<script>
+    function confirmUpdate() {
+        Swal.fire({
+            title: 'Simpan Perubahan?',
+            text: "Apakah Anda yakin ingin memperbarui pertanyaan ini?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Simpan!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                @this.call('update');
+            }
+        });
+    }
+
+    window.addEventListener('question-updated', event => {
+        Swal.fire({
+            title: 'Berhasil!',
+            text: 'Pertanyaan berhasil diperbarui.',
+            icon: 'success',
+            timer: 2000,
+            showConfirmButton: false
+        }).then(() => {
+            window.location.href = "{{ route('admin.questions.index') }}";
+        });
+    });
+</script>

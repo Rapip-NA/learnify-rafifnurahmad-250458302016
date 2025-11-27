@@ -59,4 +59,29 @@ class Competition extends Model
     {
         return $this->hasMany(Leaderboard::class);
     }
+
+    /**
+     * Check if competition has expired (end_date has passed)
+     */
+    public function isExpired(): bool
+    {
+        return $this->end_date < now();
+    }
+
+    /**
+     * Scope to get expired competitions
+     */
+    public function scopeExpired($query)
+    {
+        return $query->where('end_date', '<', now());
+    }
+
+    /**
+     * Scope to get active and not expired competitions
+     */
+    public function scopeActiveAndNotExpired($query)
+    {
+        return $query->where('status', 'active')
+            ->where('end_date', '>=', now());
+    }
 }

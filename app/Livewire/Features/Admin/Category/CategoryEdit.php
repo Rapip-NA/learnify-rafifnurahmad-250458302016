@@ -38,9 +38,7 @@ class CategoryEdit extends Component
             'description' => $this->description,
         ]);
 
-        session()->flash('success', 'Category updated successfully.');
-
-        return redirect()->route('admin.categories.index');
+        $this->dispatch('category-updated');
     }
 
     public function confirmDelete()

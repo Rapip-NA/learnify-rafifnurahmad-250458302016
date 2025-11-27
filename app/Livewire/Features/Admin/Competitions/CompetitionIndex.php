@@ -11,11 +11,12 @@ class CompetitionIndex extends Component
 {
     use WithPagination;
 
+    protected $paginationTheme = 'bootstrap';
+
     #[Layout('components.layouts.app')]
 
     public $search = '';
     public $statusFilter = '';
-    public $deleteId;
 
     protected $queryString = ['search', 'statusFilter'];
 
@@ -29,17 +30,13 @@ class CompetitionIndex extends Component
         $this->resetPage();
     }
 
-    public function confirmDelete($id)
+    public function delete($id)
     {
-        $this->deleteId = $id;
-    }
-
-    public function delete()
-    {
-        if ($this->deleteId) {
-            Competition::find($this->deleteId)->delete();
-            session()->flash('message', 'Competition deleted successfully.');
-            $this->deleteId = null;
+        $competition = Competition::find($id);
+        
+        if ($competition) {
+            $competition->delete();
+            $this->dispatch('competition-deleted');
         }
     }
 

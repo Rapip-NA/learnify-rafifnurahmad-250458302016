@@ -17,7 +17,7 @@
 
     <section class="section">
         <div class="row justify-content-center">
-            <div class="col-12 col-md-8 col-lg-6">
+            <div class="col-12 col-md-8 col-lg-12">
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">Category Details</h4>
@@ -60,20 +60,6 @@
                                     </button>
                                 </div>
                             </form>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="alert alert-light-info color-info **mt-4**">
-                    <div class="d-flex align-items-start">
-                        <i class="bi bi-info-circle-fill fs-5 me-3"></i>
-                        <div class="text-sm">
-                            <p class="fw-bold mb-1">Tips:</p>
-                            <ul class="list-unstyled space-y-1">
-                                <li>- Category name is required and must be unique</li>
-                                <li>- Description is optional but recommended for clarity</li>
-                                <li>- Categories help organize questions in competitions</li>
-                            </ul>
                         </div>
                     </div>
                 </div>
