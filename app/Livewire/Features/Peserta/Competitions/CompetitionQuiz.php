@@ -25,10 +25,9 @@ class CompetitionQuiz extends Component
     public $remainingSeconds = 300;
     public $timeExpired = false;
 
-    public function mount($competitionId)
+    public function mount(Competition $competition)
     {
-        $this->competition = Competition::with(['questions.answers', 'questions.category'])
-            ->findOrFail($competitionId);
+        $this->competition = $competition->load(['questions.answers', 'questions.category']);
 
         // Validasi: Cek apakah kompetisi aktif
         if ($this->competition->status !== 'active') {
@@ -46,7 +45,7 @@ class CompetitionQuiz extends Component
         $this->participant = CompetitionParticipant::firstOrCreate(
             [
                 'user_id' => auth()->id(),
-                'competition_id' => $competitionId
+                'competition_id' => $this->competition->id
             ],
             [
                 'started_at' => now(),

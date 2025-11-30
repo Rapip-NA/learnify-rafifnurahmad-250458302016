@@ -12,6 +12,7 @@ class Competition extends Model
     use HasFactory;
 
     protected $fillable = [
+        'uid',
         'title',
         'description',
         'start_date',
@@ -34,6 +35,40 @@ class Competition extends Model
         'speed_bonus_percentage' => 'decimal:2',
         'penalty_percentage' => 'decimal:2',
     ];
+
+    /**
+     * Boot method to auto-generate UID
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($competition) {
+            if (empty($competition->uid)) {
+                $competition->uid = self::generateUniqueUid();
+            }
+        });
+    }
+
+    /**
+     * Generate unique UID
+     */
+    private static function generateUniqueUid(): string
+    {
+        do {
+            $uid = (string) \Illuminate\Support\Str::uuid();
+        } while (self::where('uid', $uid)->exists());
+
+        return $uid;
+    }
+
+    /**
+     * Get the route key for the model (use uid instead of id)
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'uid';
+    }
 
     public function creator(): BelongsTo
     {

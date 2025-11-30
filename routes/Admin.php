@@ -11,10 +11,10 @@ Route::prefix('admin')
         Route::get('/dashboard', Admin\Dashboard::class)->name('dashboard');
         Route::get('/analytics', Admin\Analytics::class)->name('analytics');
 
+        //Qualifier Routes
         Route::prefix('qualifier')->name('qualifier.')->group(function () {
             Route::get('/', Admin\ListQualifier\QualifierList::class)->name('index');
             Route::get('/{id}', Admin\ListQualifier\QualifierShow::class)->name('show');
-
         });
 
         // Peserta Routes
@@ -55,7 +55,6 @@ Route::prefix('admin')
             Route::get('/{badge}/edit', Admin\Badge\BadgeEdit::class)->name('edit');
             Route::get('/{badge}', Admin\Badge\BadgeView::class)->name('view');
         });
-
     });
 
 

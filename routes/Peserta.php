@@ -13,7 +13,7 @@ Route::prefix('peserta')
 
         Route::prefix('competitions')->name('competitions.')->group(function () {
             Route::get('/', Peserta\Competitions\CompetitionList::class)->name('list');
-            Route::get('/{competitionId}/quiz', Peserta\Competitions\CompetitionQuiz::class)->name('quiz');
-            Route::get('/{competitionId}/result', Peserta\Competitions\CompetitionResult::class)->name('result');
+            Route::get('/{competition}/quiz', Peserta\Competitions\CompetitionQuiz::class)->name('quiz');
+            Route::get('/{competition}/result', Peserta\Competitions\CompetitionResult::class)->name('result');
         });
     });

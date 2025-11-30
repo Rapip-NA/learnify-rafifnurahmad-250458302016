@@ -14,8 +14,9 @@ Route::get('/', function () {
     return view('welcome', compact('competitions'));
 });
 
+
 Route::fallback(function () {
-    return view('404');
+    return view('errors.404');
 });
 
 Route::get('/leaderboard', GlobalLeaderboard::class)->name('global.leaderboard');
