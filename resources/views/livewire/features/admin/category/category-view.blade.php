@@ -22,7 +22,7 @@
 
     <section class="section">
         <div class="row justify-content-center">
-            <div class="col-12 col-md-10 col-lg-8">
+            <div class="col-12 col-md-10 col-lg-12">
                 <div class="card">
 
                     <div class="card-header **bg-primary** text-white p-4">

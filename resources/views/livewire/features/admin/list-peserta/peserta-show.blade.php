@@ -22,7 +22,12 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="card-title">Informasi Peserta</h5>
                 <div class="d-flex gap-2">
-                    <button wire:click="deletePeserta" wire:confirm="Apakah Anda yakin ingin menghapus peserta ini? Data tidak dapat dikembalikan!" class="btn btn-danger">Hapus</button>
+                    <a href="{{ route('admin.peserta.index') }}" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Kembali
+                    </a>
+                    <button wire:click="deletePeserta"
+                        wire:confirm="Apakah Anda yakin ingin menghapus peserta ini? Data tidak dapat dikembalikan!"
+                        class="btn btn-danger">Hapus</button>
                 </div>
             </div>
             <div class="card-body">
@@ -61,15 +66,16 @@
                 <h5 class="card-title">Kompetisi yang Diikuti</h5>
             </div>
             <div class="card-body">
-                @if($peserta->competitionParticipants->count())
-                    @foreach($peserta->competitionParticipants as $participant)
+                @if ($peserta->competitionParticipants->count())
+                    @foreach ($peserta->competitionParticipants as $participant)
                         <div class="border rounded p-3 mb-2">
                             <div class="d-flex justify-content-between">
                                 <div>
                                     <h6 class="fw-bold">{{ $participant->competition->title ?? 'N/A' }}</h6>
-                                    <small class="text-muted">Bergabung: {{ $participant->created_at->format('d M Y') }}</small>
+                                    <small class="text-muted">Bergabung:
+                                        {{ $participant->created_at->format('d M Y') }}</small>
                                 </div>
-                                @if($participant->score !== null)
+                                @if ($participant->score !== null)
                                     <span class="badge bg-success">Score: {{ $participant->score }}</span>
                                 @endif
                             </div>
@@ -87,14 +93,15 @@
                 <h5 class="card-title">Badge & Pencapaian</h5>
             </div>
             <div class="card-body">
-                @if($peserta->userBadges->count())
+                @if ($peserta->userBadges->count())
                     <div class="row g-3">
-                        @foreach($peserta->userBadges as $userBadge)
+                        @foreach ($peserta->userBadges as $userBadge)
                             <div class="col-6 col-md-3">
                                 <div class="border rounded text-center p-3">
                                     <div class="fs-1">🏆</div>
                                     <h6 class="fw-bold small">{{ $userBadge->badge->name ?? 'Badge' }}</h6>
-                                    <small class="text-muted">{{ \Carbon\Carbon::parse($userBadge->awarded_at)->format('d M Y') }}</small>
+                                    <small
+                                        class="text-muted">{{ \Carbon\Carbon::parse($userBadge->awarded_at)->format('d M Y') }}</small>
                                 </div>
                             </div>
                         @endforeach
@@ -111,7 +118,7 @@
                 <h5 class="card-title">Posisi Leaderboard</h5>
             </div>
             <div class="card-body">
-                @if($peserta->leaderboards->count())
+                @if ($peserta->leaderboards->count())
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
@@ -122,10 +129,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($peserta->leaderboards as $leaderboard)
+                                @foreach ($peserta->leaderboards as $leaderboard)
                                     <tr>
                                         <td>Kompetisi #{{ $leaderboard->competition_id }}</td>
-                                        <td><span class="badge bg-warning text-dark">#{{ $leaderboard->rank }}</span></td>
+                                        <td><span class="badge bg-warning text-dark">#{{ $leaderboard->rank }}</span>
+                                        </td>
                                         <td class="fw-bold">{{ $leaderboard->score }}</td>
                                     </tr>
                                 @endforeach

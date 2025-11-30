@@ -20,7 +20,6 @@ return new class extends Migration
             $table->integer('total_score')->default(0);
             $table->decimal('progress_percentage', 5, 2)->default(0);
             $table->timestamps();
-
             $table->unique(['user_id', 'competition_id']);
         });
     }

@@ -42,6 +42,11 @@ class CompetitionIndex extends Component
 
     public function render()
     {
+        // Auto-update expired competitions to inactive status
+        Competition::whereIn('status', ['active', 'draft'])
+            ->where('end_date', '<', now())
+            ->update(['status' => 'inactive']);
+
         $competitions = Competition::query()
             ->with('creator')
             ->when($this->search, function ($query) {

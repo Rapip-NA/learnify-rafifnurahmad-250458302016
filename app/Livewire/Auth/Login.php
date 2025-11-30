@@ -31,7 +31,7 @@ class Login extends Component
             if ($role === 'admin') {
                 return redirect()->intended('/admin/dashboard');
             } elseif ($role === 'qualifier') {
-                return redirect()->intended('/qualifier/dashboard');
+                return redirect()->intended('/qualifier/dashboard'); 
             } else {
                 return redirect()->intended('/peserta/dashboard');
             }

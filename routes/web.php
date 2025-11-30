@@ -4,7 +4,14 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\GlobalLeaderboard;
 
 Route::get('/', function () {
-    return view('welcome');
+    $competitions = \App\Models\Competition::where('status', 'active')
+        ->where('end_date', '>=', now())
+        ->with('creator')
+        ->orderBy('created_at', 'desc')
+        ->limit(6)
+        ->get();
+    
+    return view('welcome', compact('competitions'));
 });
 
 Route::fallback(function () {
@@ -17,6 +24,9 @@ Route::get('/leaderboard', GlobalLeaderboard::class)->name('global.leaderboard')
 require __DIR__ . '/Auth.php';
 
 Route::middleware('auth')->group(function () {
+    
+    // Profile
+    Route::get('/profile', \App\Livewire\UserProfile::class)->name('profile');
 
     //Admin
     require __DIR__ . '/Admin.php';

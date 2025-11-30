@@ -88,7 +88,7 @@
 
                                 <div class="progress mt-1" style="height: 6px;">
                                     <div class="progress-bar bg-success" role="progressbar"
-                                        style="width: {{ ($answeredCount / $totalQuestions) * 100 }}%">
+                                        style="width: {{ $totalQuestions > 0 ? ($answeredCount / $totalQuestions) * 100 : 0 }}%">
                                     </div>
                                 </div>
                             </div>
@@ -161,17 +161,19 @@
                             </h5>
 
                             {{-- Answer Options --}}
-                            <div class="mb-4">
+                            <div class="mb-4" wire:key="question-{{ $currentQuestion->id }}">
                                 @foreach ($currentQuestion->answers as $answer)
                                     <label
                                         class="d-flex align-items-start border rounded p-3 mb-2
                                         @if ($selectedAnswer === $answer->id) border-primary bg-light
                                         @else
                                             border-secondary @endif
-                                        ">
-                                        <input type="radio" wire:click="selectAnswer({{ $answer->id }})"
+                                        "
+                                        wire:key="answer-{{ $answer->id }}">
+                                        <input type="radio" name="question_{{ $currentQuestion->id }}"
+                                            value="{{ $answer->id }}" wire:click="selectAnswer({{ $answer->id }})"
                                             class="form-check-input me-3 mt-1"
-                                            {{ $selectedAnswer === $answer->id ? 'checked' : '' }}>
+                                            @if ($selectedAnswer === $answer->id) checked @endif>
                                         <span class="flex-grow-1">
                                             {{ $answer->answer_text }}
                                         </span>
@@ -197,14 +199,9 @@
                                     ← Sebelumnya
                                 </button>
 
-                                {{-- SAVE --}}
-                                <button wire:click="submitAnswer" class="btn btn-primary px-5 fw-bold">
-                                    Simpan Jawaban
-                                </button>
-
                                 {{-- NEXT / FINISH --}}
                                 @if ($currentQuestionIndex < $totalQuestions - 1)
-                                    <button wire:click="nextQuestion" class="btn btn-outline-secondary px-4">
+                                    <button wire:click="nextQuestion" class="btn btn-primary px-4 fw-bold">
                                         Selanjutnya →
                                     </button>
                                 @else
@@ -224,3 +221,36 @@
 
     @endif
 </div>
+
+@push('scripts')
+    <script>
+        // Show success notification when competition is started
+        @if (session('competition_started'))
+            Swal.fire({
+                title: '<strong>Kompetisi Dimulai!</strong>',
+                html: `
+                <div class="text-start">
+                    <p class="text-muted mb-3">Timer sudah berjalan. Selamat mengerjakan!</p>
+                    <div class="alert alert-success" style="font-size: 0.9rem;">
+                        <i class="bi bi-check-circle me-2"></i>
+                        <strong>Tips:</strong>
+                        <ul class="mt-2 mb-0 ps-3">
+                            <li>Perhatikan sisa waktu di bagian atas</li>
+                            <li>Jawaban otomatis tersimpan saat berpindah soal</li>
+                            <li>Anda dapat menavigasi antar soal menggunakan tombol navigasi</li>
+                        </ul>
+                    </div>
+                </div>
+            `,
+                icon: 'success',
+                confirmButtonText: '<i class="bi bi-play-fill me-1"></i> Mulai Mengerjakan',
+                confirmButtonColor: '#11998e',
+                customClass: {
+                    confirmButton: 'btn btn-lg px-4'
+                },
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            });
+        @endif
+    </script>
+@endpush

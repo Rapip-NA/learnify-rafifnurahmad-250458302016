@@ -30,6 +30,18 @@ class CompetitionQuiz extends Component
         $this->competition = Competition::with(['questions.answers', 'questions.category'])
             ->findOrFail($competitionId);
 
+        // Validasi: Cek apakah kompetisi aktif
+        if ($this->competition->status !== 'active') {
+            session()->flash('error', 'Kompetisi ini tidak dapat diakses. Status: ' . ucfirst($this->competition->status));
+            return redirect()->route('peserta.competitions.list');
+        }
+
+        // Validasi: Cek apakah kompetisi sudah berakhir
+        if ($this->competition->end_date < now()) {
+            session()->flash('error', 'Kompetisi ini sudah berakhir pada ' . $this->competition->end_date->format('d M Y H:i'));
+            return redirect()->route('peserta.competitions.list');
+        }
+
         // Get or create participant
         $this->participant = CompetitionParticipant::firstOrCreate(
             [
@@ -64,6 +76,12 @@ class CompetitionQuiz extends Component
             ->where('validation_status', 'approved')
             ->with(['answers', 'category'])
             ->get();
+
+        // Check if competition has questions
+        if ($this->questions->count() === 0) {
+            session()->flash('error', 'Kompetisi ini sedang dalam proses persiapan. Belum ada soal yang tersedia.');
+            return redirect()->route('peserta.competitions.list');
+        }
 
         // Load existing answers
         $this->loadExistingAnswers();
@@ -185,6 +203,11 @@ class CompetitionQuiz extends Component
 
     public function nextQuestion()
     {
+        // Auto-save current answer if selected
+        if ($this->selectedAnswer) {
+            $this->submitAnswer();
+        }
+
         if ($this->currentQuestionIndex < count($this->questions) - 1) {
             $this->currentQuestionIndex++;
 
@@ -192,6 +215,8 @@ class CompetitionQuiz extends Component
             if (isset($this->answers[$this->currentQuestionIndex])) {
                 $this->selectedAnswer = $this->answers[$this->currentQuestionIndex];
             } else {
+                // Unset selectedAnswer for unanswered questions
+                unset($this->selectedAnswer);
                 $this->selectedAnswer = null;
                 // Reset timer for unanswered question
                 $this->questionStartedAt = now();
@@ -201,6 +226,11 @@ class CompetitionQuiz extends Component
 
     public function previousQuestion()
     {
+        // Auto-save current answer if selected
+        if ($this->selectedAnswer) {
+            $this->submitAnswer();
+        }
+
         if ($this->currentQuestionIndex > 0) {
             $this->currentQuestionIndex--;
 
@@ -208,6 +238,8 @@ class CompetitionQuiz extends Component
             if (isset($this->answers[$this->currentQuestionIndex])) {
                 $this->selectedAnswer = $this->answers[$this->currentQuestionIndex];
             } else {
+                // Unset selectedAnswer for unanswered questions
+                unset($this->selectedAnswer);
                 $this->selectedAnswer = null;
                 // Reset timer for unanswered question
                 $this->questionStartedAt = now();
@@ -217,12 +249,19 @@ class CompetitionQuiz extends Component
 
     public function goToQuestion($index)
     {
+        // Auto-save current answer if selected before navigating
+        if ($this->selectedAnswer && $index != $this->currentQuestionIndex) {
+            $this->submitAnswer();
+        }
+
         $this->currentQuestionIndex = $index;
 
         // Load selected answer if exists
         if (isset($this->answers[$this->currentQuestionIndex])) {
             $this->selectedAnswer = $this->answers[$this->currentQuestionIndex];
         } else {
+            // Unset selectedAnswer for unanswered questions
+            unset($this->selectedAnswer);
             $this->selectedAnswer = null;
             // Reset timer for unanswered question
             $this->questionStartedAt = now();
@@ -233,7 +272,9 @@ class CompetitionQuiz extends Component
     {
         $totalQuestions = count($this->questions);
         $answeredQuestions = count($this->answers);
-        $progress = ($answeredQuestions / $totalQuestions) * 100;
+        
+        // Prevent division by zero
+        $progress = $totalQuestions > 0 ? ($answeredQuestions / $totalQuestions) * 100 : 0;
 
         $this->participant->update([
             'progress_percentage' => round($progress, 2)
@@ -246,6 +287,11 @@ class CompetitionQuiz extends Component
     {
         if ($this->isFinished) {
             return;
+        }
+
+        // Auto-save current answer if selected (for last question)
+        if ($this->selectedAnswer) {
+            $this->submitAnswer();
         }
 
         // Check if all questions answered

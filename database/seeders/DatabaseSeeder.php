@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Create users first
         User::factory(10)->create([
             'role' => 'admin'
         ]);
@@ -26,5 +27,14 @@ class DatabaseSeeder extends Seeder
         User::factory(50)->create([
             'role' => 'peserta'
         ]);
+
+        // Create categories
+        $this->call(CategorySeeder::class);
+
+        // Create competitions (requires admin users)
+        $this->call(CompetitionSeeder::class);
+
+        // Create questions and answers (requires competitions and categories)
+        $this->call(QuestionAndAnswerSeeder::class);
     }
 }

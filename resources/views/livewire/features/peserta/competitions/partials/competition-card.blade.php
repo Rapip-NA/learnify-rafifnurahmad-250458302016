@@ -1,4 +1,4 @@
-{{-- Competition Card Component --}}
+<!-- Competition Card Component -->
 <div class="col-12 col-md-6 col-lg-4 mb-4">
     <div class="card border-0 h-100 shadow-lg"
         style="
@@ -164,7 +164,7 @@
                         Lanjutkan Quiz
                     </a>
                 @else
-                    <button wire:click="startCompetition({{ $competition->id }})"
+                    <button onclick="confirmStartCompetition({{ $competition->id }})"
                         class="btn btn-lg w-100 fw-semibold rounded-pill shadow-sm"
                         style="
                         background: linear-gradient(135deg, #667eea, #764ba2);
@@ -183,3 +183,117 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        // Listen for validation error events from backend
+        window.addEventListener('showValidationError', event => {
+            const data = event.detail[0];
+
+            let htmlContent = `
+                <div class="text-start">
+                    <p class="text-muted mb-3">${data.message}</p>
+                </div>
+            `;
+
+            // If there's a history button to show
+            if (data.showHistoryButton && data.competitionId) {
+                htmlContent += `
+                    <div class="text-center mt-3">
+                        <a href="/peserta/competitions/${data.competitionId}/result" 
+                           class="btn btn-primary btn-lg px-4">
+                            <i class="bi bi-clock-history me-2"></i> Lihat History
+                        </a>
+                    </div>
+                `;
+            }
+
+            Swal.fire({
+                title: `<strong>${data.title}</strong>`,
+                html: htmlContent,
+                icon: 'error',
+                confirmButtonText: '<i class="bi bi-check-circle me-1"></i> Mengerti',
+                confirmButtonColor: '#dc3545',
+                customClass: {
+                    confirmButton: 'btn btn-lg px-4'
+                }
+            });
+        });
+
+        // Listen for continue message events
+        window.addEventListener('showContinueMessage', event => {
+            const data = event.detail[0];
+
+            Swal.fire({
+                title: `<strong>${data.title}</strong>`,
+                html: `
+                    <div class="text-start">
+                        <p class="text-muted mb-3">${data.message}</p>
+                        <div class="alert alert-info" style="font-size: 0.9rem;">
+                            <i class="bi bi-info-circle me-2"></i>
+                            <strong>Info:</strong> Progress Anda telah tersimpan dan akan dilanjutkan.
+                        </div>
+                    </div>
+                `,
+                icon: 'info',
+                confirmButtonText: '<i class="bi bi-play-fill me-1"></i> Ya, Lanjutkan!',
+                confirmButtonColor: '#11998e',
+                showCancelButton: false,
+                customClass: {
+                    confirmButton: 'btn btn-lg px-4'
+                }
+            });
+        });
+
+        function confirmStartCompetition(competitionId) {
+            Swal.fire({
+                title: '<strong>Mulai Kompetisi?</strong>',
+                html: `
+                    <div class="text-start">
+                        <p class="text-muted mb-3">Anda akan memulai kompetisi ini.</p>
+                        <div class="alert alert-warning" style="font-size: 0.9rem;">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            <strong>Perhatian:</strong>
+                            <ul class="mt-2 mb-0 ps-3">
+                                <li>Timer akan mulai menghitung mundur setelah Anda klik "Ya, Mulai!"</li>
+                                <li>Pastikan koneksi internet Anda stabil</li>
+                                <li>Siapkan konsentrasi Anda</li>
+                                <li>Anda tidak dapat mengulang kompetisi setelah selesai</li>
+                            </ul>
+                        </div>
+                        <p class="mb-0"><strong>Apakah Anda siap memulai?</strong></p>
+                    </div>
+                `,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: '<i class="bi bi-play-fill me-1"></i> Ya, Mulai!',
+                cancelButtonText: '<i class="bi bi-x-circle me-1"></i> Batal',
+                confirmButtonColor: '#667eea',
+                cancelButtonColor: '#6c757d',
+                reverseButtons: true,
+                customClass: {
+                    confirmButton: 'btn btn-lg px-4',
+                    cancelButton: 'btn btn-lg px-4'
+                },
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Show loading
+                    Swal.fire({
+                        title: 'Memulai Kompetisi...',
+                        html: 'Mohon tunggu, sistem sedang memvalidasi dan memulai timer',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    // Call Livewire method to start competition
+                    @this.call('startCompetition', competitionId);
+                }
+            });
+        }
+    </script>
+@endpush

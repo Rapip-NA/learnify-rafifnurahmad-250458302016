@@ -10,6 +10,11 @@ class CompetitionList extends Component
 {
     public function render()
     {
+        // Auto-update expired competitions to inactive status
+        Competition::whereIn('status', ['active', 'draft'])
+            ->where('end_date', '<', now())
+            ->update(['status' => 'inactive']);
+
         // Fetch draft competitions (upcoming, not yet started)
         $draftCompetitions = Competition::where('status', 'draft')
             ->with(['questions' => function ($q) {
@@ -20,8 +25,7 @@ class CompetitionList extends Component
 
         // Fetch active competitions (currently ongoing)
         $activeCompetitions = Competition::where('status', 'active')
-            ->whereDate('start_date', '<=', now())
-            ->whereDate('end_date', '>=', now())
+            ->where('end_date', '>=', now())
             ->with(['questions' => function ($q) {
                 $q->where('validation_status', 'approved');
             }])
@@ -31,7 +35,7 @@ class CompetitionList extends Component
         // Fetch inactive competitions (past end date or manually closed)
         $inactiveCompetitions = Competition::where(function ($query) {
                 $query->where('status', 'inactive')
-                      ->orWhereDate('end_date', '<', now());
+                      ->orWhere('end_date', '<', now());
             })
             ->with(['questions' => function ($q) {
                 $q->where('validation_status', 'approved');
@@ -60,25 +64,84 @@ class CompetitionList extends Component
 
     public function startCompetition($competitionId)
     {
-        $competition = Competition::findOrFail($competitionId);
+        $competition = Competition::with(['questions' => function ($q) {
+            $q->where('validation_status', 'approved');
+        }])->findOrFail($competitionId);
 
-        // Check if already participating
+        // Validasi 1: Cek apakah kompetisi masih aktif
+        if ($competition->status !== 'active') {
+            $this->dispatch('showValidationError', [
+                'title' => 'Kompetisi Tidak Aktif',
+                'message' => 'Kompetisi ini saat ini tidak dapat diikuti. Status: ' . ucfirst($competition->status)
+            ]);
+            return;
+        }
+
+        // Validasi 2: Cek apakah kompetisi sudah dimulai
+        if ($competition->start_date > now()) {
+            $this->dispatch('showValidationError', [
+                'title' => 'Kompetisi Belum Dimulai',
+                'message' => 'Kompetisi ini akan dimulai pada ' . $competition->start_date->format('d M Y H:i')
+            ]);
+            return;
+        }
+
+        // Validasi 3: Cek apakah kompetisi sudah berakhir
+        if ($competition->end_date < now()) {
+            $this->dispatch('showValidationError', [
+                'title' => 'Kompetisi Sudah Berakhir',
+                'message' => 'Mohon maaf, kompetisi ini sudah berakhir pada ' . $competition->end_date->format('d M Y H:i')
+            ]);
+            return;
+        }
+
+        // Validasi 4: Cek apakah kompetisi memiliki soal
+        $questionCount = $competition->questions->count();
+        if ($questionCount === 0) {
+            $this->dispatch('showValidationError', [
+                'title' => 'Tidak Ada Soal',
+                'message' => 'Kompetisi ini belum memiliki soal yang tersedia. Silakan hubungi administrator.'
+            ]);
+            return;
+        }
+
+        // Validasi 5: Cek apakah peserta sudah pernah mengikuti dan menyelesaikan kompetisi
         $participant = CompetitionParticipant::where('user_id', auth()->id())
             ->where('competition_id', $competitionId)
             ->first();
 
-        if (! $participant) {
-            $participant = CompetitionParticipant::create([
-                'user_id' => auth()->id(),
-                'competition_id' => $competitionId,
-                'started_at' => now(),
-                'total_score' => 0,
-                'progress_percentage' => 0,
+        if ($participant && $participant->finished_at) {
+            $this->dispatch('showValidationError', [
+                'title' => 'Sudah Menyelesaikan Quiz',
+                'message' => 'Anda sudah menyelesaikan kompetisi ini. Silakan lihat hasil Anda di halaman history.',
+                'showHistoryButton' => true,
+                'competitionId' => $competitionId
             ]);
+            return;
         }
 
-        return redirect()->route('peserta.competitions.quiz', $competitionId);
+        // Jika sudah pernah mulai tapi belum selesai, langsung redirect ke quiz
+        if ($participant && !$participant->finished_at) {
+            $this->dispatch('showContinueMessage', [
+                'title' => 'Lanjutkan Quiz',
+                'message' => 'Anda sudah memulai kompetisi ini sebelumnya. Klik "Ya, Lanjutkan!" untuk melanjutkan.'
+            ]);
+            
+            // Auto redirect after showing message
+            return redirect()->route('peserta.competitions.quiz', $competitionId);
+        }
 
-        // return view('livewire.features.peserta.competitions.competition-list');
+        // Jika belum pernah ikut, buat participant baru
+        CompetitionParticipant::create([
+            'user_id' => auth()->id(),
+            'competition_id' => $competitionId,
+            'started_at' => now(),
+            'total_score' => 0,
+            'progress_percentage' => 0,
+        ]);
+
+        // Redirect ke halaman quiz dengan notifikasi sukses
+        session()->flash('competition_started', true);
+        return redirect()->route('peserta.competitions.quiz', $competitionId);
     }
 }

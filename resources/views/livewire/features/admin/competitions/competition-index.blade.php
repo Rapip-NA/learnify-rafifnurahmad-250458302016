@@ -79,18 +79,54 @@
                                     <td>{{ $competition->creator->name ?? 'N/A' }}</td>
 
                                     <td class="text-center">
-                                        <a href="{{ route('admin.competitions.view', $competition) }}"
-                                            class="btn btn-sm btn-info">
-                                            <i class="bi bi-eye"></i>
-                                        </a>
-                                        <a href="{{ route('admin.competitions.edit', $competition) }}"
-                                            class="btn btn-sm btn-warning">
-                                            <i class="bi bi-pencil"></i>
-                                        </a>
-                                        <button onclick="confirmDelete({{ $competition->id }})"
-                                            class="btn btn-sm btn-danger">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
+                                        <!-- Desktop View: Inline Buttons (lg and up) -->
+                                        <div class="d-none d-lg-block">
+                                            <a href="{{ route('admin.competitions.view', $competition) }}"
+                                                class="btn btn-sm btn-info">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <a href="{{ route('admin.competitions.edit', $competition) }}"
+                                                class="btn btn-sm btn-warning">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <button onclick="confirmDelete({{ $competition->id }})"
+                                                class="btn btn-sm btn-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+
+                                        <!-- Mobile/Tablet View: Dropdown (md and sm) -->
+                                        <div class="d-lg-none dropdown">
+                                            <button class="btn btn-sm btn-secondary dropdown-toggle" type="button"
+                                                id="actionDropdown{{ $competition->id }}" data-bs-toggle="dropdown"
+                                                aria-expanded="false">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end"
+                                                aria-labelledby="actionDropdown{{ $competition->id }}">
+                                                <li>
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('admin.competitions.view', $competition) }}">
+                                                        <i class="bi bi-eye me-2 text-info"></i> View
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('admin.competitions.edit', $competition) }}">
+                                                        <i class="bi bi-pencil me-2 text-warning"></i> Edit
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <hr class="dropdown-divider">
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item text-danger" href="#"
+                                                        onclick="event.preventDefault(); confirmDelete({{ $competition->id }})">
+                                                        <i class="bi bi-trash me-2"></i> Delete
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
 

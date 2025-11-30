@@ -9,11 +9,13 @@
     <!-- 1. Fonts (Sesuai Landing Page) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@400;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{ asset('mazer/assets/compiled/svg/favicon.svg') }}" type="image/x-icon">
-    
+
     <!-- 2. Mazer compiled CSS (Bootstrap Base) -->
     <link rel="stylesheet" href="{{ asset('mazer/assets/compiled/css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('mazer/assets/compiled/css/app-dark.css') }}">
@@ -54,13 +56,15 @@
         #sidebar {
             z-index: 9999;
         }
-        
+
         /* Penyesuaian Layout Mazer agar tidak tertutup sidebar Tailwind yang fixed */
         @media (min-width: 1024px) {
             #main {
-                margin-left: 256px; /* 16rem (w-64) sesuai lebar sidebar */
+                margin-left: 256px;
+                /* 16rem (w-64) sesuai lebar sidebar */
                 padding: 0;
             }
+
             footer {
                 padding-left: 2rem;
                 padding-right: 2rem;
@@ -76,15 +80,15 @@
 
 <body>
     <script src="{{ asset('mazer/assets/static/js/initTheme.js') }}"></script>
-    
+
     <div id="app">
-        
+
         <!-- Sidebar Include -->
         <!-- Pastikan path ini sesuai dengan lokasi file sidebar Anda -->
-        @include('components.layouts.partials.sidebar') 
+        @include('components.layouts.partials.sidebar')
 
         <div id="main" class='layout-navbar navbar-fixed min-h-screen flex flex-col'>
-            
+
             <!-- Navbar Header -->
             <header class="mb-3">
                 @include('components.layouts.partials.navbar')
@@ -97,7 +101,7 @@
 
             <!-- Footer -->
             @include('components.layouts.partials.footer')
-            
+
         </div>
     </div>
 
@@ -111,7 +115,7 @@
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebar-overlay');
-            
+
             // Toggle class translate
             if (sidebar.classList.contains('-translate-x-full')) {
                 // Buka sidebar
@@ -122,6 +126,8 @@
             }
         }
     </script>
+
+    @stack('scripts')
 </body>
 
 </html>

@@ -23,8 +23,6 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="card-title">Informasi Qualifier</h5>
                 <div class="d-flex gap-2">
-                    <a href="{{ route('admin.qualifier.edit', $qualifier->id) }}"
-                        class="btn btn-success btn-sm">Edit</a>
                     <button wire:click="deleteQualifier"
                         wire:confirm="Apakah Anda yakin ingin menghapus qualifier ini? Data tidak dapat dikembalikan!"
                         class="btn btn-danger btn-sm">Hapus</button>

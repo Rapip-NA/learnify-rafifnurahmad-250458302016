@@ -11,9 +11,7 @@ class UserBadge extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'badge_id',
-        'awarded_at',
+        'user_id','badge_id','awarded_at',
     ];
 
     public function user(): BelongsTo

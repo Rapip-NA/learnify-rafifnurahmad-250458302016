@@ -11,15 +11,7 @@ class Question extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'competition_id',
-        'category_id',
-        'question_text',
-        'difficulty_level',
-        'point_weight',
-        'verified_by',
-        'validation_status',
-    ];
+    protected $fillable = ['competition_id','category_id','question_text','difficulty_level','point_weight','verified_by', 'validation_status',];
 
     protected $casts = [
         'point_weight' => 'integer',
