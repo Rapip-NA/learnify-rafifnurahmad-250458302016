@@ -10,6 +10,7 @@ Route::prefix('admin')
         //Menu Utama
         Route::get('/dashboard', Admin\Dashboard::class)->name('dashboard');
         Route::get('/analytics', Admin\Analytics::class)->name('analytics');
+        Route::get('/essay-grading', Admin\EssayGrading::class)->name('essay.grading');
 
         //Qualifier Routes
         Route::prefix('qualifier')->name('qualifier.')->group(function () {

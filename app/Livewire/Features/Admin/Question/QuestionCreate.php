@@ -13,6 +13,7 @@ class QuestionCreate extends Component
     public $competition_id;
     public $category_id;
     public $question_text;
+    public $question_type = 'multiple_choice';
     public $difficulty_level = 'easy';
     public $point_weight;
     public $validation_status = 'pending';
@@ -49,17 +50,24 @@ class QuestionCreate extends Component
 
     protected function rules()
     {
-        return [
+        $rules = [
             'competition_id' => 'required|exists:competitions,id',
             'category_id' => 'required|exists:categories,id',
             'question_text' => 'required|string|min:10',
+            'question_type' => 'required|in:multiple_choice,essay',
             'difficulty_level' => 'required|in:easy,medium,hard',
             'point_weight' => 'required|integer|min:1|max:1000',
             'validation_status' => 'required|in:pending,approved,rejected',
-            'answers' => 'required|array|min:2',
-            'answers.*.answer_text' => 'required|string|min:1',
-            'answers.*.is_correct' => 'boolean',
         ];
+
+        // Only require answers for multiple choice questions
+        if ($this->question_type === 'multiple_choice') {
+            $rules['answers'] = 'required|array|min:2';
+            $rules['answers.*.answer_text'] = 'required|string|min:1';
+            $rules['answers.*.is_correct'] = 'boolean';
+        }
+
+        return $rules;
     }
 
     protected $messages = [
@@ -71,30 +79,35 @@ class QuestionCreate extends Component
     {
         $this->validate();
 
-        // Check if at least one answer is marked as correct
-        $hasCorrectAnswer = collect($this->answers)->contains('is_correct', true);
+        // Check if at least one answer is marked as correct (only for multiple choice)
+        if ($this->question_type === 'multiple_choice') {
+            $hasCorrectAnswer = collect($this->answers)->contains('is_correct', true);
 
-        if (!$hasCorrectAnswer) {
-            $this->addError('answers', 'You must mark at least one answer as correct.');
-            return;
+            if (!$hasCorrectAnswer) {
+                $this->addError('answers', 'You must mark at least one answer as correct.');
+                return;
+            }
         }
 
         $question = Question::create([
             'competition_id' => $this->competition_id,
             'category_id' => $this->category_id,
             'question_text' => $this->question_text,
+            'question_type' => $this->question_type,
             'difficulty_level' => $this->difficulty_level,
             'point_weight' => $this->point_weight,
             'validation_status' => $this->validation_status,
         ]);
 
-        // Save answers
-        foreach ($this->answers as $answer) {
-            Answer::create([
-                'question_id' => $question->id,
-                'answer_text' => $answer['answer_text'],
-                'is_correct' => $answer['is_correct'] ?? false,
-            ]);
+        // Save answers (only for multiple choice questions)
+        if ($this->question_type === 'multiple_choice') {
+            foreach ($this->answers as $answer) {
+                Answer::create([
+                    'question_id' => $question->id,
+                    'answer_text' => $answer['answer_text'],
+                    'is_correct' => $answer['is_correct'] ?? false,
+                ]);
+            }
         }
 
         session()->flash('message', 'Question created successfully.');

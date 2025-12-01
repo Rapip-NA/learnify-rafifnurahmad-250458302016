@@ -19,6 +19,7 @@ class CompetitionQuiz extends Component
     public $questions;
     public $currentQuestionIndex = 0;
     public $selectedAnswer = null;
+    public $essayAnswerText = ''; // For essay-type questions
     public $answers = [];
     public $questionStartedAt; // Track when current question was started
     public $isFinished = false;
@@ -147,12 +148,55 @@ class CompetitionQuiz extends Component
             return;
         }
 
+        $question = $this->getCurrentQuestion();
+
+        // Handle essay questions
+        if ($question->isEssay()) {
+            if (empty(trim($this->essayAnswerText))) {
+                session()->flash('error', 'Tulis jawaban essay terlebih dahulu!');
+                return;
+            }
+
+            $timeSpent = now()->diffInSeconds($this->questionStartedAt);
+
+            // Save essay answer with pending grading status
+            ParticipantAnswer::updateOrCreate(
+                [
+                    'competition_participant_id' => $this->participant->id,
+                    'question_id' => $question->id,
+                ],
+                [
+                    'essay_answer_text' => $this->essayAnswerText,
+                    'answer_id' => null, // No predefined answer for essays
+                    'is_correct' => false, // Will be set during grading
+                    'time_spent' => $timeSpent,
+                    'answered_at' => now(),
+                    'score_earned' => 0, // Will be set during grading
+                    'grading_status' => 'pending',
+                    'validation_status' => 'pending'
+                ]
+            );
+
+            // Store marker in local array (use -1 to indicate essay submission)
+            $this->answers[$this->currentQuestionIndex] = -1;
+
+            // Update progress
+            $this->updateProgress();
+
+            // Reset for next question
+            $this->essayAnswerText = '';
+            $this->questionStartedAt = now();
+
+            session()->flash('success', 'Jawaban essay berhasil disimpan!');
+            return;
+        }
+
+        // Handle multiple choice questions (existing logic)
         if (!$this->selectedAnswer) {
             session()->flash('error', 'Pilih jawaban terlebih dahulu!');
             return;
         }
 
-        $question = $this->getCurrentQuestion();
         $answer = $question->answers()->find($this->selectedAnswer);
 
         if (!$answer) {
@@ -183,6 +227,7 @@ class CompetitionQuiz extends Component
                 'time_spent' => $timeSpent,
                 'answered_at' => now(),
                 'score_earned' => $scoreEarned,
+                'grading_status' => 'not_applicable',
                 'validation_status' => 'pending'
             ]
         );

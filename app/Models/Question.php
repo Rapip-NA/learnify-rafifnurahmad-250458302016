@@ -11,11 +11,27 @@ class Question extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['competition_id','category_id','question_text','difficulty_level','point_weight','verified_by', 'validation_status',];
+    protected $fillable = ['competition_id','category_id','question_text','question_type','difficulty_level','point_weight','verified_by', 'validation_status',];
 
     protected $casts = [
         'point_weight' => 'integer',
     ];
+
+    /**
+     * Check if the question is an essay type
+     */
+    public function isEssay(): bool
+    {
+        return $this->question_type === 'essay';
+    }
+
+    /**
+     * Check if the question is multiple choice type
+     */
+    public function isMultipleChoice(): bool
+    {
+        return $this->question_type === 'multiple_choice';
+    }
 
     public function competition(): BelongsTo
     {

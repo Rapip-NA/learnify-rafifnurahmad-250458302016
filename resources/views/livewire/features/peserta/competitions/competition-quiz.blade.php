@@ -162,23 +162,38 @@
 
                             {{-- Answer Options --}}
                             <div class="mb-4" wire:key="question-{{ $currentQuestion->id }}">
-                                @foreach ($currentQuestion->answers as $answer)
-                                    <label
-                                        class="d-flex align-items-start border rounded p-3 mb-2
-                                        @if ($selectedAnswer === $answer->id) border-primary bg-light
-                                        @else
-                                            border-secondary @endif
-                                        "
-                                        wire:key="answer-{{ $answer->id }}">
-                                        <input type="radio" name="question_{{ $currentQuestion->id }}"
-                                            value="{{ $answer->id }}" wire:click="selectAnswer({{ $answer->id }})"
-                                            class="form-check-input me-3 mt-1"
-                                            @if ($selectedAnswer === $answer->id) checked @endif>
-                                        <span class="flex-grow-1">
-                                            {{ $answer->answer_text }}
-                                        </span>
-                                    </label>
-                                @endforeach
+                                @if ($currentQuestion->question_type === 'essay')
+                                    {{-- Essay Answer Textarea --}}
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Tulis Jawaban Anda:</label>
+                                        <textarea wire:model="essayAnswerText" rows="8" class="form-control"
+                                            placeholder="Ketik jawaban essay Anda di sini..." style="font-size: 1rem;"></textarea>
+                                        <small class="text-muted">
+                                            <i class="bi bi-info-circle"></i>
+                                            Jawaban essay akan dinilai oleh admin. Tulis dengan lengkap dan jelas.
+                                        </small>
+                                    </div>
+                                @else
+                                    {{-- Multiple Choice Options --}}
+                                    @foreach ($currentQuestion->answers as $answer)
+                                        <label
+                                            class="d-flex align-items-start border rounded p-3 mb-2
+                                            @if ($selectedAnswer === $answer->id) border-primary bg-light
+                                            @else
+                                                border-secondary @endif
+                                            "
+                                            wire:key="answer-{{ $answer->id }}">
+                                            <input type="radio" name="question_{{ $currentQuestion->id }}"
+                                                value="{{ $answer->id }}"
+                                                wire:click="selectAnswer({{ $answer->id }})"
+                                                class="form-check-input me-3 mt-1"
+                                                @if ($selectedAnswer === $answer->id) checked @endif>
+                                            <span class="flex-grow-1">
+                                                {{ $answer->answer_text }}
+                                            </span>
+                                        </label>
+                                    @endforeach
+                                @endif
                             </div>
 
                             {{-- Flash Messages --}}
