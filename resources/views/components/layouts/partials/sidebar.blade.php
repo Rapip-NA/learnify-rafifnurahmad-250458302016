@@ -1,8 +1,8 @@
 <!-- Sidebar -->
 <aside id="sidebar"
-    class="fixed top-0 left-0 h-screen w-64 bg-gradient-to-b from-slate-800 to-slate-900 border-r border-slate-700 z-40 transition-all duration-300">
+    class="fixed top-0 left-0 h-screen w-64 bg-gradient-to-b from-slate-800 to-slate-900 border-r border-slate-700 z-40 transition-all duration-300 flex flex-col">
     <!-- Sidebar Header -->
-    <div class="p-6 border-b border-slate-700">
+    <div class="flex-shrink-0 p-6 border-b border-slate-700">
         <div class="flex items-center justify-between">
             <a href="/" class="flex items-center gap-3 group">
                 <div
@@ -21,7 +21,8 @@
     </div>
 
     <!-- Sidebar Menu -->
-    <nav class="flex-1 overflow-y-auto p-4 space-y-1">
+    <nav
+        class="flex-1 overflow-y-auto p-4 space-y-1 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-800">
         @if (Auth::user()->role === 'admin')
             <!-- Admin Menu -->
             <div class="space-y-1">
@@ -145,7 +146,7 @@
     </nav>
 
     <!-- Sidebar Footer -->
-    <div class="p-4 border-t border-slate-700">
+    <div class="flex-shrink-0 p-4 border-t border-slate-700">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-800/50">
             <div class="w-10 h-10 rounded-full gradient-accent flex items-center justify-center text-white font-bold">
                 {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
@@ -159,6 +160,31 @@
 </aside>
 
 <style>
+    /* Custom Scrollbar for Sidebar */
+    #sidebar nav::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    #sidebar nav::-webkit-scrollbar-track {
+        background: rgba(30, 41, 59, 0.3);
+        border-radius: 10px;
+    }
+
+    #sidebar nav::-webkit-scrollbar-thumb {
+        background: rgba(100, 116, 139, 0.5);
+        border-radius: 10px;
+    }
+
+    #sidebar nav::-webkit-scrollbar-thumb:hover {
+        background: rgba(100, 116, 139, 0.8);
+    }
+
+    /* Firefox scrollbar */
+    #sidebar nav {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(100, 116, 139, 0.5) rgba(30, 41, 59, 0.3);
+    }
+
     /* Light theme for sidebar */
     body.light-theme #sidebar {
         background: linear-gradient(to bottom, #ffffff, #f8fafc);
@@ -191,5 +217,22 @@
 
     body.light-theme #sidebar .bg-slate-800\/50 {
         background-color: rgba(241, 245, 249, 0.8) !important;
+    }
+
+    /* Light theme scrollbar */
+    body.light-theme #sidebar nav::-webkit-scrollbar-track {
+        background: rgba(226, 232, 240, 0.3);
+    }
+
+    body.light-theme #sidebar nav::-webkit-scrollbar-thumb {
+        background: rgba(148, 163, 184, 0.5);
+    }
+
+    body.light-theme #sidebar nav::-webkit-scrollbar-thumb:hover {
+        background: rgba(148, 163, 184, 0.8);
+    }
+
+    body.light-theme #sidebar nav {
+        scrollbar-color: rgba(148, 163, 184, 0.5) rgba(226, 232, 240, 0.3);
     }
 </style>
