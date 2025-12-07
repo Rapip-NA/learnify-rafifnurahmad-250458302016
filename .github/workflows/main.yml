@@ -41,34 +41,43 @@ jobs:
       - name: 🔐 Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
       
-      - name: 🔑 Generate App Key (if needed)
-        run: php artisan key:generate --show
-      
-      - name: 📂 Sync files via FTP
+      - name: 📂 Upload Core Files (Step 1)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: /public_html/
-          log-level: verbose
-          timeout: 300000
+          timeout: 600000
           dangerous-clean-slate: false
           exclude: |
             **/.git*
             **/.git*/**
             **/node_modules/**
             **/tests/**
-            **/.env.example
+            **/vendor/**
+            **/.env*
             **/.gitignore
             **/.gitattributes
             **/README.md
             **/phpunit.xml
-            **/package-lock.json
+            **/package*.json
+            **/composer.lock
             **/storage/logs/**
             **/storage/framework/cache/**
             **/storage/framework/sessions/**
             **/storage/framework/views/**
+      
+      - name: 📦 Upload Vendor (Step 2)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /public_html/vendor/
+          local-dir: ./vendor/
+          timeout: 600000
+          dangerous-clean-slate: false
       
       - name: ✅ Deployment Complete
         run: echo "Deployment successful!"
