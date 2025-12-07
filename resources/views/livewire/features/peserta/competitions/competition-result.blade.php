@@ -1,322 +1,355 @@
 <div>
-    <div class="page-heading">
-        <h3>Hasil Kompetisi</h3>
-    </div>
-
-    <div class="page-content">
-
-        {{-- HEADER --}}
-        <div class="card shadow mb-4">
-            <div class="card-body">
-
-                <h2 class="fw-bold mb-2">{{ $competition->title }}</h2>
-
-                <div class="row g-3 mt-4">
-                    <div class="col-md-4">
-                        <div class="card text-center bg-light border-0 shadow-sm">
-                            <div class="card-body">
-                                <p class="text-muted small mb-1">Total Skor</p>
-                                <h2 class="text-primary fw-bolder mb-0">{{ $participant->total_score }}</h2>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="card text-center bg-light border-0 shadow-sm">
-                            <div class="card-body">
-                                <p class="text-muted small mb-1">Jawaban Benar</p>
-                                <h2 class="text-success fw-bolder mb-0">{{ $correctAnswers }}</h2>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="card text-center bg-light border-0 shadow-sm">
-                            <div class="card-body">
-                                <p class="text-muted small mb-1">Jawaban Salah</p>
-                                <h2 class="text-danger fw-bolder mb-0">{{ $wrongAnswers }}</h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+    <div>
+        <div>
+            <!-- Page Header -->
+            <div class="mb-8">
+                <h1
+                    class="text-3xl font-bold text-transparent bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text mb-2">
+                    Hasil Kompetisi
+                </h1>
             </div>
-        </div>
 
-        {{-- VISUALISASI PERFORMA INDIVIDU --}}
-        <div class="card shadow mb-4">
-            <div class="card-body">
-                <h4 class="fw-bold mb-3">
-                    <i class="bi bi-graph-up text-primary me-2"></i>
-                    Visualisasi Performa Individu
-                </h4>
+            <!-- HEADER STATS -->
+            <div
+                class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl overflow-hidden mb-6">
+                <div class="p-6">
+                    <h2 class="text-2xl font-bold text-white mb-6">{{ $competition->title }}</h2>
 
-                <p class="text-muted mb-3">
-                    Grafik berikut menunjukkan perkembangan skor Anda dari awal hingga akhir kuis.
-                </p>
-
-                {{-- Toggle Mode --}}
-                <div class="btn-group mb-4" role="group">
-                    <button type="button" class="btn btn-primary" id="togglePerQuestion"
-                        onclick="switchChartMode('perQuestion')">
-                        <i class="bi bi-list-ol me-1"></i>
-                        Per Soal
-                    </button>
-                    <button type="button" class="btn btn-outline-primary" id="togglePerTime"
-                        onclick="switchChartMode('perTime')">
-                        <i class="bi bi-clock me-1"></i>
-                        Per Waktu
-                    </button>
-                </div>
-
-                {{-- Chart Container --}}
-                <div id="performanceChart" style="min-height: 350px;"></div>
-            </div>
-        </div>
-
-        {{-- REVIEW JAWABAN --}}
-        @foreach ($answers as $index => $participantAnswer)
-            <div class="card shadow mb-4">
-                <div class="card-body">
-
-                    {{-- Badge Info --}}
-                    <div class="d-flex justify-content-between align-items-start mb-3">
-
-                        <div>
-                            <span class="badge bg-secondary">
-                                Soal {{ $index + 1 }}
-                            </span>
-
-                            <span class="badge bg-primary ms-2">
-                                {{ $participantAnswer->question->category->name }}
-                            </span>
-                        </div>
-
-                        {{-- Status Benar / Salah --}}
-                        @if ($participantAnswer->is_correct)
-                            <span class="badge bg-success d-flex align-items-center px-3 py-2">
-                                <i class="bi bi-check-circle me-1"></i> Benar
-                            </span>
-                        @else
-                            <span class="badge bg-danger d-flex align-items-center px-3 py-2">
-                                <i class="bi bi-x-circle me-1"></i> Salah
-                            </span>
-                        @endif
-
-                    </div>
-
-                    {{-- SOAL --}}
-                    <h5 class="fw-bold mb-4">{{ $participantAnswer->question->question_text }}</h5>
-
-                    {{-- DAFTAR JAWABAN --}}
-                    @foreach ($participantAnswer->question->answers as $answer)
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div
-                            class="p-3 rounded border mb-2
-                        @if ($answer->is_correct) border-success bg-success bg-opacity-10
-                        @elseif($answer->id == $participantAnswer->answer_id)
-                            border-danger bg-danger bg-opacity-10
-                        @else
-                            border-light bg-light @endif
-                    ">
-
-                            <div class="d-flex align-items-start">
-
-                                {{-- Ikon --}}
-                                @if ($answer->is_correct)
-                                    <i class="bi bi-check-circle text-success fs-5 me-2 mt-1"></i>
-                                @elseif($answer->id == $participantAnswer->answer_id)
-                                    <i class="bi bi-x-circle text-danger fs-5 me-2 mt-1"></i>
-                                @else
-                                    <div class="me-3" style="width: 22px;"></div>
-                                @endif
-
-                                {{-- Teks jawaban --}}
-                                <div class="flex-grow-1">
-                                    {{ $answer->answer_text }}
-                                </div>
-
-                                {{-- Label --}}
-                                @if ($answer->is_correct)
-                                    <span class="badge bg-success ms-2">Jawaban Benar</span>
-                                @elseif($answer->id == $participantAnswer->answer_id)
-                                    <span class="badge bg-danger ms-2">Jawaban Anda</span>
-                                @endif
-
-                            </div>
-
+                            class="bg-gradient-to-br from-indigo-500/20 to-indigo-600/20 border border-indigo-500/30 rounded-xl p-6 text-center">
+                            <p class="text-slate-400 text-sm mb-2">Total Skor</p>
+                            <h2
+                                class="text-5xl font-bold text-transparent bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text">
+                                {{ $participant->total_score }}
+                            </h2>
                         </div>
-                    @endforeach
 
-                    {{-- Detail --}}
-                    <div class="mt-3 text-muted small">
-                        Bobot: {{ $participantAnswer->question->point_weight }} poin |
-                        Waktu: {{ $participantAnswer->time_spent }} detik
+                        <div
+                            class="bg-gradient-to-br from-green-500/20 to-green-600/20 border border-green-500/30 rounded-xl p-6 text-center">
+                            <p class="text-slate-400 text-sm mb-2">Jawaban Benar</p>
+                            <h2 class="text-5xl font-bold text-green-400">{{ $correctAnswers }}</h2>
+                        </div>
+
+                        <div
+                            class="bg-gradient-to-br from-red-500/20 to-red-600/20 border border-red-500/30 rounded-xl p-6 text-center">
+                            <p class="text-slate-400 text-sm mb-2">Jawaban Salah</p>
+                            <h2 class="text-5xl font-bold text-red-400">{{ $wrongAnswers }}</h2>
+                        </div>
                     </div>
-
                 </div>
             </div>
-        @endforeach
 
-        {{-- BACK BUTTON --}}
-        <div class="text-center mt-4">
-            <a href="{{ route('peserta.competitions.list') }}" class="btn btn-primary btn-lg">
-                <i class="bi bi-arrow-left-circle me-1"></i>
-                Kembali ke Daftar Kompetisi
-            </a>
+            <!-- VISUALISASI PERFORMA INDIVIDU -->
+            <div
+                class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl overflow-hidden mb-6">
+                <div class="px-6 py-4 bg-slate-900/50 border-b border-slate-700">
+                    <h4 class="text-xl font-bold text-white flex items-center gap-2">
+                        <i class="bi bi-graph-up text-indigo-400"></i>
+                        Visualisasi Performa Individu
+                    </h4>
+                </div>
+                <div class="p-6">
+                    <p class="text-slate-400 mb-4">
+                        Grafik berikut menunjukkan perkembangan skor Anda dari awal hingga akhir kuis.
+                    </p>
+
+                    <!-- Toggle Mode -->
+                    <div class="flex gap-2 mb-6">
+                        <button type="button" id="togglePerQuestion"
+                            class="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold rounded-xl flex items-center gap-2"
+                            onclick="switchChartMode('perQuestion')">
+                            <i class="bi bi-list-ol"></i>
+                            Per Soal
+                        </button>
+                        <button type="button" id="togglePerTime"
+                            class="px-6 py-3 bg-slate-700 text-slate-300 font-semibold rounded-xl flex items-center gap-2 hover:bg-slate-600 transition"
+                            onclick="switchChartMode('perTime')">
+                            <i class="bi bi-clock"></i>
+                            Per Waktu
+                        </button>
+                    </div>
+
+                    <!-- Chart Container -->
+                    <div id="performanceChart"></div>
+                </div>
+            </div>
+
+            <!-- REVIEW JAWABAN -->
+            @foreach ($answers as $index => $participantAnswer)
+                <div
+                    class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl overflow-hidden mb-6">
+                    <div class="p-6">
+                        <!-- Badge Info -->
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex gap-2">
+                                <span class="px-3 py-1 bg-slate-600 text-slate-200 rounded-full text-sm font-semibold">
+                                    Soal {{ $index + 1 }}
+                                </span>
+
+                                <span
+                                    class="px-3 py-1 bg-blue-500/20 text-blue-400 border border-blue-500/30 rounded-full text-sm font-semibold">
+                                    {{ $participantAnswer->question->category->name }}
+                                </span>
+                            </div>
+
+                            <!-- Status Benar / Salah -->
+                            @if ($participantAnswer->is_correct)
+                                <span
+                                    class="px-4 py-2 bg-green-500/20 text-green-400 border border-green-500/30 rounded-full text-sm font-semibold flex items-center gap-1">
+                                    <i class="bi bi-check-circle"></i> Benar
+                                </span>
+                            @else
+                                <span
+                                    class="px-4 py-2 bg-red-500/20 text-red-400 border border-red-500/30 rounded-full text-sm font-semibold flex items-center gap-1">
+                                    <i class="bi bi-x-circle"></i> Salah
+                                </span>
+                            @endif
+                        </div>
+
+                        <!-- SOAL -->
+                        <h5 class="text-xl font-bold text-white mb-6">{{ $participantAnswer->question->question_text }}
+                        </h5>
+
+                        <!-- DAFTAR JAWABAN -->
+                        @foreach ($participantAnswer->question->answers as $answer)
+                            <div
+                                class="p-4 rounded-xl border mb-3
+                                @if ($answer->is_correct) border-green-500 bg-green-500/10
+                                @elseif($answer->id == $participantAnswer->answer_id)
+                                    border-red-500 bg-red-500/10
+                                @else
+                                    border-slate-600 bg-slate-800/30 @endif">
+                                <div class="flex items-start gap-3">
+                                    <!-- Ikon -->
+                                    @if ($answer->is_correct)
+                                        <i class="bi bi-check-circle text-green-400 text-2xl mt-1"></i>
+                                    @elseif($answer->id == $participantAnswer->answer_id)
+                                        <i class="bi bi-x-circle text-red-400 text-2xl mt-1"></i>
+                                    @else
+                                        <div style="width: 28px;"></div>
+                                    @endif
+
+                                    <!-- Teks jawaban -->
+                                    <div class="flex-grow text-slate-200">
+                                        {{ $answer->answer_text }}
+                                    </div>
+
+                                    <!-- Label -->
+                                    @if ($answer->is_correct)
+                                        <span
+                                            class="px-3 py-1 bg-green-500/20 text-green-400 border border-green-500/30 rounded-full text-xs font-semibold">
+                                            Jawaban Benar
+                                        </span>
+                                    @elseif($answer->id == $participantAnswer->answer_id)
+                                        <span
+                                            class="px-3 py-1 bg-red-500/20 text-red-400 border border-red-500/30 rounded-full text-xs font-semibold">
+                                            Jawaban Anda
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+
+                        <!-- Detail -->
+                        <div class="mt-4 text-slate-400 text-sm">
+                            Bobot: {{ $participantAnswer->question->point_weight }} poin |
+                            Waktu: {{ $participantAnswer->time_spent }} detik
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+
+            <!-- BACK BUTTON -->
+            <div class="text-center mt-8">
+                <a href="{{ route('peserta.competitions.list') }}"
+                    class="inline-flex items-center gap-2 px-8 py-4 gradient-primary text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-indigo-500/50 transition-all text-lg">
+                    <i class="bi bi-arrow-left-circle"></i>
+                    Kembali ke Daftar Kompetisi
+                </a>
+            </div>
         </div>
-
     </div>
-
 </div>
 
-{{-- ApexCharts Library --}}
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script>
+        const performanceData = @json($performanceData);
+        let currentMode = 'perQuestion';
+        let chart = null;
+        const isDarkTheme = !document.body.classList.contains('light-theme');
+        const textColor = isDarkTheme ? '#e2e8f0' : '#0f172a';
+        const gridColor = isDarkTheme ? '#334155' : '#e2e8f0';
 
-<script>
-    // Performance data from backend
-    const performanceData = @json($performanceData);
+        document.addEventListener('DOMContentLoaded', function() {
+            renderChart('perQuestion');
+        });
 
-    let currentMode = 'perQuestion';
-    let chart = null;
-
-    // Initialize chart on page load
-    document.addEventListener('DOMContentLoaded', function() {
-        renderChart('perQuestion');
-    });
-
-    function switchChartMode(mode) {
-        currentMode = mode;
-
-        // Update button states
-        document.getElementById('togglePerQuestion').classList.toggle('btn-primary', mode === 'perQuestion');
-        document.getElementById('togglePerQuestion').classList.toggle('btn-outline-primary', mode !== 'perQuestion');
-        document.getElementById('togglePerTime').classList.toggle('btn-primary', mode === 'perTime');
-        document.getElementById('togglePerTime').classList.toggle('btn-outline-primary', mode !== 'perTime');
-
-        // Re-render chart
-        renderChart(mode);
-    }
-
-    function renderChart(mode) {
-        const data = mode === 'perQuestion' ? performanceData.perQuestion : performanceData.perTime;
-
-        // Destroy existing chart if it exists
-        if (chart) {
-            chart.destroy();
+        function switchChartMode(mode) {
+            currentMode = mode;
+            const perQuestionBtn = document.getElementById('togglePerQuestion');
+            const perTimeBtn = document.getElementById('togglePerTime');
+            if (mode === 'perQuestion') {
+                perQuestionBtn.className =
+                    'px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold rounded-xl flex items-center gap-2';
+                perTimeBtn.className =
+                    'px-6 py-3 bg-slate-700 text-slate-300 font-semibold rounded-xl flex items-center gap-2 hover:bg-slate-600 transition';
+            } else {
+                perQuestionBtn.className =
+                    'px-6 py-3 bg-slate-700 text-slate-300 font-semibold rounded-xl flex items-center gap-2 hover:bg-slate-600 transition';
+                perTimeBtn.className =
+                    'px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold rounded-xl flex items-center gap-2';
+            }
+            renderChart(mode);
         }
 
-        const options = {
-            series: [{
-                name: 'Skor Kumulatif',
-                data: data
-            }],
-            chart: {
-                type: 'line',
-                height: 350,
-                toolbar: {
-                    show: true,
-                    tools: {
-                        download: true,
-                        selection: false,
-                        zoom: false,
-                        zoomin: false,
-                        zoomout: false,
-                        pan: false,
-                        reset: false
+        function renderChart(mode) {
+            const data = mode === 'perQuestion' ? performanceData.perQuestion : performanceData.perTime;
+            if (chart) chart.destroy();
+            const options = {
+                series: [{
+                    name: 'Skor Kumulatif',
+                    data: data
+                }],
+                chart: {
+                    type: 'line',
+                    height: 350,
+                    background: 'transparent',
+                    toolbar: {
+                        show: true,
+                        tools: {
+                            download: true,
+                            selection: false,
+                            zoom: false,
+                            zoomin: false,
+                            zoomout: false,
+                            pan: false,
+                            reset: false
+                        }
+                    },
+                    animations: {
+                        enabled: true,
+                        easing: 'easeinout',
+                        speed: 800
                     }
                 },
-                animations: {
-                    enabled: true,
-                    easing: 'easeinout',
-                    speed: 800
-                }
-            },
-            stroke: {
-                curve: 'smooth',
-                width: 3
-            },
-            markers: {
-                size: 5,
-                hover: {
-                    size: 7
-                }
-            },
-            colors: ['#435ebe'],
-            xaxis: {
-                title: {
-                    text: mode === 'perQuestion' ? 'Nomor Soal' : 'Waktu (menit)',
-                    style: {
-                        fontSize: '14px',
-                        fontWeight: 600
+                theme: {
+                    mode: isDarkTheme ? 'dark' : 'light'
+                },
+                stroke: {
+                    curve: 'smooth',
+                    width: 3
+                },
+                markers: {
+                    size: 5,
+                    hover: {
+                        size: 7
                     }
                 },
-                labels: {
-                    formatter: function(value) {
-                        if (mode === 'perQuestion') {
-                            return 'Soal ' + Math.round(value);
-                        } else {
-                            return value.toFixed(1) + ' min';
+                colors: ['#6366f1'],
+                xaxis: {
+                    title: {
+                        text: mode === 'perQuestion' ? 'Nomor Soal' : 'Waktu (menit)',
+                        style: {
+                            fontSize: '14px',
+                            fontWeight: 600,
+                            color: textColor
+                        }
+                    },
+                    labels: {
+                        formatter: function(value) {
+                            return mode === 'perQuestion' ? 'Soal ' + Math.round(value) : value.toFixed(1) + ' min';
+                        },
+                        style: {
+                            colors: textColor
                         }
                     }
-                }
-            },
-            yaxis: {
-                title: {
-                    text: 'Skor Kumulatif',
-                    style: {
-                        fontSize: '14px',
-                        fontWeight: 600
+                },
+                yaxis: {
+                    title: {
+                        text: 'Skor Kumulatif',
+                        style: {
+                            fontSize: '14px',
+                            fontWeight: 600,
+                            color: textColor
+                        }
+                    },
+                    labels: {
+                        formatter: function(value) {
+                            return Math.round(value);
+                        },
+                        style: {
+                            colors: textColor
+                        }
                     }
                 },
-                labels: {
-                    formatter: function(value) {
-                        return Math.round(value);
+                tooltip: {
+                    theme: isDarkTheme ? 'dark' : 'light',
+                    custom: function({
+                        dataPointIndex
+                    }) {
+                        const point = data[dataPointIndex];
+                        const questionPreview = point.questionText.length > 50 ? point.questionText.substring(0,
+                            50) + '...' : point.questionText;
+                        return '<div class="p-3" style="background: ' + (isDarkTheme ? '#1e293b' : 'white') +
+                            '; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);"><div style="font-weight: 600; margin-bottom: 8px; color: #6366f1;">' +
+                            (mode === 'perQuestion' ? 'Soal ' + point.x : 'Waktu: ' + point.x + ' menit') +
+                            '</div><div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">' +
+                            questionPreview + '</div><div style="font-size: 13px; color: ' + textColor +
+                            ';"><strong>Skor didapat:</strong> <span style="color: #22c55e;">+' + point
+                            .scoreEarned +
+                            '</span><br/><strong>Total skor:</strong> <span style="color: #6366f1;">' + point.y +
+                            '</span></div></div>';
+                    }
+                },
+                grid: {
+                    borderColor: gridColor,
+                    strokeDashArray: 3
+                },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shade: 'light',
+                        type: 'vertical',
+                        shadeIntensity: 0.3,
+                        opacityFrom: 0.7,
+                        opacityTo: 0.3
                     }
                 }
-            },
-            tooltip: {
-                custom: function({
-                    series,
-                    seriesIndex,
-                    dataPointIndex,
-                    w
-                }) {
-                    const point = data[dataPointIndex];
-                    const questionPreview = point.questionText.length > 50 ?
-                        point.questionText.substring(0, 50) + '...' :
-                        point.questionText;
+            };
+            chart = new ApexCharts(document.querySelector("#performanceChart"), options);
+            chart.render();
+        }
+    </script>
+@endpush
 
-                    return '<div class="p-3" style="background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">' +
-                        '<div style="font-weight: 600; margin-bottom: 8px; color: #435ebe;">' +
-                        (mode === 'perQuestion' ? 'Soal ' + point.x : 'Waktu: ' + point.x + ' menit') +
-                        '</div>' +
-                        '<div style="font-size: 12px; color: #6c757d; margin-bottom: 8px;">' + questionPreview +
-                        '</div>' +
-                        '<div style="font-size: 13px;">' +
-                        '<strong>Skor didapat:</strong> <span style="color: #198754;">+' + point.scoreEarned +
-                        '</span><br/>' +
-                        '<strong>Total skor:</strong> <span style="color: #435ebe;">' + point.y + '</span>' +
-                        '</div>' +
-                        '</div>';
-                }
-            },
-            grid: {
-                borderColor: '#e7e7e7',
-                strokeDashArray: 3
-            },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    shade: 'light',
-                    type: 'vertical',
-                    shadeIntensity: 0.3,
-                    opacityFrom: 0.7,
-                    opacityTo: 0.3,
-                }
-            }
-        };
+@push('styles')
+    <style>
+        body.light-theme .bg-gradient-to-br {
+            background: white !important;
+            border-color: #e2e8f0 !important;
+        }
 
-        chart = new ApexCharts(document.querySelector("#performanceChart"), options);
-        chart.render();
-    }
-</script>
+        body.light-theme .text-white {
+            color: #0f172a !important;
+        }
+
+        body.light-theme .text-slate-200,
+        body.light-theme .text-slate-300,
+        body.light-theme .text-slate-400 {
+            color: #64748b !important;
+        }
+
+        body.light-theme .border-slate-600,
+        body.light-theme .border-slate-700 {
+            border-color: #e2e8f0 !important;
+        }
+
+        body.light-theme .bg-slate-600,
+        body.light-theme .bg-slate-700,
+        body.light-theme .bg-slate-800 {
+            background: #f1f5f9 !important;
+        }
+    </style>
+@endpush

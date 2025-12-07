@@ -15,12 +15,12 @@ class CompetitionResult extends Component
     public $correctAnswers;
     public $wrongAnswers;
 
-    public function mount($competitionId)
+    public function mount(Competition $competition)
     {
-        $this->competition = Competition::findOrFail($competitionId);
+        $this->competition = $competition;
 
         $this->participant = CompetitionParticipant::where('user_id', auth()->id())
-            ->where('competition_id', $competitionId)
+            ->where('competition_id', $competition->id)
             ->firstOrFail();
 
         $this->answers = ParticipantAnswer::where('competition_participant_id', $this->participant->id)

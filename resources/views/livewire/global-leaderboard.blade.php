@@ -1,303 +1,335 @@
-<div><div>
-    <div class="page-heading">
-        <h3>🏆 Global Leaderboard</h3>
-        <p class="text-muted">Peringkat peserta berdasarkan total skor dari semua kompetisi</p>
-    </div>
-
-    <section class="section">
-        <div class="card shadow-lg border-0" style="overflow: hidden;">
-            <!-- Header dengan gradient yang lebih menarik -->
-            <div class="card-header py-4 border-0"
-                style="
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                    position: relative;
-                    overflow: hidden;
-                ">
-                <!-- Decorative circles -->
-                <div
-                    style="position: absolute; width: 200px; height: 200px; background: rgba(255,255,255,0.1); border-radius: 50%; top: -50px; right: -50px;">
-                </div>
-                <div
-                    style="position: absolute; width: 150px; height: 150px; background: rgba(255,255,255,0.05); border-radius: 50%; bottom: -30px; left: -30px;">
+<div>
+    <div>
+        <div>
+            <div>
+                <!-- Page Header -->
+                <div class="mb-8">
+                    <h1
+                        class="text-3xl font-bold text-transparent bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text mb-2 flex items-center gap-2">
+                        <i class="bi bi-trophy-fill"></i>
+                        Global Leaderboard
+                    </h1>
+                    <p class="text-slate-400">Peringkat peserta berdasarkan total skor dari semua kompetisi</p>
                 </div>
 
-                <div class="position-relative">
-                    <div class="d-flex justify-content-between align-items-center text-white flex-wrap gap-3">
-                        <div>
-                            <h4 class="mb-2 d-flex align-items-center fw-bold">
-                                <span style="font-size: 1.75rem;">Global Leaderboard</span>
-                            </h4>
-                            <p class="mb-0 opacity-90" style="font-size: 0.95rem;">Total skor dari semua kompetisi</p>
-                        </div>
+                <!-- Main Card -->
+                <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl overflow-hidden"
+                    wire:poll.{{ $refreshInterval }}ms>
+                    <!-- Header Stats -->
+                    <div
+                        class="relative overflow-hidden px-6 py-6 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border-b border-slate-700">
+                        <!-- Decorative circles -->
+                        <div class="absolute w-48 h-48 bg-white/5 rounded-full -top-12 -right-12"></div>
+                        <div class="absolute w-36 h-36 bg-white/5 rounded-full -bottom-8 -left-8"></div>
 
-                        <div class="d-flex align-items-center gap-4">
-                            <div class="text-center px-4 py-2 rounded-3"
-                                style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px);">
-                                <div class="h2 fw-bold mb-0">{{ $totalParticipants }}</div>
-                                <small class="opacity-90 text-uppercase"
-                                    style="letter-spacing: 0.5px; font-size: 0.75rem;">Peserta</small>
+                        <div class="relative flex justify-between items-center flex-wrap gap-4">
+                            <div>
+                                <h3 class="text-2xl font-bold text-white mb-1">Global Leaderboard</h3>
+                                <p class="text-slate-300 text-sm">Total skor dari semua kompetisi</p>
                             </div>
 
-                            <div class="d-flex align-items-center gap-2 px-3 py-2 rounded-pill"
-                                style="background: rgba(16, 185, 129, 0.25); border: 2px solid rgba(16, 185, 129, 0.4);">
-                                <span class="spinner-grow spinner-grow-sm text-success"></span>
-                                <strong class="text-white fw-semibold">Live</strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="text-center px-6 py-3 bg-white/10 backdrop-blur-lg rounded-xl border border-white/20">
+                                    <div class="text-3xl font-bold text-white">{{ $totalParticipants }}</div>
+                                    <small class="text-slate-300 text-xs uppercase tracking-wider">Peserta</small>
+                                </div>
 
-            <div class="card-body p-0" wire:poll.{{ $refreshInterval }}ms>
-
-                @if ($leaderboard->isEmpty())
-                    <div class="text-center py-5">
-                        <div class="mb-4">
-                            <i class="bi bi-trophy text-secondary" style="font-size: 5rem; opacity: 0.3;"></i>
-                        </div>
-                        <h5 class="text-muted">Belum ada peserta yang menyelesaikan kompetisi</h5>
-                        <p class="text-muted small">Jadilah yang pertama untuk masuk leaderboard!</p>
-                    </div>
-                @else
-                    <!-- Desktop Table -->
-                    <div class="d-none d-md-block">
-                        <div class="table-responsive">
-                            <table class="table table-hover mb-0">
-                                <thead
-                                    style="background: linear-gradient(to right, #f8f9fa, #e9ecef); border-bottom: 2px solid #dee2e6;">
-                                    <tr>
-                                        <th class="py-3 px-4 text-uppercase fw-semibold"
-                                            style="font-size: 0.75rem; letter-spacing: 0.5px; color: #6c757d;">Rank</th>
-                                        <th class="py-3 px-4 text-uppercase fw-semibold"
-                                            style="font-size: 0.75rem; letter-spacing: 0.5px; color: #6c757d;">Peserta
-                                        </th>
-                                        <th class="py-3 px-4 text-uppercase fw-semibold"
-                                            style="font-size: 0.75rem; letter-spacing: 0.5px; color: #6c757d;">Total
-                                            Skor</th>
-                                        <th class="py-3 px-4 text-uppercase fw-semibold"
-                                            style="font-size: 0.75rem; letter-spacing: 0.5px; color: #6c757d;">Kompetisi
-                                        </th>
-                                        <th class="py-3 px-4 text-uppercase fw-semibold"
-                                            style="font-size: 0.75rem; letter-spacing: 0.5px; color: #6c757d;">Terakhir
-                                            Aktif</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($leaderboard as $entry)
-                                        <tr class="border-bottom
-                                            @if ($entry->rank == 1) bg-warning bg-opacity-10 border-warning border-2
-                                            @elseif($entry->rank == 2) bg-secondary bg-opacity-10 border-secondary
-                                            @elseif($entry->rank == 3) bg-info bg-opacity-10 border-info @endif
-                                            {{ auth()->id() === $entry->id ? 'bg-primary bg-opacity-10 border-primary border-2' : '' }}"
-                                            style="transition: all 0.3s ease;">
-
-                                            <td class="py-4 px-4 align-middle">
-                                                <div class="d-flex align-items-center">
-                                                    <span
-                                                        class="badge px-3 py-2 fw-bold d-flex align-items-center justify-content-center rounded-3"
-                                                        style="min-width: 60px; font-size: 1.25rem;
-                                                        @if ($entry->rank == 1) background: linear-gradient(135deg, #FFD700, #FFA500); 
-                                                            color: #000; 
-                                                            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
-                                                        @elseif($entry->rank == 2) 
-                                                            background: linear-gradient(135deg, #C0C0C0, #808080); 
-                                                            color: #fff;
-                                                            box-shadow: 0 4px 15px rgba(192, 192, 192, 0.4);
-                                                        @elseif($entry->rank == 3) 
-                                                            background: linear-gradient(135deg, #CD7F32, #8B4513); 
-                                                            color: #fff;
-                                                            box-shadow: 0 4px 15px rgba(205, 127, 50, 0.4);
-                                                        @else 
-                                                            background: #f8f9fa; 
-                                                            color: #495057; @endif">
-                                                        {{ $entry->position_badge }}
-                                                    </span>
-                                                </div>
-                                            </td>
-
-                                            <td class="py-4 px-4 align-middle">
-                                                <div class="d-flex align-items-center gap-3">
-                                                    <div class="avatar avatar-lg rounded-circle d-flex align-items-center justify-content-center text-white fw-bold"
-                                                        style="
-                                                            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                                                            width: 50px;
-                                                            height: 50px;
-                                                            font-size: 1.1rem;
-                                                            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
-                                                        ">
-                                                        {{ strtoupper(substr($entry->name, 0, 2)) }}
-                                                    </div>
-                                                    <div>
-                                                        <div class="fw-bold text-dark mb-1" style="font-size: 1.05rem;">
-                                                            {{ $entry->name }}
-                                                            @if (auth()->id() === $entry->id)
-                                                                <span
-                                                                    class="badge bg-primary ms-2 rounded-pill px-2 py-1"
-                                                                    style="font-size: 0.7rem;">YOU</span>
-                                                            @endif
-                                                        </div>
-                                                        <small class="text-muted">{{ $entry->email }}</small>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td class="py-4 px-4 align-middle">
-                                                <div class="d-flex align-items-baseline gap-2">
-                                                    <span class="fw-bold text-success" style="font-size: 1.75rem;">
-                                                        {{ number_format($entry->total_score, 0) }}
-                                                    </span>
-                                                    <span class="text-success opacity-75"
-                                                        style="font-size: 0.9rem;">pts</span>
-                                                </div>
-                                            </td>
-
-                                            <td class="py-4 px-4 align-middle">
-                                                <span class="badge rounded-pill px-3 py-2"
-                                                    style="background: linear-gradient(135deg, #17a2b8, #138496); color: white; font-size: 0.9rem;">
-                                                    <i class="bi bi-trophy me-1"></i>
-                                                    {{ $entry->competitions_count }} kompetisi
-                                                </span>
-                                            </td>
-
-                                            <td class="py-4 px-4 align-middle">
-                                                <div class="d-flex align-items-center gap-2 text-muted">
-                                                    <i class="bi bi-clock"></i>
-                                                    <span style="font-size: 0.9rem;">
-                                                        {{ $entry->last_activity ? $entry->last_activity->diffForHumans() : '-' }}
-                                                    </span>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- Mobile Cards - Enhanced -->
-                    <div class="d-md-none p-3">
-                        @foreach ($leaderboard as $entry)
-                            <div class="card mb-3 shadow-sm border-0"
-                                style="
-                                    overflow: hidden;
-                                    @if ($entry->rank == 1) border-left: 5px solid #FFD700 !important;
-                                        background: linear-gradient(to right, rgba(255, 215, 0, 0.05), white);
-                                    @elseif($entry->rank == 2) 
-                                        border-left: 5px solid #C0C0C0 !important;
-                                        background: linear-gradient(to right, rgba(192, 192, 192, 0.05), white);
-                                    @elseif($entry->rank == 3) 
-                                        border-left: 5px solid #CD7F32 !important;
-                                        background: linear-gradient(to right, rgba(205, 127, 50, 0.05), white);
-                                    @else
-                                        border-left: 3px solid #e0e0e0 !important; @endif
-                                    {{ auth()->id() === $entry->id ? 'border: 2px solid #0d6efd !important; background: linear-gradient(to right, rgba(13, 110, 253, 0.05), white);' : '' }}
-                                ">
-
-                                <div class="card-body p-3">
-                                    <div class="d-flex align-items-center gap-3 mb-3">
-                                        <span class="badge px-3 py-2 fw-bold rounded-3"
-                                            style="font-size: 1.5rem; min-width: 60px; text-align: center;
-                                            @if ($entry->rank == 1) background: linear-gradient(135deg, #FFD700, #FFA500); color: #000;
-                                            @elseif($entry->rank == 2) 
-                                                background: linear-gradient(135deg, #C0C0C0, #808080); color: #fff;
-                                            @elseif($entry->rank == 3) 
-                                                background: linear-gradient(135deg, #CD7F32, #8B4513); color: #fff;
-                                            @else 
-                                                background: #f8f9fa; color: #495057; @endif">
-                                            {{ $entry->position_badge }}
-                                        </span>
-
-                                        <div class="d-flex align-items-center gap-2 flex-grow-1">
-                                            <div class="avatar rounded-circle d-flex align-items-center justify-content-center text-white fw-bold"
-                                                style="
-                                                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                                                    width: 45px;
-                                                    height: 45px;
-                                                ">
-                                                {{ strtoupper(substr($entry->name, 0, 2)) }}
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <div class="fw-bold mb-0">{{ $entry->name }}</div>
-                                                @if (auth()->id() === $entry->id)
-                                                    <span class="badge bg-primary rounded-pill px-2"
-                                                        style="font-size: 0.65rem;">YOU</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-flex justify-content-between align-items-center pt-2 border-top">
-                                        <div>
-                                            <strong class="text-success d-block" style="font-size: 1.5rem;">
-                                                {{ number_format($entry->total_score, 0) }}
-                                            </strong>
-                                            <small class="text-success opacity-75">points</small>
-                                        </div>
-
-                                        <div class="text-end">
-                                            <span class="badge rounded-pill px-3 py-1 mb-1"
-                                                style="background: linear-gradient(135deg, #17a2b8, #138496); color: white;">
-                                                <i class="bi bi-trophy"></i> {{ $entry->competitions_count }}
-                                            </span>
-                                            <div class="text-muted" style="font-size: 0.75rem;">
-                                                <i class="bi bi-clock"></i>
-                                                {{ $entry->last_activity ? $entry->last_activity->diffForHumans() : '-' }}
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div
+                                    class="flex items-center gap-2 px-4 py-2 bg-green-500/20 border-2 border-green-500/40 rounded-full">
+                                    <span class="relative flex h-3 w-3">
+                                        <span
+                                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                        <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                                    </span>
+                                    <strong class="text-white font-semibold text-sm">Live</strong>
                                 </div>
                             </div>
-                        @endforeach
+                        </div>
                     </div>
 
-                    <!-- Show More Button - Enhanced -->
-                    @if ($totalParticipants > 50 && !$showAll)
-                        <div class="text-center py-4 border-top bg-light">
-                            <button class="btn btn-lg px-5 py-3 fw-semibold rounded-pill shadow-sm"
-                                wire:click="toggleShowAll"
-                                style="
-                                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                                    color: white;
-                                    border: none;
-                                    transition: all 0.3s ease;
-                                "
-                                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(102, 126, 234, 0.4)';"
-                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)';">
-                                <i class="bi bi-chevron-double-down me-2"></i>
-                                Tampilkan Semua ({{ $totalParticipants }} peserta)
-                            </button>
-                        </div>
-                    @elseif($showAll)
-                        <div class="text-center py-4 border-top bg-light">
-                            <button class="btn btn-lg px-5 py-3 fw-semibold rounded-pill shadow-sm"
-                                wire:click="toggleShowAll"
-                                style="
-                                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                                    color: white;
-                                    border: none;
-                                    transition: all 0.3s ease;
-                                "
-                                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(102, 126, 234, 0.4)';"
-                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)';">
-                                <i class="bi bi-chevron-double-up me-2"></i>
-                                Tampilkan Top 50
-                            </button>
-                        </div>
-                    @endif
-                @endif
+                    <!-- Content -->
+                    <div class="p-0">
+                        @if ($leaderboard->isEmpty())
+                            <div class="text-center py-16">
+                                <i class="bi bi-trophy text-slate-600 text-8xl block mb-4"></i>
+                                <h5 class="text-slate-300 text-xl mb-2">Belum ada peserta yang menyelesaikan kompetisi
+                                </h5>
+                                <p class="text-slate-400">Jadilah yang pertama untuk masuk leaderboard!</p>
+                            </div>
+                        @else
+                            <!-- Desktop Table -->
+                            <div class="hidden md:block overflow-x-auto">
+                                <table class="w-full">
+                                    <thead class="bg-slate-900/50 border-b border-slate-700">
+                                        <tr>
+                                            <th
+                                                class="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                                                Rank</th>
+                                            <th
+                                                class="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                                                Peserta</th>
+                                            <th
+                                                class="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                                                Total Skor</th>
+                                            <th
+                                                class="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                                                Kompetisi</th>
+                                            <th
+                                                class="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                                                Terakhir Aktif</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-700/50">
+                                        @foreach ($leaderboard as $entry)
+                                            <tr
+                                                class="transition-all hover:bg-slate-800/50 
+                                    @if ($entry->rank == 1) bg-yellow-500/10 border-l-4 border-l-yellow-500 
+                                    @elseif($entry->rank == 2) bg-gray-400/10 border-l-4 border-l-gray-400 
+                                    @elseif($entry->rank == 3) bg-orange-600/10 border-l-4 border-l-orange-600 @endif
+                                    {{ auth()->id() === $entry->id ? 'bg-blue-500/10 border-l-4 border-l-blue-500' : '' }}">
 
+                                                <td class="px-6 py-4">
+                                                    <span
+                                                        class="inline-flex items-center justify-center px-4 py-2 font-bold text-lg rounded-xl min-w-[60px]
+                                            @if ($entry->rank == 1) bg-gradient-to-br from-yellow-400 to-yellow-600 text-black shadow-lg shadow-yellow-400/50
+                                            @elseif($entry->rank == 2) bg-gradient-to-br from-gray-300 to-gray-500 text-white shadow-lg shadow-gray-400/50
+                                            @elseif($entry->rank == 3) bg-gradient-to-br from-orange-400 to-orange-700 text-white shadow-lg shadow-orange-500/50
+                                            @else bg-slate-800 text-slate-300 border border-slate-600 @endif">
+                                                        {{ $entry->position_badge }}
+                                                    </span>
+                                                </td>
+
+                                                <td class="px-6 py-4">
+                                                    <div class="flex items-center gap-3">
+                                                        <div
+                                                            class="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-indigo-500/30">
+                                                            {{ strtoupper(substr($entry->name, 0, 2)) }}
+                                                        </div>
+                                                        <div>
+                                                            <div class="font-bold text-white text-base">
+                                                                {{ $entry->name }}
+                                                                @if (auth()->id() === $entry->id)
+                                                                    <span
+                                                                        class="ml-2 px-2 py-0.5 bg-blue-500 text-white text-xs font-semibold rounded-full">YOU</span>
+                                                                @endif
+                                                            </div>
+                                                            <small
+                                                                class="text-slate-400 text-sm">{{ $entry->email }}</small>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="px-6 py-4">
+                                                    <div class="flex items-baseline gap-1">
+                                                        <span
+                                                            class="font-bold text-green-400 text-2xl">{{ number_format($entry->total_score, 0) }}</span>
+                                                        <span class="text-green-400/75 text-sm">pts</span>
+                                                    </div>
+                                                </td>
+
+                                                <td class="px-6 py-4">
+                                                    <span
+                                                        class="inline-flex items-center gap-1 px-3 py-1.5 bg-gradient-to-br from-cyan-500/20 to-cyan-600/20 border border-cyan-500/30 text-cyan-400 rounded-full text-sm font-medium">
+                                                        <i class="bi bi-trophy"></i>
+                                                        {{ $entry->competitions_count }} kompetisi
+                                                    </span>
+                                                </td>
+
+                                                <td class="px-6 py-4">
+                                                    <div class="flex items-center gap-2 text-slate-400 text-sm">
+                                                        <i class="bi bi-clock"></i>
+                                                        <span>{{ $entry->last_activity ? $entry->last_activity->diffForHumans() : '-' }}</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Mobile Cards -->
+                            <div class="md:hidden p-4 space-y-4">
+                                @foreach ($leaderboard as $entry)
+                                    <div
+                                        class="bg-slate-800/50 border rounded-xl overflow-hidden
+                            @if ($entry->rank == 1) border-l-4 border-l-yellow-500 bg-yellow-500/5
+                            @elseif($entry->rank == 2) border-l-4 border-l-gray-400 bg-gray-400/5
+                            @elseif($entry->rank == 3) border-l-4 border-l-orange-600 bg-orange-600/5
+                            @else border-slate-700 @endif
+                            {{ auth()->id() === $entry->id ? 'border-2 border-blue-500 bg-blue-500/5' : '' }}">
+
+                                        <div class="p-4">
+                                            <div class="flex items-center gap-3 mb-3">
+                                                <span
+                                                    class="inline-flex items-center justify-center px-3 py-2 font-bold text-xl rounded-xl min-w-[60px]
+                                        @if ($entry->rank == 1) bg-gradient-to-br from-yellow-400 to-yellow-600 text-black
+                                        @elseif($entry->rank == 2) bg-gradient-to-br from-gray-300 to-gray-500 text-white
+                                        @elseif($entry->rank == 3) bg-gradient-to-br from-orange-400 to-orange-700 text-white
+                                        @else bg-slate-900 text-slate-300 @endif">
+                                                    {{ $entry->position_badge }}
+                                                </span>
+
+                                                <div class="flex items-center gap-2 flex-grow">
+                                                    <div
+                                                        class="w-11 h-11 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm">
+                                                        {{ strtoupper(substr($entry->name, 0, 2)) }}
+                                                    </div>
+                                                    <div class="flex-grow">
+                                                        <div class="font-bold text-white">{{ $entry->name }}</div>
+                                                        @if (auth()->id() === $entry->id)
+                                                            <span
+                                                                class="px-2 py-0.5 bg-blue-500 text-white text-xs font-semibold rounded-full">YOU</span>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div
+                                                class="flex justify-between items-center pt-3 border-t border-slate-700">
+                                                <div>
+                                                    <strong
+                                                        class="text-green-400 text-2xl block">{{ number_format($entry->total_score, 0) }}</strong>
+                                                    <small class="text-green-400/75">points</small>
+                                                </div>
+
+                                                <div class="text-right">
+                                                    <span
+                                                        class="inline-flex items-center gap-1 px-3 py-1 bg-gradient-to-br from-cyan-500/20 to-cyan-600/20 border border-cyan-500/30 text-cyan-400 rounded-full text-xs mb-1">
+                                                        <i class="bi bi-trophy"></i> {{ $entry->competitions_count }}
+                                                    </span>
+                                                    <div
+                                                        class="text-slate-400 text-xs flex items-center gap-1 justify-end">
+                                                        <i class="bi bi-clock"></i>
+                                                        {{ $entry->last_activity ? $entry->last_activity->diffForHumans() : '-' }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            <!-- Show More Button -->
+                            @if ($totalParticipants > 50 && !$showAll)
+                                <div class="text-center py-6 border-t border-slate-700 bg-slate-900/30">
+                                    <button wire:click="toggleShowAll"
+                                        class="px-8 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl hover:shadow-indigo-500/50 hover:-translate-y-0.5 transition-all">
+                                        <i class="bi bi-chevron-double-down mr-2"></i>
+                                        Tampilkan Semua ({{ $totalParticipants }} peserta)
+                                    </button>
+                                </div>
+                            @elseif($showAll)
+                                <div class="text-center py-6 border-t border-slate-700 bg-slate-900/30">
+                                    <button wire:click="toggleShowAll"
+                                        class="px-8 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl hover:shadow-indigo-500/50 hover:-translate-y-0.5 transition-all">
+                                        <i class="bi bi-chevron-double-up mr-2"></i>
+                                        Tampilkan Top 50
+                                    </button>
+                                </div>
+                            @endif
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
-</div>
+    </div>
 
-<style>
-    /* Hover effects for desktop table rows */
-    @media (min-width: 768px) {
-        .table-hover tbody tr:hover {
-            transform: translateX(5px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    <style>
+        /* Hover effects for desktop table rows */
+        @media (min-width: 768px) {
+            .hover\:bg-slate-800\/50:hover {
+                transform: translateX(5px);
+            }
         }
-    }
-</style>
+
+        /* LIGHT THEME OVERRIDES */
+        body.light-theme .bg-gradient-to-br {
+            background: white !important;
+            border-color: #e2e8f0 !important;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+        }
+
+        /* Header Card in Light Mode */
+        body.light-theme .bg-gradient-to-br.from-slate-800 {
+            background: white !important;
+        }
+
+        /* Text Colors */
+        body.light-theme .text-white {
+            color: #0f172a !important;
+        }
+
+        body.light-theme .text-slate-300 {
+            color: #475569 !important;
+        }
+
+        body.light-theme .text-slate-400 {
+            color: #64748b !important;
+        }
+
+        /* Borders */
+        body.light-theme .border-slate-700 {
+            border-color: #e2e8f0 !important;
+        }
+
+        /* Backgrounds */
+        body.light-theme .bg-slate-900 {
+            background: #f8fafc !important;
+        }
+
+        body.light-theme .bg-slate-800 {
+            background: white !important;
+        }
+
+        body.light-theme .bg-slate-800\/50 {
+            background: white !important;
+        }
+
+        /* Table Header */
+        body.light-theme thead.bg-slate-900\/50 {
+            background: #f1f5f9 !important;
+            color: #334155 !important;
+        }
+
+        body.light-theme thead th {
+            color: #475569 !important;
+        }
+
+        /* Row Hover */
+        body.light-theme .hover\:bg-slate-800\/50:hover {
+            background: #f8fafc !important;
+        }
+
+        /* Top 3 Rows Backgrounds in Light Mode */
+        body.light-theme .bg-yellow-500\/10 {
+            background-color: #fefce8 !important;
+            /* yellow-50 */
+            border-left-color: #eab308 !important;
+        }
+
+        body.light-theme .bg-gray-400\/10 {
+            background-color: #f8fafc !important;
+            /* slate-50 */
+            border-left-color: #94a3b8 !important;
+        }
+
+        body.light-theme .bg-orange-600\/10 {
+            background-color: #fff7ed !important;
+            /* orange-50 */
+            border-left-color: #ea580c !important;
+        }
+
+        /* Active User Row */
+        body.light-theme .bg-blue-500\/10 {
+            background-color: #eff6ff !important;
+            /* blue-50 */
+            border-left-color: #3b82f6 !important;
+        }
+
+        /* Icons */
+        body.light-theme .bi-trophy {
+            color: #94a3b8 !important;
+        }
+    </style>
 </div>

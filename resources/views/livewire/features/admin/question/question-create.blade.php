@@ -1,176 +1,245 @@
-<div class="page-heading">
-    <div class="page-title">
-        <div class="row">
-            <div class="col-12 col-md-8 order-md-1 order-last">
-                <h3>Create New Question</h3>
-                <p class="text-subtitle text-muted">Fill in the details and answers for the new question.</p>
-            </div>
-            <div class="col-12 col-md-4 order-md-2 order-first d-flex justify-content-end align-items-center">
-                <a href="{{ route('admin.questions.index') }}" class="btn btn-outline-secondary icon-left">
-                    <i class="bi bi-arrow-left"></i> Back to List
-                </a>
+<div>
+    <div>
+        <div>
+            <div>
+                <!-- Page Header -->
+                <div class="mb-8">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <div>
+                            <h1
+                                class="text-3xl font-bold text-transparent bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text mb-2">
+                                Create New Question
+                            </h1>
+                            <p class="text-slate-400">Fill in the details and answers for the new question.</p>
+                        </div>
+                        <a href="{{ route('admin.questions.index') }}"
+                            class="inline-flex items-center gap-2 px-6 py-3 bg-slate-800 border border-slate-700 text-white font-semibold rounded-xl hover:bg-slate-700 transition-all">
+                            <i class="bi bi-arrow-left"></i>
+                            Back to List
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Form Card -->
+                <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-6">
+                    <form wire:submit.prevent="save" class="space-y-6">
+                        <!-- Competition -->
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-300 mb-2">
+                                Competition <span class="text-red-400">*</span>
+                            </label>
+                            <select wire:model="competition_id"
+                                class="w-full px-4 py-3 bg-slate-900 border @error('competition_id') border-red-500 @else border-slate-700 @enderror rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                <option value="">Select Competition</option>
+                                @foreach ($competitions as $competition)
+                                    <option value="{{ $competition->id }}">{{ $competition->title }}</option>
+                                @endforeach
+                            </select>
+                            @error('competition_id')
+                                <p class="mt-2 text-sm text-red-400">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Category -->
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-300 mb-2">
+                                Category <span class="text-red-400">*</span>
+                            </label>
+                            <select wire:model="category_id"
+                                class="w-full px-4 py-3 bg-slate-900 border @error('category_id') border-red-500 @else border-slate-700 @enderror rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                <option value="">Select Category</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('category_id')
+                                <p class="mt-2 text-sm text-red-400">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Question Text -->
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-300 mb-2">
+                                Question Text <span class="text-red-400">*</span>
+                            </label>
+                            <textarea wire:model="question_text" rows="4"
+                                class="w-full px-4 py-3 bg-slate-900 border @error('question_text') border-red-500 @else border-slate-700 @enderror rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                                placeholder="Enter your question here..."></textarea>
+                            @error('question_text')
+                                <p class="mt-2 text-sm text-red-400">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Difficulty, Points, Status -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <!-- Difficulty -->
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-300 mb-2">
+                                    Difficulty <span class="text-red-400">*</span>
+                                </label>
+                                <select wire:model="difficulty_level"
+                                    class="w-full px-4 py-3 bg-slate-900 border @error('difficulty_level') border-red-500 @else border-slate-700 @enderror rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                    <option value="easy">Easy</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="hard">Hard</option>
+                                </select>
+                                @error('difficulty_level')
+                                    <p class="mt-2 text-sm text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Point Weight -->
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-300 mb-2">
+                                    Point Weight <span class="text-red-400">*</span>
+                                </label>
+                                <input type="number" wire:model="point_weight" min="1" max="1000"
+                                    class="w-full px-4 py-3 bg-slate-900 border @error('point_weight') border-red-500 @else border-slate-700 @enderror rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                                    placeholder="100">
+                                @error('point_weight')
+                                    <p class="mt-2 text-sm text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Status -->
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-300 mb-2">
+                                    Status <span class="text-red-400">*</span>
+                                </label>
+                                <select wire:model="validation_status"
+                                    class="w-full px-4 py-3 bg-slate-900 border @error('validation_status') border-red-500 @else border-slate-700 @enderror rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                    <option value="pending">Pending</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="rejected">Rejected</option>
+                                </select>
+                                @error('validation_status')
+                                    <p class="mt-2 text-sm text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Answers Section -->
+                        <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <label class="text-lg font-semibold text-white">
+                                    Answers <span class="text-red-400">*</span>
+                                    <span class="text-sm text-slate-400">(at least 2 required)</span>
+                                </label>
+                                <button type="button" wire:click="addAnswer"
+                                    class="inline-flex items-center gap-2 px-4 py-2 bg-green-500/20 text-green-400 border border-green-500/30 font-semibold rounded-lg hover:bg-green-500/30 transition">
+                                    <i class="bi bi-plus-lg"></i>
+                                    Add Answer
+                                </button>
+                            </div>
+
+                            @error('answers')
+                                <div
+                                    class="mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
+                                    {{ $message }}
+                                </div>
+                            @enderror>
+
+                            @foreach ($answers as $index => $answer)
+                                <div
+                                    class="flex gap-3 mb-3 items-center p-4 rounded-xl bg-slate-900 border border-slate-700">
+                                    <div class="flex items-center gap-2">
+                                        <input type="radio" wire:click="setCorrectAnswer({{ $index }})"
+                                            name="correct_answer" {{ $answer['is_correct'] ? 'checked' : '' }}
+                                            class="w-4 h-4 text-indigo-500 focus:ring-indigo-500 cursor-pointer">
+                                        <label class="text-xs text-slate-400">Correct?</label>
+                                    </div>
+                                    <div class="flex-grow">
+                                        <input type="text" wire:model="answers.{{ $index }}.answer_text"
+                                            placeholder="Answer {{ $index + 1 }}"
+                                            class="w-full px-3 py-2 bg-slate-800 border @error('answers.' . $index . '.answer_text') border-red-500 @else border-slate-700 @enderror rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                        @error('answers.' . $index . '.answer_text')
+                                            <p class="mt-1 text-xs text-red-400">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                    @if (count($answers) > 2)
+                                        <button type="button" wire:click="removeAnswer({{ $index }})"
+                                            class="inline-flex items-center gap-1 px-3 py-2 bg-red-500/20 text-red-400 border border-red-500/30 font-semibold rounded-lg hover:bg-red-500/30 transition text-sm"
+                                            title="Remove Answer">
+                                            <i class="bi bi-x-lg"></i>
+                                            Remove
+                                        </button>
+                                    @endif
+                                </div>
+                            @endforeach
+
+                            <p class="text-sm text-slate-400 mt-4">
+                                <strong class="text-white">Tip:</strong> Use the radio button next to the field to mark
+                                the
+                                correct answer.
+                            </p>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="flex justify-end gap-4 pt-6 border-t border-slate-700">
+                            <a href="{{ route('admin.questions.index') }}"
+                                class="px-6 py-3 bg-slate-700 text-white font-semibold rounded-xl hover:bg-slate-600 transition-all">
+                                Cancel
+                            </a>
+                            <button type="submit"
+                                class="inline-flex items-center gap-2 px-6 py-3 gradient-primary text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-indigo-500/50 transition-all"
+                                wire:loading.attr="disabled" wire:loading.class="opacity-50 cursor-not-allowed">
+                                <span wire:loading.remove wire:target="save">
+                                    <i class="bi bi-check-circle"></i>
+                                    Create Question
+                                </span>
+                                <span wire:loading wire:target="save" class="flex items-center gap-2">
+                                    <svg class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10"
+                                            stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor"
+                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                        </path>
+                                    </svg>
+                                    Creating...
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 
-    <section class="section">
-        <div class="row justify-content-center">
-            <div class="col-12 col-lg-12 mt-4">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-body">
-                            <form wire:submit.prevent="save">
-                                <div class="form-group mb-4">
-                                    <label class="form-label">Competition <span class="text-danger">*</span></label>
-                                    <select wire:model="competition_id"
-                                        class="form-select @error('competition_id') is-invalid @enderror">
-                                        <option value="">Select Competition</option>
-                                        @foreach($competitions as $competition)
-                                        <option value="{{ $competition->id }}">{{ $competition->title }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('competition_id')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
+    <style>
+        body.light-theme .bg-gradient-to-br {
+            background: white !important;
+            border-color: #e2e8f0 !important;
+        }
 
-                                <div class="form-group mb-4">
-                                    <label class="form-label">Category <span class="text-danger">*</span></label>
-                                    <select wire:model="category_id"
-                                        class="form-select @error('category_id') is-invalid @enderror">
-                                        <option value="">Select Category</option>
-                                        @foreach($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('category_id')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
+        body.light-theme .text-white {
+            color: #0f172a !important;
+        }
 
-                                <div class="form-group mb-4">
-                                    <label class="form-label">Question Text <span class="text-danger">*</span></label>
-                                    <textarea wire:model="question_text" rows="4"
-                                        class="form-control @error('question_text') is-invalid @enderror"
-                                        placeholder="Enter your question here..."></textarea>
-                                    @error('question_text')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
+        body.light-theme .text-slate-300,
+        body.light-theme .text-slate-400 {
+            color: #64748b !important;
+        }
 
-                                <div class="row mb-4 g-4">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label">Difficulty <span
-                                                    class="text-danger">*</span></label>
-                                            <select wire:model="difficulty_level"
-                                                class="form-select @error('difficulty_level') is-invalid @enderror">
-                                                <option value="easy">Easy</option>
-                                                <option value="medium">Medium</option>
-                                                <option value="hard">Hard</option>
-                                            </select>
-                                            @error('difficulty_level')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
+        body.light-theme .border-slate-700 {
+            border-color: #e2e8f0 !important;
+        }
 
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label">Point Weight <span
-                                                    class="text-danger">*</span></label>
-                                            <input type="number" wire:model="point_weight" min="1" max="1000"
-                                                class="form-control @error('point_weight') is-invalid @enderror"
-                                                placeholder="100">
-                                            @error('point_weight')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
+        body.light-theme .bg-slate-900,
+        body.light-theme .bg-slate-800 {
+            background: #f8fafc !important;
+        }
 
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label">Status <span class="text-danger">*</span></label>
-                                            <select wire:model="validation_status"
-                                                class="form-select @error('validation_status') is-invalid @enderror">
-                                                <option value="pending">Pending</option>
-                                                <option value="approved">Approved</option>
-                                                <option value="rejected">Rejected</option>
-                                            </select>
-                                            @error('validation_status')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
+        body.light-theme input,
+        body.light-theme select,
+        body.light-theme textarea {
+            background: white !important;
+            color: #0f172a !important;
+            border-color: #cbd5e1 !important;
+        }
 
-                                <div class="mb-5 p-4 border rounded bg-light">
-                                    <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <label class="form-label fw-bold mb-0">Answers <span
-                                                class="text-danger">*</span> (at least 2 required)</label>
-                                        <button type="button" wire:click="addAnswer"
-                                            class="btn btn-success icon-left btn-sm">
-                                            <i class="bi bi-plus-lg"></i> Add Answer
-                                        </button>
-                                    </div>
-
-                                    @error('answers')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-
-                                    @foreach($answers as $index => $answer)
-                                    <div class="d-flex gap-3 mb-3 align-items-center p-3 rounded **bg-white** border">
-                                        <div class="form-check form-check-inline">
-                                            <input type="radio" wire:click="setCorrectAnswer({{ $index }})"
-                                                name="correct_answer" {{ $answer['is_correct'] ? 'checked' : '' }}
-                                                class="form-check-input **cursor-pointer**">
-                                            <label class="form-check-label text-sm text-muted">Correct?</label>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <input type="text" wire:model="answers.{{ $index }}.answer_text"
-                                                placeholder="Answer {{ $index + 1 }}"
-                                                class="form-control form-control-sm @error('answers.' . $index . '.answer_text') is-invalid @enderror">
-                                            @error('answers.' . $index . '.answer_text')
-                                            <div class="invalid-feedback d-block">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        @if(count($answers) > 2)
-                                        <button type="button" wire:click="removeAnswer({{ $index }})"
-                                            class="btn btn-danger btn-sm icon-left **text-nowrap**"
-                                            title="Remove Answer">
-                                            <i class="bi bi-x-lg"></i> Remove
-                                        </button>
-                                        @endif
-                                    </div>
-                                    @endforeach
-
-                                    <p class="text-sm text-muted mt-3">
-                                        <strong>Tip:</strong> Use the radio button next to the field to mark the correct
-                                        answer.
-                                    </p>
-                                </div>
-
-                                <div class="d-flex gap-3 pt-3 border-top justify-content-end">
-                                    <a href="{{ route('admin.questions.index') }}"
-                                        class="btn btn-light-secondary px-4 py-2">
-                                        Cancel
-                                    </a>
-                                    <button type="submit" class="btn btn-primary icon-left px-4 py-2"
-                                        wire:loading.attr="disabled" wire:loading.class="opacity-50 cursor-not-allowed">
-                                        <span wire:loading.remove wire:target="save">
-                                            <i class="bi bi-check-circle"></i> Create Question
-                                        </span>
-                                        <span wire:loading wire:target="save">
-                                            <span class="spinner-border spinner-border-sm" role="status"
-                                                aria-hidden="true"></span> Creating...
-                                        </span>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        body.light-theme .bg-slate-800\/50 {
+            background: #f8fafc !important;
+        }
+    </style>
 </div>

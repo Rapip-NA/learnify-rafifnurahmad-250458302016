@@ -1,168 +1,187 @@
-<div class="page-heading">
-    <div class="page-title">
-        <div class="row">
-            <div class="col-12 col-md-6 order-md-1 order-last">
-                <div class="d-flex align-items-center mb-4">
-                    <a href="{{ route('admin.categories.index') }}" class="btn btn-outline-secondary icon-left me-3">
+<div><div>
+    <div>
+        <!-- Page Header -->
+        <div class="mb-8">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <a href="{{ route('admin.categories.index') }}"
+                        class="p-3 bg-slate-800 border border-slate-700 text-white rounded-xl hover:bg-slate-700 transition">
                         <i class="bi bi-arrow-left"></i>
                     </a>
                     <div>
-                        <h3>Category Details</h3>
-                        <p class="text-subtitle text-muted">Detailed information about the category.</p>
+                        <h1
+                            class="text-3xl font-bold text-transparent bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text">
+                            Category Details
+                        </h1>
+                        <p class="text-slate-400">Detailed information about the category.</p>
+                    </div>
+                </div>
+                <a href="{{ route('admin.categories.edit', $category) }}"
+                    class="inline-flex items-center gap-2 px-6 py-3 bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 font-semibold rounded-xl hover:bg-yellow-500/30 transition-all">
+                    <i class="bi bi-pencil-square"></i>
+                    Edit
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Card -->
+        <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl overflow-hidden">
+            <!-- Header -->
+            <div class="gradient-primary p-6">
+                <div class="flex items-center gap-3">
+                    <i class="bi bi-folder-open text-3xl text-white"></i>
+                    <div>
+                        <h2 class="text-2xl font-bold text-white">{{ $category->name }}</h2>
+                        <p class="text-white/70 text-sm">Category ID: #{{ $category->id }}</p>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-6 order-md-2 order-first d-flex justify-content-end align-items-center">
-                <a href="{{ route('admin.categories.edit', $category) }}" class="btn btn-warning icon-left me-2">
-                    <i class="bi bi-pencil-square"></i> Edit
+
+            <!-- Body -->
+            <div class="p-6 space-y-6">
+                <!-- Description -->
+                <div>
+                    <div class="flex items-center gap-2 mb-3 pb-2 border-b border-slate-700">
+                        <i class="bi bi-text-left text-indigo-400"></i>
+                        <h3 class="text-lg font-semibold text-white">Description</h3>
+                    </div>
+                    <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-4">
+                        @if ($category->description)
+                            <p class="text-slate-300 leading-relaxed">{{ $category->description }}</p>
+                        @else
+                            <p class="text-slate-500 italic">No description provided.</p>
+                        @endif
+                    </div>
+                </div>
+
+                <!-- Metadata -->
+                <div>
+                    <div class="flex items-center gap-2 mb-4 pb-2 border-b border-slate-700">
+                        <i class="bi bi-info-circle text-indigo-400"></i>
+                        <h3 class="text-lg font-semibold text-white">Metadata</h3>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <!-- Created At -->
+                        <div class="bg-green-500/10 border border-green-500/30 rounded-xl p-4">
+                            <div class="flex items-center gap-3">
+                                <div class="p-3 bg-green-500/20 rounded-lg">
+                                    <i class="bi bi-calendar-plus-fill text-green-400 text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-400 mb-1">Created At</p>
+                                    <p class="font-semibold text-white">{{ $category->created_at->format('M d, Y') }}
+                                    </p>
+                                    <p class="text-xs text-slate-400">{{ $category->created_at->format('H:i A') }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Last Updated -->
+                        <div class="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4">
+                            <div class="flex items-center gap-3">
+                                <div class="p-3 bg-blue-500/20 rounded-lg">
+                                    <i class="bi bi-calendar-check-fill text-blue-400 text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-400 mb-1">Last Updated</p>
+                                    <p class="font-semibold text-white">{{ $category->updated_at->format('M d, Y') }}
+                                    </p>
+                                    <p class="text-xs text-slate-400">{{ $category->updated_at->format('H:i A') }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Created Ago -->
+                        <div class="bg-slate-500/10 border border-slate-500/30 rounded-xl p-4">
+                            <div class="flex items-center gap-3">
+                                <div class="p-3 bg-slate-500/20 rounded-lg">
+                                    <i class="bi bi-clock-history text-slate-400 text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-400 mb-1">Created</p>
+                                    <p class="font-semibold text-white">{{ $category->created_at->diffForHumans() }}</p>
+                                    <p class="text-xs text-slate-400">Ago</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Updated Ago -->
+                        <div class="bg-cyan-500/10 border border-cyan-500/30 rounded-xl p-4">
+                            <div class="flex items-center gap-3">
+                                <div class="p-3 bg-cyan-500/20 rounded-lg">
+                                    <i class="bi bi-arrow-repeat text-cyan-400 text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-400 mb-1">Updated</p>
+                                    <p class="font-semibold text-white">{{ $category->updated_at->diffForHumans() }}
+                                    </p>
+                                    <p class="text-xs text-slate-400">Ago</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Associated Questions -->
+                @if (method_exists($category, 'questions'))
+                    <div class="border-t border-slate-700 pt-6">
+                        <div class="flex items-center gap-2 mb-4 pb-2 border-b border-slate-700">
+                            <i class="bi bi-patch-question text-indigo-400"></i>
+                            <h3 class="text-lg font-semibold text-white">Associated Questions</h3>
+                        </div>
+                        <div class="bg-indigo-500/10 border border-indigo-500/30 rounded-xl p-6">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="text-4xl font-bold text-indigo-400">{{ $category->questions->count() }}
+                                    </p>
+                                    <p class="text-slate-400 mt-2">Total Questions Linked to this Category</p>
+                                </div>
+                                <i class="bi bi-chat-square-text text-indigo-400/30 text-6xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            </div>
+
+            <!-- Footer -->
+            <div class="p-6 border-t border-slate-700 flex justify-between">
+                <a href="{{ route('admin.categories.index') }}"
+                    class="inline-flex items-center gap-2 px-6 py-3 bg-slate-700 text-white font-semibold rounded-xl hover:bg-slate-600 transition-all">
+                    <i class="bi bi-list"></i>
+                    Back to List
+                </a>
+                <a href="{{ route('admin.categories.edit', $category) }}"
+                    class="inline-flex items-center gap-2 px-6 py-3 gradient-primary text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-indigo-500/50 transition-all">
+                    <i class="bi bi-pencil-square"></i>
+                    Edit Category
                 </a>
             </div>
         </div>
     </div>
+</div>
 
-    <section class="section">
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-10 col-lg-12">
-                <div class="card">
+<style>
+    /* Light theme adjustments */
+    body.light-theme .bg-gradient-to-br {
+        background: white !important;
+        border-color: #e2e8f0 !important;
+    }
 
-                    <div class="card-header **bg-primary** text-white p-4">
-                        <div class="d-flex align-items-center gap-3">
-                            <i class="bi bi-folder-open **fs-2**"></i>
-                            <h4 class="card-title text-white mb-0">{{ $category->name }}</h4>
-                        </div>
-                        <p class="text-white-50 text-sm mt-1 mb-0">Category ID: #{{ $category->id }}</p>
-                    </div>
+    body.light-theme .text-white {
+        color: #0f172a !important;
+    }
 
-                    <div class="card-body">
+    body.light-theme .text-slate-300,
+    body.light-theme .text-slate-400 {
+        color: #64748b !important;
+    }
 
-                        <div class="mb-5">
-                            <h5
-                                class="text-muted font-semibold mb-3 d-flex align-items-center gap-2 border-bottom pb-2">
-                                <i class="bi bi-text-left text-primary"></i>
-                                Description
-                            </h5>
-                            <div class="**bg-light** rounded **p-4**">
-                                @if($category->description)
-                                <p class="text-dark **lh-base**">{{ $category->description }}</p>
-                                @else
-                                <p class="text-muted fst-italic">No description provided.</p>
-                                @endif
-                            </div>
-                        </div>
+    body.light-theme .border-slate-700 {
+        border-color: #e2e8f0 !important;
+    }
 
-                        <div class="pt-3">
-                            <h5
-                                class="text-muted font-semibold mb-4 d-flex align-items-center gap-2 border-bottom pb-2">
-                                <i class="bi bi-info-circle text-primary"></i>
-                                Metadata
-                            </h5>
-                            <div class="row g-4">
-                                <div class="col-sm-6 col-lg-3">
-                                    <div class="card shadow-none **bg-light-success** mb-0">
-                                        <div class="card-body d-flex align-items-center p-3">
-                                            <div class="p-3 **bg-success-light** rounded-3 me-3">
-                                                <i class="bi bi-calendar-plus-fill text-success fs-5"></i>
-                                            </div>
-                                            <div>
-                                                <p class="text-sm text-muted mb-0">Created At</p>
-                                                <p class="fw-bold text-dark mb-0 text-nowrap">
-                                                    {{ $category->created_at->format('M d, Y') }}
-                                                </p>
-                                                <small class="text-muted">{{ $category->created_at->format('H:i A')
-                                                    }}</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6 col-lg-3">
-                                    <div class="card shadow-none **bg-light-primary** mb-0">
-                                        <div class="card-body d-flex align-items-center p-3">
-                                            <div class="p-3 **bg-primary-light** rounded-3 me-3">
-                                                <i class="bi bi-calendar-check-fill text-primary fs-5"></i>
-                                            </div>
-                                            <div>
-                                                <p class="text-sm text-muted mb-0">Last Updated</p>
-                                                <p class="fw-bold text-dark mb-0 text-nowrap">
-                                                    {{ $category->updated_at->format('M d, Y') }}
-                                                </p>
-                                                <small class="text-muted">{{ $category->updated_at->format('H:i A')
-                                                    }}</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6 col-lg-3">
-                                    <div class="card shadow-none **bg-light-secondary** mb-0">
-                                        <div class="card-body d-flex align-items-center p-3">
-                                            <div class="p-3 **bg-secondary-light** rounded-3 me-3">
-                                                <i class="bi bi-clock-history text-secondary fs-5"></i>
-                                            </div>
-                                            <div>
-                                                <p class="text-sm text-muted mb-0">Created</p>
-                                                <p class="fw-bold text-dark mb-0">
-                                                    {{ $category->created_at->diffForHumans() }}
-                                                </p>
-                                                <small class="text-muted">Ago</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6 col-lg-3">
-                                    <div class="card shadow-none **bg-light-info** mb-0">
-                                        <div class="card-body d-flex align-items-center p-3">
-                                            <div class="p-3 **bg-info-light** rounded-3 me-3">
-                                                <i class="bi bi-arrow-repeat text-info fs-5"></i>
-                                            </div>
-                                            <div>
-                                                <p class="text-sm text-muted mb-0">Updated</p>
-                                                <p class="fw-bold text-dark mb-0">
-                                                    {{ $category->updated_at->diffForHumans() }}
-                                                </p>
-                                                <small class="text-muted">Ago</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        @if(method_exists($category, 'questions'))
-                        <div class="border-top border-gray-200 pt-5 mt-5">
-                            <h5
-                                class="text-muted font-semibold mb-4 d-flex align-items-center gap-2 border-bottom pb-2">
-                                <i class="bi bi-patch-question text-primary"></i>
-                                Associated Questions
-                            </h5>
-                            <div class="card **bg-light-primary** shadow-none mb-0">
-                                <div class="card-body p-4 d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <p class="text-4xl font-bold text-primary mb-0">
-                                            {{ $category->questions->count() }}
-                                        </p>
-                                        <p class="text-muted mb-0">Total Questions Linked to this Category</p>
-                                    </div>
-                                    <i class="bi bi-chat-square-text text-primary-light **fs-1**"></i>
-                                </div>
-                            </div>
-                        </div>
-                        @endif
-                    </div>
-
-                    <div class="card-footer bg-white d-flex justify-content-between align-items-center border-top">
-                        <a href="{{ route('admin.categories.index') }}" class="btn btn-outline-secondary icon-left">
-                            <i class="bi bi-list"></i>
-                            Back to List
-                        </a>
-                        <a href="{{ route('admin.categories.edit', $category) }}" class="btn btn-primary icon-left">
-                            <i class="bi bi-pencil-square"></i>
-                            Edit Category
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    body.light-theme .bg-slate-800\/50 {
+        background: #f8fafc !important;
+    }
+</style>
 </div>

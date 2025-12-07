@@ -1,39 +1,44 @@
-<div class="page-heading">
-    <div class="page-title">
-        <div class="row">
-            <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Questions Management</h3>
-                <p class="text-subtitle text-muted">Manage all competition questions and their details.</p>
-            </div>
-            <div class="col-12 col-md-6 order-md-2 order-first d-flex justify-content-end align-items-center">
-                <a href="{{ route('admin.questions.create') }}" class="btn btn-primary icon-left">
-                    <i class="bi bi-plus-lg"></i> Add New Question
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <section class="section">
-        @if (session()->has('message'))
-            <div class="alert alert-light-success color-success alert-dismissible fade show" role="alert">
-                <i class="bi bi-check-circle"></i>
-                {{ session('message') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-
-        <div class="card mt-4">
-            <div class="card-header">
-                <h4 class="card-title">Filter Questions</h4>
-            </div>
-            <div class="card-body">
-                <div class="row g-3">
-                    <div class="col-12 col-md-4 col-lg-3">
-                        <input type="text" wire:model.live.debounce.300ms="search" placeholder="Search questions..."
-                            class="form-control">
+<div><div>
+    <div>
+        <div>
+            <!-- Page Header -->
+            <div class="mb-8">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div>
+                        <h1
+                            class="text-3xl font-bold text-transparent bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text mb-2">
+                            <i class="bi bi-patch-question mr-2"></i>Questions Management
+                        </h1>
+                        <p class="text-slate-400">Manage all competition questions and their details.</p>
                     </div>
-                    <div class="col-6 col-md-4 col-lg-2">
-                        <select wire:model.live="filterCompetition" class="form-select">
+                    <a href="{{ route('admin.questions.create') }}"
+                        class="inline-flex items-center gap-2 px-6 py-3 gradient-primary text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-indigo-500/50 transition-all">
+                        <i class="bi bi-plus-lg"></i>
+                        Add New Question
+                    </a>
+                </div>
+            </div>
+
+            <!-- Alerts -->
+            @if (session()->has('message'))
+                <div class="mb-6 p-4 bg-green-500/10 border border-green-500/30 rounded-xl flex items-center gap-3">
+                    <i class="bi bi-check-circle text-green-400 text-xl"></i>
+                    <span class="text-green-400">{{ session('message') }}</span>
+                </div>
+            @endif
+
+            <!-- Filters Card -->
+            <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-6 mb-6">
+                <h4 class="text-lg font-bold text-white mb-4">Filter Questions</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                    <div class="lg:col-span-2">
+                        <input type="text" wire:model.live.debounce.300ms="search"
+                            class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                            placeholder="Search questions...">
+                    </div>
+                    <div>
+                        <select wire:model.live="filterCompetition"
+                            class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
                             <option value="">All Competitions</option>
                             @foreach ($competitions as $competition)
                                 <option value="{{ $competition->id }}">{{ Str::limit($competition->title, 20) }}
@@ -41,24 +46,27 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-6 col-md-4 col-lg-2">
-                        <select wire:model.live="filterCategory" class="form-select">
+                    <div>
+                        <select wire:model.live="filterCategory"
+                            class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
                             <option value="">All Categories</option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-6 col-md-4 col-lg-2">
-                        <select wire:model.live="filterDifficulty" class="form-select">
+                    <div>
+                        <select wire:model.live="filterDifficulty"
+                            class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
                             <option value="">All Difficulties</option>
                             <option value="easy">Easy</option>
                             <option value="medium">Medium</option>
                             <option value="hard">Hard</option>
                         </select>
                     </div>
-                    <div class="col-6 col-md-4 col-lg-2">
-                        <select wire:model.live="filterStatus" class="form-select">
+                    <div>
+                        <select wire:model.live="filterStatus"
+                            class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
                             <option value="">All Statuses</option>
                             <option value="pending">Pending</option>
                             <option value="approved">Approved</option>
@@ -67,70 +75,81 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="card">
-            <div class="card-content">
-                <div class="table-responsive">
-                    <table class="table table-lg table-hover" id="table1">
-                        <thead>
+            <!-- Table Card -->
+            <div
+                class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-slate-900/50 border-b border-slate-700">
                             <tr>
-                                <th class="text-uppercase text-nowrap">ID</th>
-                                <th class="text-uppercase">Question</th>
-                                <th class="text-uppercase">Competition</th>
-                                <th class="text-uppercase">Category</th>
-                                <th class="text-uppercase">Difficulty</th>
-                                <th class="text-uppercase">Points</th>
-                                <th class="text-uppercase">Status</th>
-                                <th class="text-uppercase text-end">Actions</th>
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-slate-300">ID</th>
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-slate-300">Question</th>
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-slate-300">Competition</th>
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-slate-300">Category</th>
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-slate-300">Difficulty</th>
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-slate-300">Points</th>
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-slate-300">Status</th>
+                                <th class="px-6 py-4 text-center text-sm font-semibold text-slate-300">Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+
+                        <tbody class="divide-y divide-slate-700/50">
                             @forelse($questions as $question)
-                                <tr>
-                                    <td class="text-bold-500 text-nowrap">{{ $question->id }}</td>
-                                    <td>
-                                        <div class="text-truncate" style="max-width: 200px;">
+                                <tr class="hover:bg-slate-800/50 transition">
+                                    <td class="px-6 py-4 text-white font-semibold">{{ $question->id }}</td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-white font-medium truncate max-w-xs">
                                             {{ Str::limit($question->question_text, 50) }}
                                         </div>
                                     </td>
-                                    <td>
-                                        <div class="text-truncate" style="max-width: 150px;">
+                                    <td class="px-6 py-4">
+                                        <div class="text-slate-400 text-sm truncate max-w-xs">
                                             {{ $question->competition->title ?? 'N/A' }}
                                         </div>
                                     </td>
-                                    <td class="text-nowrap">{{ $question->category->name ?? 'N/A' }}</td>
-                                    <td class="text-nowrap">
-                                        <span
-                                            class="badge
-                                            @if ($question->difficulty_level === 'easy') bg-success
-                                            @elseif($question->difficulty_level === 'medium') bg-warning
-                                            @else bg-danger @endif">
-                                            {{ ucfirst($question->difficulty_level) }}
-                                        </span>
+                                    <td class="px-6 py-4 text-slate-300 text-sm">
+                                        {{ $question->category->name ?? 'N/A' }}</td>
+                                    <td class="px-6 py-4">
+                                        @if ($question->difficulty_level === 'easy')
+                                            <span
+                                                class="px-3 py-1 rounded-full text-xs font-semibold bg-green-500/20 text-green-400 border border-green-500/30">Easy</span>
+                                        @elseif($question->difficulty_level === 'medium')
+                                            <span
+                                                class="px-3 py-1 rounded-full text-xs font-semibold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">Medium</span>
+                                        @else
+                                            <span
+                                                class="px-3 py-1 rounded-full text-xs font-semibold bg-red-500/20 text-red-400 border border-red-500/30">Hard</span>
+                                        @endif
                                     </td>
-                                    <td>{{ $question->point_weight }}</td>
-                                    <td class="text-nowrap">
-                                        <span
-                                            class="badge
-                                            @if ($question->validation_status === 'approved') bg-success
-                                            @elseif($question->validation_status === 'pending') bg-info
-                                            @else bg-danger @endif">
-                                            {{ ucfirst($question->validation_status) }}
-                                        </span>
+                                    <td class="px-6 py-4 text-white font-semibold">{{ $question->point_weight }}</td>
+                                    <td class="px-6 py-4">
+                                        @if ($question->validation_status === 'approved')
+                                            <span
+                                                class="px-3 py-1 rounded-full text-xs font-semibold bg-green-500/20 text-green-400 border border-green-500/30">Approved</span>
+                                        @elseif($question->validation_status === 'pending')
+                                            <span
+                                                class="px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/20 text-blue-400 border border-blue-500/30">Pending</span>
+                                        @else
+                                            <span
+                                                class="px-3 py-1 rounded-full text-xs font-semibold bg-red-500/20 text-red-400 border border-red-500/30">Rejected</span>
+                                        @endif
                                     </td>
-                                    <td class="text-end text-nowrap">
-                                        <div class="btn-group" role="group">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center justify-center gap-2">
                                             <a href="{{ route('admin.questions.view', $question->id) }}"
-                                                class="btn btn-sm btn-outline-info" title="View">
+                                                class="p-2 rounded-lg bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 border border-blue-500/30 transition"
+                                                title="View">
                                                 <i class="bi bi-eye"></i>
                                             </a>
                                             <a href="{{ route('admin.questions.edit', $question->id) }}"
-                                                class="btn btn-sm btn-outline-warning" title="Edit">
+                                                class="p-2 rounded-lg bg-yellow-500/20 text-yellow-400 hover:bg-yellow-500/30 border border-yellow-500/30 transition"
+                                                title="Edit">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
                                             <button onclick="confirmDeleteQuestion({{ $question->id }})"
-                                                class="btn btn-sm btn-outline-danger" title="Delete">
+                                                class="p-2 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500/30 border border-red-500/30 transition"
+                                                title="Delete">
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </div>
@@ -138,11 +157,11 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="8" class="text-center py-5 text-muted">
-                                        <i class="bi bi-inbox-fill fs-1 mb-3 d-block"></i>
-                                        <p class="fs-5">No questions found.</p>
+                                    <td colspan="8" class="px-6 py-12 text-center">
+                                        <i class="bi bi-inbox text-slate-600 text-6xl block mb-4"></i>
+                                        <p class="text-slate-400 text-lg mb-2">No questions found.</p>
                                         @if ($search || $filterCompetition || $filterCategory || $filterDifficulty || $filterStatus)
-                                            <p class="text-sm mt-2">Try adjusting your filter criteria.</p>
+                                            <p class="text-slate-500 text-sm">Try adjusting your filter criteria.</p>
                                         @endif
                                     </td>
                                 </tr>
@@ -150,13 +169,14 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Pagination -->
+                <div class="px-6 py-4 border-t border-slate-700">
+                    {{ $questions->links() }}
+                </div>
             </div>
         </div>
-
-        <div class="d-flex justify-content-center mt-4">
-            {{ $questions->links() }}
-        </div>
-    </section>
+    </div>
 </div>
 
 <script>
@@ -166,10 +186,12 @@
             text: "Pertanyaan ini akan dihapus secara permanen beserta semua jawaban!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#dc3545',
-            cancelButtonColor: '#6c757d',
+            confirmButtonColor: '#ef4444',
+            cancelButtonColor: '#64748b',
             confirmButtonText: 'Ya, hapus!',
-            cancelButtonText: 'Batal'
+            cancelButtonText: 'Batal',
+            background: '#1e293b',
+            color: '#e2e8f0',
         }).then((result) => {
             if (result.isConfirmed) {
                 @this.call('delete', id);
@@ -183,7 +205,49 @@
             text: 'Pertanyaan berhasil dihapus.',
             icon: 'success',
             timer: 2000,
-            showConfirmButton: false
+            showConfirmButton: false,
+            background: '#1e293b',
+            color: '#e2e8f0',
         });
     });
 </script>
+
+<style>
+    body.light-theme .bg-gradient-to-br {
+        background: white !important;
+        border-color: #e2e8f0 !important;
+    }
+
+    body.light-theme .text-white {
+        color: #0f172a !important;
+    }
+
+    body.light-theme .text-slate-300,
+    body.light-theme .text-slate-400 {
+        color: #64748b !important;
+    }
+
+    body.light-theme .border-slate-700 {
+        border-color: #e2e8f0 !important;
+    }
+
+    body.light-theme .bg-slate-900 {
+        background: #f8fafc !important;
+    }
+
+    body.light-theme input,
+    body.light-theme select {
+        background: white !important;
+        color: #0f172a !important;
+        border-color: #cbd5e1 !important;
+    }
+
+    body.light-theme .hover\:bg-slate-800\/50:hover {
+        background-color: rgba(241, 245, 249, 0.5) !important;
+    }
+
+    body.light-theme .bi-inbox {
+        color: #cbd5e1 !important;
+    }
+</style>
+</div>

@@ -14,6 +14,10 @@ class UserBadge extends Model
         'user_id','badge_id','awarded_at',
     ];
 
+    protected $casts = [
+        'awarded_at' => 'datetime',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

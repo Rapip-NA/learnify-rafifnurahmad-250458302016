@@ -115,7 +115,7 @@ class CompetitionList extends Component
                 'title' => 'Sudah Menyelesaikan Quiz',
                 'message' => 'Anda sudah menyelesaikan kompetisi ini. Silakan lihat hasil Anda di halaman history.',
                 'showHistoryButton' => true,
-                'competitionId' => $competitionId
+                'competitionId' => $competition->uid
             ]);
             return;
         }
@@ -128,7 +128,7 @@ class CompetitionList extends Component
             ]);
             
             // Auto redirect after showing message
-            return redirect()->route('peserta.competitions.quiz', $competitionId);
+            return redirect()->route('peserta.competitions.quiz', $competition);
         }
 
         // Jika belum pernah ikut, buat participant baru
@@ -142,6 +142,6 @@ class CompetitionList extends Component
 
         // Redirect ke halaman quiz dengan notifikasi sukses
         session()->flash('competition_started', true);
-        return redirect()->route('peserta.competitions.quiz', $competitionId);
+        return redirect()->route('peserta.competitions.quiz', $competition);
     }
 }

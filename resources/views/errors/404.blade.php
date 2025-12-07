@@ -1,38 +1,314 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Mazer Admin Dashboard</title>
+    <title>404 - Halaman Tidak Ditemukan | Learnify</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        /* Light mode gradient colors */
+        .gradient-primary {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        }
+        
+        .gradient-accent {
+            background: linear-gradient(135deg, #db2777 0%, #dc2626 100%);
+        }
 
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
 
-    <link rel="shortcut icon" href="{{ asset('mazer/assets/compiled/svg/favicon.svg') }}" type="image/x-icon">
-    <link rel="shortcut icon"
-        href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAiCAYAAADRcLDBAAAEs2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS41LjAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgeG1sbnM6ZXhpZj0iaHR0cDovL25zLmFkb2JlLmNvbS9leGlmLzEuMC8iCiAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyIKICAgIHhtbG5zOnBob3Rvc2hvcD0iaHR0cDovL25zLmFkb2JlLmNvbS9waG90b3Nob3AvMS4wLyIKICAgIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIKICAgIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIgogICAgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIKICAgZXhpZjpQaXhlbFhEaW1lbnNpb249IjMzIgogICBleGlmOlBpeGVsWURpbWVuc2lvbj0iMzQiCiAgIGV4aWY6Q29sb3JTcGFjZT0iMSIKICAgdGlmZjpJbWFnZVdpZHRoPSIzMyIKICAgdGlmZjpJbWFnZUxlbmd0aD0iMzQiCiAgIHRpZmY6UmVzb2x1dGlvblVuaXQ9IjIiCiAgIHRpZmY6WFJlc29sdXRpb249Ijk2LjAiCiAgIHRpZmY6WVJlc29sdXRpb249Ijk2LjAiCiAgIHBob3Rvc2hvcDpDb2xvck1vZGU9IjMiCiAgIHBob3Rvc2hvcDpJQ0NQcm9maWxlPSJzUkdCIElFQzYxOTY2LTIuMSIKICAgeG1wOk1vZGlmeURhdGU9IjIwMjItMDMtMzFUMTA6NTA6MjMrMDI6MDAiCiAgIHhtcDpNZXRhZGF0YURhdGU9IjIwMjItMDMtMzFUMTA6NTA6MjMrMDI6MDAiPgogICA8eG1wTU06SGlzdG9yeT4KICAgIDxyZGY6U2VxPgogICAgIDxyZGY6bGkKICAgICAgc3RFdnQ6YWN0aW9uPSJwcm9kdWNlZCIKICAgICAgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWZmaW5pdHkgRGVzaWduZXIgMS4xMC4xIgogICAgICBzdEV2dDp3aGVuPSIyMDIyLTAzLTMxVDEwOjUwOjIzKzAyOjAwIi8+CiAgICA8L3JkZjpTZXE+CiAgIDwveG1wTU06SGlzdG9yeT4KICA8L3JkZjpEZXNjcmlwdGlvbj4KIDwvcmRmOlJERj4KPC94OnhtcG1ldGE+Cjw/eHBhY2tldCBlbmQ9InIiPz5V57uAAAABgmlDQ1BzUkdCIElFQzYxOTY2LTIuMQAAKJF1kc8rRFEUxz9maORHo1hYKC9hISNGTWwsRn4VFmOUX5uZZ36oeTOv954kW2WrKLHxa8FfwFZZK0WkZClrYoOe87ypmWTO7dzzud97z+nec8ETzaiaWd4NWtYyIiNhZWZ2TvE946WZSjqoj6mmPjE1HKWkfdxR5sSbgFOr9Ll/rXoxYapQVik8oOqGJTwqPL5i6Q5vCzeo6dii8KlwpyEXFL519LjLLw6nXP5y2IhGBsFTJ6ykijhexGra0ITl5bRqmWU1fx/nJTWJ7PSUxBbxJkwijBBGYYwhBgnRQ7/MIQIE6ZIVJfK7f/MnyUmuKrPOKgZLpEhj0SnqslRPSEyKnpCRYdXp/9++msneoFu9JgwVT7b91ga+LfjetO3PQ9v+PgLvI1xkC/m5A+h7F32zoLXug38dzi4LWnwHzjeg8UGPGbFfySvuSSbh9QRqZ6H+Gqrm3Z7l9zm+h+iafNUV7O5Bu5z3L/wAdthn7QIme0YAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAJTSURBVFiF7Zi9axRBGIefEw2IdxFBRQsLWUTBaywSK4ubdSGVIY1Y6HZql8ZKCGIqwX/AYLmCgVQKfiDn7jZeEQMWfsSAHAiKqPiB5mIgELWYOW5vzc3O7niHhT/YZvY37/swM/vOzJbIqVq9uQ04CYwCI8AhYAlYAB4Dc7HnrOSJWcoJcBS4ARzQ2F4BZ2LPmTeNuykHwEWgkQGAet9QfiMZjUSt3hwD7psGTWgs9pwH1hC1enMYeA7sKwDxBqjGnvNdZzKZjqmCAKh+U1kmEwi3IEBbIsugnY5avTkEtIAtFhBrQCX2nLVehqyRqFoCAAwBh3WGLAhbgCRIYYinwLolwLqKUwwi9pxV4KUlxKKKUwxC6ZElRCPLYAJxGfhSEOCz6m8HEXvOB2CyIMSk6m8HoXQTmMkJcA2YNTHm3congOvATo3tE3A29pxbpnFzQSiQPcB55IFmFNgFfEQeahaAGZMpsIJIAZWAHcDX2HN+2cT6r39GxmvC9aPNwH5gO1BOPFuBVWAZue0vA9+A12EgjPadnhCuH1WAE8ivYAQ4ohKaagV4gvxi5oG7YSA2vApsCOH60WngKrA3R9IsvQUuhIGY00K4flQG7gHH/mLytB4C42EgfrQb0mV7us8AAMeBS8mGNMR4nwHamtBB7B4QRNdaS0M8GxDEog7iyoAguvJ0QYSBuAOcAt71Kfl7wA8DcTvZ2KtOlJEr+ByyQtqqhTyHTIeB+ONeqi3brh+VgIN0fohUgWGggizZFTplu12yW8iy/YLOGWMpDMTPXnl+Az9vj2HERYqPAAAAAElFTkSuQmCC"
-        type="image/png">
-    <link rel="stylesheet" href="{{ asset('mazer/assets/compiled/css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('mazer/assets/compiled/css/error.css') }}">
+        @keyframes glow-pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(79, 70, 229, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(124, 58, 237, 0.5); }
+        }
+
+        @keyframes slide-in {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes bounce-infinite {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .glow-pulse {
+            animation: glow-pulse 2s ease-in-out infinite;
+        }
+
+        .slide-in {
+            animation: slide-in 0.6s ease-out forwards;
+        }
+
+        .spin-slow {
+            animation: spin-slow 20s linear infinite;
+        }
+
+        .bounce-big {
+            animation: bounce-infinite 2s ease-in-out infinite;
+        }
+
+        @keyframes blob {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        .blob {
+            animation: blob 7s infinite;
+            position: absolute;
+            opacity: 0.08;
+            filter: blur(40px);
+            z-index: 0;
+        }
+
+        .btn-glow {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-glow::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-glow:hover::after {
+            left: 100%;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .badge-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        .text-gradient-404 {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .floating-element {
+            animation: float 4s ease-in-out infinite;
+            position: absolute;
+        }
+
+        .element-1 { animation-delay: 0s; }
+        .element-2 { animation-delay: 0.5s; }
+        .element-3 { animation-delay: 1s; }
+        .element-4 { animation-delay: 1.5s; }
+        .element-5 { animation-delay: 2s; }
+    </style>
 </head>
+<body class="bg-gradient-to-br from-slate-50 via-white to-blue-50 overflow-x-hidden">
+    <!-- Light mode animated background blobs -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="blob w-96 h-96 rounded-full gradient-primary" style="top: -100px; left: -100px;"></div>
+        <div class="blob w-96 h-96 rounded-full gradient-accent" style="top: 50%; right: -100px; animation-delay: 2s;"></div>
+        <div class="blob w-80 h-80 rounded-full bg-cyan-400" style="bottom: 0; left: 50%; animation-delay: 4s;"></div>
+    </div>
 
-<body>
-    <script src="{{ asset('mazer/assets/static/js/initTheme.js') }}"></script>
-    <div id="error">
+    <!-- Navigation Bar -->
+    <nav class="fixed top-0 w-full bg-white bg-opacity-90 backdrop-blur-md shadow-md z-50 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center gap-2 relative z-10">
+                    <div class="w-8 h-8 gradient-primary rounded-lg flex items-center justify-center glow-pulse">
+                        <span class="text-white font-bold text-lg">L</span>
+                    </div>
+                    <span class="font-bold text-xl text-transparent bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text">Learnify</span>
+                </div>
+                
+                <!-- Back Button -->
+                <button onclick="window.history.back()" class="gradient-primary text-white px-6 py-2 rounded-full font-semibold btn-glow hover:shadow-lg transition shadow-md relative z-10">
+                    ← Kembali
+                </button>
+            </div>
+        </div>
+    </nav>
 
+    <!-- 404 Content -->
+    <section class="min-h-screen flex items-center justify-center pt-20 pb-20 px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-4xl w-full">
+            <!-- Main Content -->
+            <div class="text-center space-y-8 slide-in">
+                <!-- 404 Error Code Display with gradient and animation -->
+                <div class="relative inline-block w-full">
+                    <h1 class="text-9xl md:text-[200px] font-black text-gradient-404 leading-none drop-shadow-lg">
+                        404
+                    </h1>
+                    <div class="absolute inset-0 blur-3xl opacity-30 gradient-primary rounded-full" style="top: -50px; left: 50%; transform: translateX(-50%);"></div>
+                </div>
 
-        <div class="error-page container">
-            <div class="col-md-8 col-12 offset-md-2">
-                <div class="text-center">
-                    <img class="img-error" src="{{ asset('mazer/assets/compiled/svg/error-404.svg') }}" alt="Not Found">
-                    <h1 class="error-title">NOT FOUND</h1>
-                    <p class='fs-5 text-gray-600'>The page you are looking not found.</p>
-                    <a href="{{ url('/') }}" class="btn btn-lg btn-outline-primary mt-3">Go Home</a>
+                <!-- Floating emojis around 404 -->
+                <div class="relative h-20 mx-auto">
+                    <div class="floating-element element-1 text-6xl" style="left: 10%;">🔍</div>
+                    <div class="floating-element element-2 text-5xl" style="right: 15%;">💭</div>
+                    <div class="floating-element element-3 text-6xl" style="left: 5%; top: 0;">❓</div>
+                    <div class="floating-element element-4 text-5xl" style="right: 5%; top: 10px;">🚀</div>
+                </div>
+
+                <!-- Error Message -->
+                <div class="space-y-4 slide-in" style="animation-delay: 0.1s;">
+                    <h2 class="text-4xl md:text-5xl font-black text-slate-900">
+                        Halaman Tidak Ditemukan
+                    </h2>
+                    <p class="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                        Oops! Sepertinya Anda mengikuti kompetisi yang salah. Halaman yang Anda cari tidak tersedia atau telah dipindahkan.
+                    </p>
+                </div>
+
+                <!-- Illustration Box -->
+                <div class="relative h-64 md:h-80 mx-auto max-w-lg slide-in" style="animation-delay: 0.2s;">
+                    <div class="absolute inset-0 gradient-primary opacity-10 rounded-3xl blur-2xl"></div>
+                    <div class="relative bg-gradient-to-br from-indigo-100 to-purple-100 rounded-3xl h-full flex flex-col items-center justify-center overflow-hidden border-2 border-indigo-200">
+                        <div class="text-center space-y-4">
+                            <div class="text-8xl bounce-big">🎯</div>
+                            <div class="space-y-2">
+                                <p class="text-slate-700 font-bold">Jangan Khawatir!</p>
+                                <p class="text-slate-600 text-sm">Mari kita arahkan Anda ke halaman yang tepat</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center slide-in" style="animation-delay: 0.3s;">
+                    <a href="/public/learnify-landing-light.html" class="gradient-primary text-white px-8 py-4 rounded-full font-bold text-lg btn-glow hover:shadow-lg transition shadow-md inline-block">
+                        🏠 Kembali ke Beranda
+                    </a>
+                    <a href="#" class="border-2 border-indigo-600 text-indigo-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-indigo-600 hover:text-white transition backdrop-blur-sm inline-block">
+                        📚 Lihat Kompetisi
+                    </a>
+                </div>
+
+                <!-- Helpful Links -->
+                <div class="space-y-6 pt-12 slide-in" style="animation-delay: 0.4s;">
+                    <p class="text-slate-600 font-semibold">Hal lain yang bisa Anda lakukan:</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <!-- Light mode cards -->
+                        <a href="#" class="group bg-white border-2 border-indigo-200 rounded-2xl p-6 hover:border-indigo-400 hover:shadow-lg transition backdrop-blur-sm">
+                            <div class="text-4xl mb-3 group-hover:scale-110 transition inline-block">🎪</div>
+                            <h3 class="font-bold text-slate-900 group-hover:text-indigo-600 transition">Jelajahi Kompetisi</h3>
+                            <p class="text-sm text-slate-600 mt-2">Temukan kompetisi yang sesuai dengan minatmu</p>
+                        </a>
+                        
+                        <a href="#" class="group bg-white border-2 border-pink-200 rounded-2xl p-6 hover:border-pink-400 hover:shadow-lg transition backdrop-blur-sm">
+                            <div class="text-4xl mb-3 group-hover:scale-110 transition inline-block">💬</div>
+                            <h3 class="font-bold text-slate-900 group-hover:text-pink-600 transition">Hubungi Kami</h3>
+                            <p class="text-sm text-slate-600 mt-2">Tim support kami siap membantu Anda</p>
+                        </a>
+                        
+                        <a href="#" class="group bg-white border-2 border-cyan-200 rounded-2xl p-6 hover:border-cyan-400 hover:shadow-lg transition backdrop-blur-sm">
+                            <div class="text-4xl mb-3 group-hover:scale-110 transition inline-block">❓</div>
+                            <h3 class="font-bold text-slate-900 group-hover:text-cyan-600 transition">FAQ</h3>
+                            <p class="text-sm text-slate-600 mt-2">Temukan jawaban atas pertanyaan umum</p>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Code Block for Developers -->
+                <div class="pt-12 slide-in" style="animation-delay: 0.5s;">
+                    <div class="bg-white border-2 border-slate-200 rounded-2xl p-6 max-w-2xl mx-auto backdrop-blur-sm text-left">
+                        <p class="text-sm font-bold text-slate-600 mb-3 uppercase tracking-wider">Error Code:</p>
+                        <div class="bg-slate-50 rounded-lg p-4 font-mono text-sm text-slate-900 overflow-x-auto">
+                            <span class="text-red-600">Error:</span> HTTP <span class="text-yellow-600">404</span> - <span class="text-slate-700">Page Not Found</span><br>
+                            <span class="text-slate-500">Endpoint: {window.location.href}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
 
-
-    </div>
+    <!-- Footer -->
+    <footer class="relative z-10 bg-white border-t border-slate-200 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Brand -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 gradient-primary rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold">L</span>
+                        </div>
+                        <span class="font-bold text-xl text-transparent bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text">Learnify</span>
+                    </div>
+                    <p class="text-slate-600 text-sm">Platform kompetisi pembelajaran terpercaya di Indonesia</p>
+                </div>
+                
+                <!-- Links -->
+                <div class="space-y-3">
+                    <h4 class="font-bold text-slate-900">Navigasi</h4>
+                    <ul class="space-y-2 text-sm text-slate-600">
+                        <li><a href="#" class="hover:text-indigo-600 transition">Beranda</a></li>
+                        <li><a href="#" class="hover:text-indigo-600 transition">Kompetisi</a></li>
+                        <li><a href="#" class="hover:text-indigo-600 transition">Tentang Kami</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Support -->
+                <div class="space-y-3">
+                    <h4 class="font-bold text-slate-900">Dukungan</h4>
+                    <ul class="space-y-2 text-sm text-slate-600">
+                        <li><a href="#" class="hover:text-indigo-600 transition">FAQ</a></li>
+                        <li><a href="#" class="hover:text-indigo-600 transition">Kontak</a></li>
+                        <li><a href="#" class="hover:text-indigo-600 transition">Hubungi Kami</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Legal -->
+                <div class="space-y-3">
+                    <h4 class="font-bold text-slate-900">Legal</h4>
+                    <ul class="space-y-2 text-sm text-slate-600">
+                        <li><a href="#" class="hover:text-indigo-600 transition">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-indigo-600 transition">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-indigo-600 transition">Disclaimer</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="border-t border-slate-200 mt-12 pt-8 text-center">
+                <p class="text-slate-600 text-sm">
+                    © 2025 Learnify. Semua hak dilindungi. Dibuat dengan 💜 untuk pelajar Indonesia.
+                </p>
+            </div>
+        </div>
+    </footer>
 </body>
-
 </html>

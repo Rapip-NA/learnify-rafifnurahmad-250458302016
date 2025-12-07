@@ -1,147 +1,195 @@
-<div id="sidebar" class="active">
-    <div class="sidebar-wrapper active">
-        <div class="sidebar-header">
-            <div class="d-flex justify-content-between align-items-center">
-                <a href="#" class="d-flex align-items-center gap-2">
-                    <div class="logo-icon d-flex align-items-center justify-content-center"
-                        style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px;">
-                        <i class="bi bi-book text-white fs-5"></i>
-                    </div>
-                    <span class="text-dark fw-bold fs-5">Learnify</span>
-                </a>
-
-                <div class="toggler d-block d-lg-none">
-                    <a href="#" class="sidebar-hide" onclick="toggleSidebar()">
-                        <i class="bi bi-x fs-4"></i>
-                    </a>
+<!-- Sidebar -->
+<aside id="sidebar"
+    class="fixed top-0 left-0 h-screen w-64 bg-gradient-to-b from-slate-800 to-slate-900 border-r border-slate-700 z-40 transition-all duration-300">
+    <!-- Sidebar Header -->
+    <div class="p-6 border-b border-slate-700">
+        <div class="flex items-center justify-between">
+            <a href="/" class="flex items-center gap-3 group">
+                <div
+                    class="w-10 h-10 gradient-primary rounded-xl flex items-center justify-center glow-pulse group-hover:scale-110 transition-transform">
+                    <i class="bi bi-book text-white text-xl"></i>
                 </div>
-            </div>
-        </div>
+                <span
+                    class="font-bold text-xl text-transparent bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text">Learnify</span>
+            </a>
 
-        <div class="sidebar-menu">
-            @if (Auth::user()->role === 'admin')
-                <ul class="menu">
-                    <li class="sidebar-title">Menu</li>
-                    <li class="sidebar-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                        <a href="{{ route('admin.dashboard') }}" class="sidebar-link">
-                            <i class="bi bi-grid-fill"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-title">Main Menu</li>
-                    <li class="sidebar-item {{ request()->routeIs('admin.competitions*') ? 'active' : '' }}">
-                        <a href="{{ route('admin.competitions.index') }}" class="sidebar-link">
-                            <i class="bi bi-trophy"></i>
-                            <span>Competitions</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-item {{ request()->routeIs('admin.categories*') ? 'active' : '' }}">
-                        <a href="{{ route('admin.categories.index') }}" class="sidebar-link">
-                            <i class="bi bi-tags"></i>
-                            <span>Category</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-item {{ request()->routeIs('admin.questions*') ? 'active' : '' }}">
-                        <a href="{{ route('admin.questions.index') }}" class="sidebar-link">
-                            <i class="bi bi-card-checklist"></i>
-                            <span>Question</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-item {{ request()->routeIs('admin.badges*') ? 'active' : '' }}">
-                        <a href="{{ route('admin.badges.index') }}" class="sidebar-link">
-                            <i class="bi bi-award"></i>
-                            <span>Badges</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-title">List Anggota</li>
-                    <li class="sidebar-item {{ request()->routeIs('admin.peserta*') ? 'active' : '' }}">
-                        <a href="{{ route('admin.peserta.index') }}" class="sidebar-link">
-                            <i class="bi bi-people-fill"></i>
-                            <span>Peserta</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-item {{ request()->routeIs('admin.qualifier*') ? 'active' : '' }}">
-                        <a href="{{ route('admin.qualifier.index') }}" class="sidebar-link">
-                            <i class="bi bi-people-fill"></i>
-                            <span>Qualifier</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-title">Pages</li>
-                    <li class="sidebar-item {{ request()->routeIs('global.leaderboard') ? 'active' : '' }}">
-                        <a href="{{ route('global.leaderboard') }}" class="sidebar-link">
-                            <i class="bi bi-bar-chart-fill"></i>
-                            <span>Leaderboard</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-item {{ request()->routeIs('admin.analytics') ? 'active' : '' }}">
-                        <a href="{{ route('admin.analytics') }}" class="sidebar-link">
-                            <i class="bi bi-graph-up"></i>
-                            <span>Analytics</span>
-                        </a>
-                    </li>
-                </ul>
-            @elseif (Auth::user()->role === 'peserta')
-                <ul class="menu">
-                    <li class="sidebar-item {{ request()->routeIs('peserta.dashboard') ? 'active' : '' }}">
-                        <a href="{{ route('peserta.dashboard') }}" class="sidebar-link">
-                            <i class="bi bi-grid-fill"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-item {{ request()->routeIs('peserta.competitions*') ? 'active' : '' }}">
-                        <a href="{{ route('peserta.competitions.list') }}" class="sidebar-link">
-                            <i class="bi bi-trophy-fill"></i>
-                            <span>Competitions</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-item {{ request()->routeIs('peserta.my-badges') ? 'active' : '' }}">
-                        <a href="{{ route('peserta.my-badges') }}" class="sidebar-link">
-                            <i class="bi bi-award-fill"></i>
-                            <span>My Badges</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-item {{ request()->routeIs('global.leaderboard') ? 'active' : '' }}">
-                        <a href="{{ route('global.leaderboard') }}" class="sidebar-link">
-                            <i class="bi bi-bar-chart-fill"></i>
-                            <span>Leaderboard</span>
-                        </a>
-                    </li>
-                </ul>
-            @else
-                <ul class="menu">
-                    <li class="sidebar-item {{ request()->routeIs('qualifier.dashboard') ? 'active' : '' }}">
-                        <a href="{{ route('qualifier.dashboard') }}" class="sidebar-link">
-                            <i class="bi bi-grid-fill"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-item {{ request()->routeIs('qualifier.answer-validation') ? 'active' : '' }}">
-                        <a href="{{ route('qualifier.answer-validation') }}" class="sidebar-link">
-                            <i class="bi bi-check2-square"></i>
-                            <span>Answer Validation</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-item {{ request()->routeIs('global.leaderboard') ? 'active' : '' }}">
-                        <a href="{{ route('global.leaderboard') }}" class="sidebar-link">
-                            <i class="bi bi-bar-chart-fill"></i>
-                            <span>Leaderboard</span>
-                        </a>
-                    </li>
-                </ul>
-            @endif
+            <!-- Mobile Close Button -->
+            <button onclick="toggleSidebar()" class="lg:hidden text-slate-400 hover:text-white transition">
+                <i class="bi bi-x text-2xl"></i>
+            </button>
         </div>
     </div>
-</div>
+
+    <!-- Sidebar Menu -->
+    <nav class="flex-1 overflow-y-auto p-4 space-y-1">
+        @if (Auth::user()->role === 'admin')
+            <!-- Admin Menu -->
+            <div class="space-y-1">
+                <p class="px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">Menu</p>
+
+                <a href="{{ route('admin.dashboard') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800/50 hover:text-white transition-all {{ request()->routeIs('admin.dashboard') ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg' : '' }}">
+                    <i class="bi bi-grid-fill text-lg"></i>
+                    <span class="font-medium">Dashboard</span>
+                </a>
+            </div>
+
+            <div class="space-y-1 mt-6">
+                <p class="px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">Main Menu</p>
+
+                <a href="{{ route('admin.competitions.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800/50 hover:text-white transition-all {{ request()->routeIs('admin.competitions*') ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg' : '' }}">
+                    <i class="bi bi-trophy text-lg"></i>
+                    <span class="font-medium">Competitions</span>
+                </a>
+
+                <a href="{{ route('admin.categories.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800/50 hover:text-white transition-all {{ request()->routeIs('admin.categories*') ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg' : '' }}">
+                    <i class="bi bi-tags text-lg"></i>
+                    <span class="font-medium">Category</span>
+                </a>
+
+                <a href="{{ route('admin.questions.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800/50 hover:text-white transition-all {{ request()->routeIs('admin.questions*') ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg' : '' }}">
+                    <i class="bi bi-card-checklist text-lg"></i>
+                    <span class="font-medium">Question</span>
+                </a>
+
+                <a href="{{ route('admin.badges.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800/50 hover:text-white transition-all {{ request()->routeIs('admin.badges*') ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg' : '' }}">
+                    <i class="bi bi-award text-lg"></i>
+                    <span class="font-medium">Badges</span>
+                </a>
+            </div>
+
+            <div class="space-y-1 mt-6">
+                <p class="px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">List Anggota</p>
+
+                <a href="{{ route('admin.peserta.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800/50 hover:text-white transition-all {{ request()->routeIs('admin.peserta*') ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg' : '' }}">
+                    <i class="bi bi-people-fill text-lg"></i>
+                    <span class="font-medium">Peserta</span>
+                </a>
+
+                <a href="{{ route('admin.qualifier.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800/50 hover:text-white transition-all {{ request()->routeIs('admin.qualifier*') ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg' : '' }}">
+                    <i class="bi bi-people-fill text-lg"></i>
+                    <span class="font-medium">Qualifier</span>
+                </a>
+            </div>
+
+            <div class="space-y-1 mt-6">
+                <p class="px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">Pages</p>
+
+                <a href="{{ route('global.leaderboard') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800/50 hover:text-white transition-all {{ request()->routeIs('global.leaderboard') ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg' : '' }}">
+                    <i class="bi bi-bar-chart-fill text-lg"></i>
+                    <span class="font-medium">Leaderboard</span>
+                </a>
+
+                <a href="{{ route('admin.analytics') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800/50 hover:text-white transition-all {{ request()->routeIs('admin.analytics') ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg' : '' }}">
+                    <i class="bi bi-graph-up text-lg"></i>
+                    <span class="font-medium">Analytics</span>
+                </a>
+            </div>
+        @elseif (Auth::user()->role === 'peserta')
+            <!-- Peserta Menu -->
+            <div class="space-y-1">
+                <a href="{{ route('peserta.dashboard') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800/50 hover:text-white transition-all {{ request()->routeIs('peserta.dashboard') ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg' : '' }}">
+                    <i class="bi bi-grid-fill text-lg"></i>
+                    <span class="font-medium">Dashboard</span>
+                </a>
+
+                <a href="{{ route('peserta.competitions.list') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800/50 hover:text-white transition-all {{ request()->routeIs('peserta.competitions*') ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg' : '' }}">
+                    <i class="bi bi-trophy-fill text-lg"></i>
+                    <span class="font-medium">Competitions</span>
+                </a>
+
+                <a href="{{ route('peserta.my-badges') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800/50 hover:text-white transition-all {{ request()->routeIs('peserta.my-badges') ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg' : '' }}">
+                    <i class="bi bi-award-fill text-lg"></i>
+                    <span class="font-medium">My Badges</span>
+                </a>
+
+                <a href="{{ route('global.leaderboard') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800/50 hover:text-white transition-all {{ request()->routeIs('global.leaderboard') ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg' : '' }}">
+                    <i class="bi bi-bar-chart-fill text-lg"></i>
+                    <span class="font-medium">Leaderboard</span>
+                </a>
+            </div>
+        @else
+            <!-- Qualifier Menu -->
+            <div class="space-y-1">
+                <a href="{{ route('qualifier.dashboard') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800/50 hover:text-white transition-all {{ request()->routeIs('qualifier.dashboard') ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg' : '' }}">
+                    <i class="bi bi-grid-fill text-lg"></i>
+                    <span class="font-medium">Dashboard</span>
+                </a>
+
+                <a href="{{ route('qualifier.answer-validation') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800/50 hover:text-white transition-all {{ request()->routeIs('qualifier.answer-validation') ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg' : '' }}">
+                    <i class="bi bi-check2-square text-lg"></i>
+                    <span class="font-medium">Answer Validation</span>
+                </a>
+
+                <a href="{{ route('global.leaderboard') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800/50 hover:text-white transition-all {{ request()->routeIs('global.leaderboard') ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg' : '' }}">
+                    <i class="bi bi-bar-chart-fill text-lg"></i>
+                    <span class="font-medium">Leaderboard</span>
+                </a>
+            </div>
+        @endif
+    </nav>
+
+    <!-- Sidebar Footer -->
+    <div class="p-4 border-t border-slate-700">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-800/50">
+            <div class="w-10 h-10 rounded-full gradient-accent flex items-center justify-center text-white font-bold">
+                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+            </div>
+            <div class="flex-1 min-w-0">
+                <p class="text-sm font-semibold text-white truncate">{{ Auth::user()->name }}</p>
+                <p class="text-xs text-slate-400">{{ ucfirst(Auth::user()->role) }}</p>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<style>
+    /* Light theme for sidebar */
+    body.light-theme #sidebar {
+        background: linear-gradient(to bottom, #ffffff, #f8fafc);
+        border-right-color: #e2e8f0;
+    }
+
+    body.light-theme #sidebar .border-slate-700 {
+        border-color: #e2e8f0 !important;
+    }
+
+    body.light-theme #sidebar .text-slate-300 {
+        color: #64748b !important;
+    }
+
+    body.light-theme #sidebar .text-slate-500 {
+        color: #94a3b8 !important;
+    }
+
+    body.light-theme #sidebar .text-slate-400 {
+        color: #94a3b8 !important;
+    }
+
+    body.light-theme #sidebar .hover\:bg-slate-800\/50:hover {
+        background-color: rgba(241, 245, 249, 0.5) !important;
+    }
+
+    body.light-theme #sidebar a:hover .text-slate-300 {
+        color: #0f172a !important;
+    }
+
+    body.light-theme #sidebar .bg-slate-800\/50 {
+        background-color: rgba(241, 245, 249, 0.8) !important;
+    }
+</style>

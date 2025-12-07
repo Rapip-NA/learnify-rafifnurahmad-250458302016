@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learnify - Platform Kompetisi Pembelajaran</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        /* Light mode gradient colors */
+        .gradient-primary {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        }
+        
+        .gradient-accent {
+            background: linear-gradient(135deg, #db2777 0%, #dc2626 100%);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(79, 70, 229, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(124, 58, 237, 0.5); }
+        }
+
+        @keyframes slide-in {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .glow-pulse {
+            animation: glow-pulse 2s ease-in-out infinite;
+        }
+
+        .slide-in {
+            animation: slide-in 0.6s ease-out forwards;
+        }
+
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+            z-index: 1;
+        }
+
+        .card-hover:hover::before {
+            left: 100%;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(79, 70, 229, 0.15);
+        }
+        
+        .badge-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .btn-glow {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-glow::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-glow:hover::after {
+            left: 100%;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #4f46e5, #7c3aed, #db2777);
+            border-radius: 2px;
+            animation: shimmer 3s infinite;
+            background-size: 1000px 100%;
+        }
+
+        @keyframes blob {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        .blob {
+            animation: blob 7s infinite;
+            position: absolute;
+            opacity: 0.08;
+            filter: blur(40px);
+            z-index: 0;
+        }
+
+        /* Light mode ribbon with better contrast */
+        .ribbon {
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            width: 200px;
+            background: linear-gradient(135deg, #db2777 0%, #dc2626 100%);
+            text-align: center;
+            line-height: 40px;
+            color: white;
+            font-weight: bold;
+            transform: rotate(45deg);
+            box-shadow: 0 5px 15px rgba(220, 38, 38, 0.3);
+            font-size: 14px;
+            z-index: 10;
+        }
+
+        @keyframes count {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .stat-number {
+            animation: count 1s ease-out;
+        }
+
+        .text-gradient-animated {
+            background: linear-gradient(90deg, #4f46e5, #7c3aed, #db2777, #4f46e5);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 4s infinite;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 via-white to-blue-50">
+    <!-- Light mode animated background blobs -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="blob w-96 h-96 rounded-full gradient-primary" style="top: -100px; left: -100px;"></div>
+        <div class="blob w-96 h-96 rounded-full gradient-accent" style="top: 50%; right: -100px; animation-delay: 2s;"></div>
+        <div class="blob w-80 h-80 rounded-full bg-cyan-400" style="bottom: 0; left: 50%; animation-delay: 4s;"></div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="fixed top-0 w-full bg-white bg-opacity-90 backdrop-blur-md shadow-md z-50 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center gap-2 relative z-10">
+                    <div class="w-8 h-8 gradient-primary rounded-lg flex items-center justify-center glow-pulse">
+                        <span class="text-white font-bold text-lg">L</span>
+                    </div>
+                    <span class="font-bold text-xl text-transparent bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text">Learnify</span>
+                </div>
+                
+                <!-- Menu -->
+                <div class="hidden md:flex items-center gap-8 relative z-10">
+                    <a href="#kompetisi" class="text-slate-600 hover:text-slate-900 transition font-medium">Kompetisi</a>
+                    <a href="#tentang" class="text-slate-600 hover:text-slate-900 transition font-medium">Tentang</a>
+                    <a href="#faq" class="text-slate-600 hover:text-slate-900 transition font-medium">FAQ</a>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex items-center gap-4 relative z-10">
+                    <button class="hidden sm:block text-slate-600 hover:text-slate-900 transition font-medium">Login</button>
+                    <button class="gradient-primary text-white px-6 py-2 rounded-full font-semibold btn-glow hover:shadow-lg transition shadow-md">
+                        Daftar Sekarang
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-40 pb-32 px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <!-- Left Content -->
+                <div class="space-y-8">
+                    <div class="space-y-4 slide-in">
+                        <!-- Light mode badge with indigo-600 -->
+                        <div class="inline-flex items-center gap-3 bg-indigo-100 border border-indigo-300 px-4 py-2 rounded-full backdrop-blur-sm hover:border-indigo-500 transition">
+                            <span class="w-2 h-2 bg-green-500 rounded-full badge-pulse"></span>
+                            <span class="text-sm font-semibold text-indigo-700">100+ Kompetisi Tersedia</span>
+                        </div>
+                        
+                        <h1 class="text-6xl md:text-7xl font-black text-slate-900 leading-tight text-gradient-animated">
+                            Kompetisi Pembelajaran yang Memukau
+                        </h1>
+                        
+                        <p class="text-xl text-slate-600 leading-relaxed">
+                            Bergabunglah dengan ribuan peserta dari seluruh Indonesia. Raih hadiah fantastis, perluas jaringan, dan tunjukkan potensi terbaikmu.
+                        </p>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 slide-in" style="animation-delay: 0.1s">
+                        <button class="gradient-primary text-white px-8 py-4 rounded-full font-bold text-lg btn-glow hover:shadow-lg transition shadow-md">
+                            ✨ Mulai Kompetisi
+                        </button>
+                        <button class="border-2 border-indigo-600 text-indigo-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-indigo-600 hover:text-white transition backdrop-blur-sm">
+                            📚 Pelajari Lebih
+                        </button>
+                    </div>
+                    
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-6 pt-8 slide-in" style="animation-delay: 0.2s">
+                        <!-- Light mode stat cards with light backgrounds -->
+                        <div class="bg-white bg-opacity-70 border border-indigo-200 rounded-xl p-4 backdrop-blur-sm hover:border-indigo-400 transition shadow-sm">
+                            <div class="text-3xl font-bold text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text stat-number">50K+</div>
+                            <div class="text-sm text-slate-600">Peserta Aktif</div>
+                        </div>
+                        <div class="bg-white bg-opacity-70 border border-pink-200 rounded-xl p-4 backdrop-blur-sm hover:border-pink-400 transition shadow-sm">
+                            <div class="text-3xl font-bold text-transparent bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text stat-number">$500K</div>
+                            <div class="text-sm text-slate-600">Total Hadiah</div>
+                        </div>
+                        <div class="bg-white bg-opacity-70 border border-cyan-200 rounded-xl p-4 backdrop-blur-sm hover:border-cyan-400 transition shadow-sm">
+                            <div class="text-3xl font-bold text-transparent bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text stat-number">15+</div>
+                            <div class="text-sm text-slate-600">Kategori</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Image -->
+                <div class="relative h-96 md:h-full min-h-96 float">
+                    <div class="absolute inset-0 gradient-primary opacity-20 rounded-3xl blur-3xl"></div>
+                    <div class="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-3xl h-full flex flex-col items-center justify-center overflow-hidden shadow-2xl">
+                        <div class="text-center text-white space-y-6 relative z-10">
+                            <div class="text-8xl animate-bounce">🏆</div>
+                            <h3 class="text-3xl font-black">Raih Kesempatan Emas</h3>
+                            <p class="text-indigo-100 text-lg">Jadilah pemenang berikutnya</p>
+                            <div class="flex gap-2 justify-center pt-4">
+                                <div class="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                                <div class="w-2 h-2 bg-white rounded-full animate-pulse" style="animation-delay: 0.2s"></div>
+                                <div class="w-2 h-2 bg-white rounded-full animate-pulse" style="animation-delay: 0.4s"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Daftar Kompetisi Section -->
+    <section id="kompetisi" class="py-32 px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <!-- Section Header -->
+            <div class="text-center mb-20 space-y-4">
+                <h2 class="text-5xl md:text-6xl font-black text-slate-900">
+                    <span class="section-title">Kompetisi Terbaru</span>
+                </h2>
+                <p class="text-xl text-slate-600 max-w-2xl mx-auto">
+                    Pilih kompetisi yang sesuai dengan minat dan kemampuanmu. Setiap kompetisi menawarkan kesempatan luar biasa.
+                </p>
+            </div>
+            
+            <!-- Kompetisi Cards Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Card 1: Code Challenge (Featured) -->
+                <!-- Light mode cards with white background and colored borders -->
+                <div class="card-hover bg-white border-2 border-indigo-200 rounded-2xl p-6 space-y-4 relative overflow-hidden group shadow-lg hover:shadow-xl">
+                    <div class="ribbon">TRENDING</div>
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-400 opacity-0 group-hover:opacity-10 rounded-full blur-3xl transition-all duration-500"></div>
+                    
+                    <div class="w-12 h-12 gradient-primary rounded-xl flex items-center justify-center text-2xl glow-pulse relative z-10">💻</div>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-black text-slate-900">Code Challenge 2025</h3>
+                        <p class="text-slate-600 mt-2">Tunjukkan kemampuan coding-mu dengan menyelesaikan 50+ soal algoritma</p>
+                    </div>
+                    
+                    <div class="space-y-3 py-4 border-y border-slate-200 relative z-10">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Peserta</span>
+                            <span class="font-bold text-slate-900">3,542</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Hadiah</span>
+                            <span class="font-bold text-transparent bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text">$50,000</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Deadline</span>
+                            <span class="font-bold text-slate-900">15 Des 2025</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2 relative z-10">
+                        <div class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-semibold border border-indigo-300">Mudah</div>
+                        <div class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-semibold border border-purple-300">Menengah</div>
+                    </div>
+                    
+                    <button class="w-full gradient-primary text-white py-3 rounded-xl font-bold hover:shadow-lg transition relative z-10">
+                        Ikuti Kompetisi →
+                    </button>
+                </div>
+
+                <!-- Card 2: Design Sprint -->
+                <div class="card-hover bg-white border-2 border-pink-200 rounded-2xl p-6 space-y-4 relative overflow-hidden group shadow-lg hover:shadow-xl">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-pink-400 opacity-0 group-hover:opacity-10 rounded-full blur-3xl transition-all duration-500"></div>
+                    
+                    <div class="w-12 h-12 gradient-accent rounded-xl flex items-center justify-center text-2xl glow-pulse relative z-10">🎨</div>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-black text-slate-900">Design Sprint</h3>
+                        <p class="text-slate-600 mt-2">Buat desain UI/UX terbaik untuk mobile app dengan tema "Sustainability"</p>
+                    </div>
+                    
+                    <div class="space-y-3 py-4 border-y border-slate-200 relative z-10">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Peserta</span>
+                            <span class="font-bold text-slate-900">2,108</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Hadiah</span>
+                            <span class="font-bold text-transparent bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text">$35,000</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Deadline</span>
+                            <span class="font-bold text-slate-900">20 Des 2025</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2 relative z-10">
+                        <div class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-xs font-semibold border border-pink-300">Kreatif</div>
+                        <div class="bg-rose-100 text-rose-700 px-3 py-1 rounded-full text-xs font-semibold border border-rose-300">Tinggi</div>
+                    </div>
+                    
+                    <button class="w-full gradient-primary text-white py-3 rounded-xl font-bold hover:shadow-lg transition relative z-10">
+                        Ikuti Kompetisi →
+                    </button>
+                </div>
+
+                <!-- Card 3: Data Science -->
+                <div class="card-hover bg-white border-2 border-cyan-200 rounded-2xl p-6 space-y-4 relative overflow-hidden group shadow-lg hover:shadow-xl">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-cyan-400 opacity-0 group-hover:opacity-10 rounded-full blur-3xl transition-all duration-500"></div>
+                    
+                    <div class="w-12 h-12 bg-cyan-600 rounded-xl flex items-center justify-center text-2xl glow-pulse relative z-10">📊</div>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-black text-slate-900">Data Analytics Quest</h3>
+                        <p class="text-slate-600 mt-2">Analisis dataset besar dan temukan insights berharga untuk bisnis</p>
+                    </div>
+                    
+                    <div class="space-y-3 py-4 border-y border-slate-200 relative z-10">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Peserta</span>
+                            <span class="font-bold text-slate-900">1,876</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Hadiah</span>
+                            <span class="font-bold text-transparent bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text">$40,000</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Deadline</span>
+                            <span class="font-bold text-slate-900">18 Des 2025</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2 relative z-10">
+                        <div class="bg-cyan-100 text-cyan-700 px-3 py-1 rounded-full text-xs font-semibold border border-cyan-300">Data</div>
+                        <div class="bg-teal-100 text-teal-700 px-3 py-1 rounded-full text-xs font-semibold border border-teal-300">Tinggi</div>
+                    </div>
+                    
+                    <button class="w-full gradient-primary text-white py-3 rounded-xl font-bold hover:shadow-lg transition relative z-10">
+                        Ikuti Kompetisi →
+                    </button>
+                </div>
+
+                <!-- Card 4: Writing Challenge -->
+                <div class="card-hover bg-white border-2 border-emerald-200 rounded-2xl p-6 space-y-4 relative overflow-hidden group shadow-lg hover:shadow-xl">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-400 opacity-0 group-hover:opacity-10 rounded-full blur-3xl transition-all duration-500"></div>
+                    
+                    <div class="w-12 h-12 bg-emerald-600 rounded-xl flex items-center justify-center text-2xl glow-pulse relative z-10">✍️</div>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-black text-slate-900">Writing Challenge</h3>
+                        <p class="text-slate-600 mt-2">Tulis artikel berkualitas tinggi tentang teknologi dan inovasi terkini</p>
+                    </div>
+                    
+                    <div class="space-y-3 py-4 border-y border-slate-200 relative z-10">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Peserta</span>
+                            <span class="font-bold text-slate-900">1,245</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Hadiah</span>
+                            <span class="font-bold text-transparent bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text">$20,000</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Deadline</span>
+                            <span class="font-bold text-slate-900">22 Des 2025</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2 relative z-10">
+                        <div class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-semibold border border-emerald-300">Konten</div>
+                        <div class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold border border-green-300">Mudah</div>
+                    </div>
+                    
+                    <button class="w-full gradient-primary text-white py-3 rounded-xl font-bold hover:shadow-lg transition relative z-10">
+                        Ikuti Kompetisi →
+                    </button>
+                </div>
+
+                <!-- Card 5: StartUp Pitch -->
+                <div class="card-hover bg-white border-2 border-amber-200 rounded-2xl p-6 space-y-4 relative overflow-hidden group shadow-lg hover:shadow-xl">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-amber-400 opacity-0 group-hover:opacity-10 rounded-full blur-3xl transition-all duration-500"></div>
+                    
+                    <div class="w-12 h-12 bg-amber-600 rounded-xl flex items-center justify-center text-2xl glow-pulse relative z-10">🚀</div>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-black text-slate-900">StartUp Pitch</h3>
+                        <p class="text-slate-600 mt-2">Presentasikan ide bisnis inovatifmu dan tarik perhatian investor</p>
+                    </div>
+                    
+                    <div class="space-y-3 py-4 border-y border-slate-200 relative z-10">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Peserta</span>
+                            <span class="font-bold text-slate-900">892</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Hadiah</span>
+                            <span class="font-bold text-transparent bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text">$100,000</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Deadline</span>
+                            <span class="font-bold text-slate-900">25 Des 2025</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2 relative z-10">
+                        <div class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-semibold border border-amber-300">Business</div>
+                        <div class="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-semibold border border-orange-300">Menengah</div>
+                    </div>
+                    
+                    <button class="w-full gradient-primary text-white py-3 rounded-xl font-bold hover:shadow-lg transition relative z-10">
+                        Ikuti Kompetisi →
+                    </button>
+                </div>
+
+                <!-- Card 6: Video Contest -->
+                <div class="card-hover bg-white border-2 border-purple-200 rounded-2xl p-6 space-y-4 relative overflow-hidden group shadow-lg hover:shadow-xl">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-purple-400 opacity-0 group-hover:opacity-10 rounded-full blur-3xl transition-all duration-500"></div>
+                    
+                    <div class="w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center text-2xl glow-pulse relative z-10">🎬</div>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-black text-slate-900">Video Contest</h3>
+                        <p class="text-slate-600 mt-2">Buat video kreatif yang menginspirasi dengan tema "Masa Depan Digital"</p>
+                    </div>
+                    
+                    <div class="space-y-3 py-4 border-y border-slate-200 relative z-10">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Peserta</span>
+                            <span class="font-bold text-slate-900">1,567</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Hadiah</span>
+                            <span class="font-bold text-transparent bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text">$30,000</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Deadline</span>
+                            <span class="font-bold text-slate-900">28 Des 2025</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2 relative z-10">
+                        <div class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-semibold border border-purple-300">Multimedia</div>
+                        <div class="bg-violet-100 text-violet-700 px-3 py-1 rounded-full text-xs font-semibold border border-violet-300">Kreatif</div>
+                    </div>
+                    
+                    <button class="w-full gradient-primary text-white py-3 rounded-xl font-bold hover:shadow-lg transition relative z-10">
+                        Ikuti Kompetisi →
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-24 px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-4xl mx-auto bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl p-12 text-white text-center shadow-2xl">
+            <h2 class="text-4xl md:text-5xl font-black mb-6">Jangan Lewatkan Kesempatan Emas!</h2>
+            <p class="text-xl text-indigo-100 mb-8">Daftar sekarang dan dapatkan bonus sertifikat eksklusif untuk 100 pendaftar pertama</p>
+            <button class="bg-white text-indigo-600 px-10 py-4 rounded-full font-bold text-lg hover:shadow-lg transition">
+                Daftar Gratis Sekarang
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-100 border-t border-slate-200 py-12 px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="font-bold text-slate-900 mb-4">Learnify</h3>
+                    <p class="text-slate-600 text-sm">Platform kompetisi pembelajaran terdepan di Indonesia</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-900 mb-4">Kompetisi</h4>
+                    <ul class="space-y-2 text-sm text-slate-600">
+                        <li><a href="#" class="hover:text-slate-900">Code Challenge</a></li>
+                        <li><a href="#" class="hover:text-slate-900">Design Sprint</a></li>
+                        <li><a href="#" class="hover:text-slate-900">Data Analytics</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-900 mb-4">Perusahaan</h4>
+                    <ul class="space-y-2 text-sm text-slate-600">
+                        <li><a href="#" class="hover:text-slate-900">Tentang Kami</a></li>
+                        <li><a href="#" class="hover:text-slate-900">Blog</a></li>
+                        <li><a href="#" class="hover:text-slate-900">Karir</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-900 mb-4">Legal</h4>
+                    <ul class="space-y-2 text-sm text-slate-600">
+                        <li><a href="#" class="hover:text-slate-900">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-slate-900">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-slate-900">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-300 pt-8 text-center text-slate-600">
+                <p>&copy; 2025 Learnify. Semua hak dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

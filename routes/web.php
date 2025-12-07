@@ -9,11 +9,9 @@ Route::get('/', function () {
         ->with('creator')
         ->orderBy('created_at', 'desc')
         ->limit(6)
-        ->get();
-    
+        ->get();    
     return view('welcome', compact('competitions'));
 });
-
 
 Route::fallback(function () {
     return view('errors.404');
@@ -25,17 +23,12 @@ Route::get('/leaderboard', GlobalLeaderboard::class)->name('global.leaderboard')
 require __DIR__ . '/Auth.php';
 
 Route::middleware('auth')->group(function () {
-    
     // Profile
     Route::get('/profile', \App\Livewire\UserProfile::class)->name('profile');
-
     //Admin
     require __DIR__ . '/Admin.php';
-
     //Peserta
     require __DIR__ . '/Peserta.php';
-
     //Qualifier
     require __DIR__ . '/Qualifier.php';
 });
-

@@ -21,7 +21,6 @@ Route::prefix('admin')
         Route::prefix('peserta')->name('peserta.')->group(function () {
             Route::get('/', Admin\ListPeserta\PesertaList::class)->name('index');
             Route::get('/{id}', Admin\ListPeserta\PesertaShow::class)->name('show');
-
         });
 
         // Competition Routes
