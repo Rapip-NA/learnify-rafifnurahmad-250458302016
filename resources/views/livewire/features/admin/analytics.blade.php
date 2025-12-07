@@ -1,188 +1,203 @@
 <div>
-    <div class="page-heading mb-4">
-        <div class="page-title">
-            <div class="row">
-                <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3 class="mb-2">
-                        <i class="bi bi-graph-up text-primary me-2"></i>
-                        Dashboard Analisis Admin
-                    </h3>
-                    <p class="text-subtitle text-muted">Analisis performa kompetisi dan tingkat keberhasilan soal</p>
-                </div>
-                <div class="col-12 col-md-6 order-md-2 order-first">
-                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Analisis</li>
-                        </ol>
-                    </nav>
-                </div>
+    <div class="mb-8">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <h3 class="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <i class="bi bi-graph-up text-indigo-500"></i>
+                    Dashboard Analisis Admin
+                </h3>
+                <p class="text-slate-500 dark:text-slate-400 mt-1">Analisis performa kompetisi dan tingkat keberhasilan
+                    soal</p>
             </div>
+            <nav aria-label="breadcrumb">
+                <ol class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+                    <li><a href="{{ route('admin.dashboard') }}"
+                            class="hover:text-indigo-500 transition-colors">Dashboard</a></li>
+                    <li><span class="text-slate-300 dark:text-slate-600">/</span></li>
+                    <li class="text-indigo-500 font-medium" aria-current="page">Analisis</li>
+                </ol>
+            </nav>
         </div>
     </div>
 
-    <div class="page-content">
+    <div class="space-y-6">
         {{-- Competition Selector --}}
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-md-3">
-                                <label for="competitionSelect" class="form-label fw-bold">
-                                    <i class="bi bi-trophy text-warning me-2"></i>Pilih Kompetisi
-                                </label>
-                            </div>
-                            <div class="col-md-9">
-                                @if ($competitions->isNotEmpty())
-                                    <select wire:model.live="selectedCompetition" id="competitionSelect"
-                                        class="form-select form-select-lg">
-                                        @foreach ($competitions as $competition)
-                                            <option value="{{ $competition->id }}">
-                                                {{ $competition->title }}
-                                                @if ($competition->status === 'active')
-                                                    <span>(Aktif)</span>
-                                                @endif
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                @else
-                                    <div class="alert alert-info mb-0">
-                                        <i class="bi bi-info-circle me-2"></i>
-                                        Belum ada kompetisi tersedia
-                                    </div>
-                                @endif
-                            </div>
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+            <div class="flex flex-col md:flex-row md:items-center gap-4">
+                <div class="md:w-1/4">
+                    <label for="competitionSelect" class="block font-bold text-slate-700 dark:text-slate-200">
+                        <i class="bi bi-trophy text-yellow-500 me-2"></i>Pilih Kompetisi
+                    </label>
+                </div>
+                <div class="md:w-3/4">
+                    @if ($competitions->isNotEmpty())
+                        <select wire:model.live="selectedCompetition" id="competitionSelect"
+                            class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white focus:border-indigo-500 focus:ring-indigo-500 py-3 px-4 transition-all">
+                            @foreach ($competitions as $competition)
+                                <option value="{{ $competition->id }}">
+                                    {{ $competition->title }}
+                                    @if ($competition->status === 'active')
+                                        (Aktif)
+                                    @endif
+                                </option>
+                            @endforeach
+                        </select>
+                    @else
+                        <div
+                            class="bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 p-4 rounded-xl flex items-center gap-3">
+                            <i class="bi bi-info-circle text-xl"></i>
+                            Belum ada kompetisi tersedia
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
         </div>
 
         @if ($selectedCompetition)
             {{-- Charts Row --}}
-            <div class="row">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {{-- Score Distribution Chart --}}
-                <div class="col-lg-6 col-md-12 mb-4">
-                    <div class="card shadow-sm">
-                        <div class="card-header bg-primary">
-                            <h4 class="card-title text-white mb-0">
-                                <i class="bi bi-bar-chart-fill me-2"></i>
-                                Distribusi Skor
-                            </h4>
-                        </div>
-                        <div class="card-body">
-                            @if (!empty($scoreDistribution['ranges']) && array_sum($scoreDistribution['counts']) > 0)
-                                <div id="scoreDistributionChart"></div>
-                                <div class="mt-3 p-3 bg-light rounded">
-                                    <p class="mb-1 small text-muted">
-                                        <i class="bi bi-info-circle me-1"></i>
-                                        <strong>Keterangan:</strong> Grafik ini menunjukkan bagaimana nilai peserta
-                                        tersebar dari rendah hingga tinggi, membantu menilai tingkat kesulitan kompetisi
-                                        secara
-                                        keseluruhan.
-                                    </p>
+                <div
+                    class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col">
+                    <div
+                        class="p-4 border-b border-slate-100 dark:border-slate-700 bg-gradient-to-r from-indigo-500 to-violet-600">
+                        <h4 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="bi bi-bar-chart-fill"></i>
+                            Distribusi Skor
+                        </h4>
+                    </div>
+                    <div class="p-6 flex-1">
+                        @if (!empty($scoreDistribution['ranges']) && array_sum($scoreDistribution['counts']) > 0)
+                            <div id="scoreDistributionChart" class="w-full"></div>
+                            <div
+                                class="mt-4 p-4 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-slate-100 dark:border-slate-700">
+                                <p class="text-sm text-slate-500 dark:text-slate-400">
+                                    <i class="bi bi-info-circle me-1 text-indigo-500"></i>
+                                    <strong>Keterangan:</strong> Grafik ini menunjukkan bagaimana nilai peserta
+                                    tersebar dari rendah hingga tinggi, membantu menilai tingkat kesulitan kompetisi
+                                    secara keseluruhan.
+                                </p>
+                            </div>
+                        @else
+                            <div class="flex flex-col items-center justify-center py-12 text-center">
+                                <div
+                                    class="w-16 h-16 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mb-4">
+                                    <i class="bi bi-inbox text-3xl text-slate-400 dark:text-slate-500"></i>
                                 </div>
-                            @else
-                                <div class="text-center py-5">
-                                    <i class="bi bi-inbox text-muted" style="font-size: 3rem;"></i>
-                                    <p class="text-muted mt-3">Belum ada data distribusi skor untuk kompetisi ini</p>
-                                    <small class="text-muted">Data akan muncul setelah ada peserta yang menyelesaikan
-                                        kompetisi</small>
-                                </div>
-                            @endif
-                        </div>
+                                <p class="text-slate-500 dark:text-slate-400 font-medium">Belum ada data distribusi skor
+                                </p>
+                                <p class="text-sm text-slate-400 dark:text-slate-500 mt-1">Data akan muncul setelah ada
+                                    peserta yang menyelesaikan kompetisi</p>
+                            </div>
+                        @endif
                     </div>
                 </div>
 
                 {{-- Question Success Rate Chart --}}
-                <div class="col-lg-6 col-md-12 mb-4">
-                    <div class="card shadow-sm">
-                        <div class="card-header bg-success">
-                            <h4 class="card-title text-white mb-0">
-                                <i class="bi bi-check-circle-fill me-2"></i>
-                                Tingkat Keberhasilan Per Soal
-                            </h4>
-                        </div>
-                        <div class="card-body">
-                            @if (!empty($questionSuccessRates['questions']) && count($questionSuccessRates['questions']) > 0)
-                                <div id="questionSuccessChart"></div>
-                                <div class="mt-3 p-3 bg-light rounded">
-                                    <p class="mb-1 small text-muted">
-                                        <i class="bi bi-info-circle me-1"></i>
-                                        <strong>Keterangan:</strong> Grafik ini menghitung persentase jawaban benar pada
-                                        tiap
-                                        soal sehingga admin bisa melihat soal mana yang terlalu mudah, terlalu sulit, atau
-                                        bermasalah.
-                                    </p>
+                <div
+                    class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col">
+                    <div
+                        class="p-4 border-b border-slate-100 dark:border-slate-700 bg-gradient-to-r from-emerald-500 to-teal-600">
+                        <h4 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="bi bi-check-circle-fill"></i>
+                            Tingkat Keberhasilan Per Soal
+                        </h4>
+                    </div>
+                    <div class="p-6 flex-1">
+                        @if (!empty($questionSuccessRates['questions']) && count($questionSuccessRates['questions']) > 0)
+                            <div id="questionSuccessChart" class="w-full"></div>
+                            <div
+                                class="mt-4 p-4 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-slate-100 dark:border-slate-700">
+                                <p class="text-sm text-slate-500 dark:text-slate-400">
+                                    <i class="bi bi-info-circle me-1 text-emerald-500"></i>
+                                    <strong>Keterangan:</strong> Grafik ini menghitung persentase jawaban benar pada
+                                    tiap soal sehingga admin bisa melihat soal mana yang terlalu mudah, terlalu sulit,
+                                    atau
+                                    bermasalah.
+                                </p>
+                            </div>
+                        @else
+                            <div class="flex flex-col items-center justify-center py-12 text-center">
+                                <div
+                                    class="w-16 h-16 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mb-4">
+                                    <i class="bi bi-inbox text-3xl text-slate-400 dark:text-slate-500"></i>
                                 </div>
-                            @else
-                                <div class="text-center py-5">
-                                    <i class="bi bi-inbox text-muted" style="font-size: 3rem;"></i>
-                                    <p class="text-muted mt-3">Belum ada data keberhasilan soal untuk kompetisi ini</p>
-                                    <small class="text-muted">Data akan muncul setelah ada peserta yang menjawab
-                                        soal</small>
-                                </div>
-                            @endif
-                        </div>
+                                <p class="text-slate-500 dark:text-slate-400 font-medium">Belum ada data keberhasilan
+                                    soal</p>
+                                <p class="text-sm text-slate-400 dark:text-slate-500 mt-1">Data akan muncul setelah ada
+                                    peserta yang menjawab soal</p>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
 
             {{-- Statistics Summary --}}
             @if (!empty($scoreDistribution['ranges']) && array_sum($scoreDistribution['counts']) > 0)
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card shadow-sm">
-                            <div class="card-header">
-                                <h5 class="card-title mb-0">
-                                    <i class="bi bi-clipboard-data text-info me-2"></i>
-                                    Ringkasan Statistik
-                                </h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="row text-center">
-                                    <div class="col-md-3 col-6 mb-3">
-                                        <div class="p-3 bg-light rounded">
-                                            <i class="bi bi-people-fill text-primary" style="font-size: 2rem;"></i>
-                                            <h4 class="mt-2 mb-0">{{ array_sum($scoreDistribution['counts']) }}</h4>
-                                            <small class="text-muted">Total Peserta Selesai</small>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 col-6 mb-3">
-                                        <div class="p-3 bg-light rounded">
-                                            <i class="bi bi-question-circle-fill text-success" style="font-size: 2rem;"></i>
-                                            <h4 class="mt-2 mb-0">{{ count($questionSuccessRates['questions']) }}</h4>
-                                            <small class="text-muted">Total Soal</small>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 col-6 mb-3">
-                                        <div class="p-3 bg-light rounded">
-                                            <i class="bi bi-graph-up-arrow text-warning" style="font-size: 2rem;"></i>
-                                            <h4 class="mt-2 mb-0">
-                                                @if (!empty($questionSuccessRates['successRates']))
-                                                    {{ round(max($questionSuccessRates['successRates']), 2) }}%
-                                                @else
-                                                    0%
-                                                @endif
-                                            </h4>
-                                            <small class="text-muted">Soal Termudah</small>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 col-6 mb-3">
-                                        <div class="p-3 bg-light rounded">
-                                            <i class="bi bi-graph-down-arrow text-danger" style="font-size: 2rem;"></i>
-                                            <h4 class="mt-2 mb-0">
-                                                @if (!empty($questionSuccessRates['successRates']))
-                                                    {{ round(min($questionSuccessRates['successRates']), 2) }}%
-                                                @else
-                                                    0%
-                                                @endif
-                                            </h4>
-                                            <small class="text-muted">Soal Tersulit</small>
-                                        </div>
-                                    </div>
+                <div
+                    class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+                    <div class="p-6 border-b border-slate-100 dark:border-slate-700">
+                        <h5 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                            <i class="bi bi-clipboard-data text-blue-500"></i>
+                            Ringkasan Statistik
+                        </h5>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                            <div
+                                class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 text-center hover:shadow-md transition-shadow">
+                                <div
+                                    class="w-12 h-12 mx-auto bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-3">
+                                    <i class="bi bi-people-fill text-blue-600 dark:text-blue-400 text-xl"></i>
                                 </div>
+                                <h4 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">
+                                    {{ array_sum($scoreDistribution['counts']) }}</h4>
+                                <small class="text-slate-500 dark:text-slate-400 font-medium">Total Peserta
+                                    Selesai</small>
+                            </div>
+
+                            <div
+                                class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 text-center hover:shadow-md transition-shadow">
+                                <div
+                                    class="w-12 h-12 mx-auto bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mb-3">
+                                    <i
+                                        class="bi bi-question-circle-fill text-emerald-600 dark:text-emerald-400 text-xl"></i>
+                                </div>
+                                <h4 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">
+                                    {{ count($questionSuccessRates['questions']) }}</h4>
+                                <small class="text-slate-500 dark:text-slate-400 font-medium">Total Soal</small>
+                            </div>
+
+                            <div
+                                class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 text-center hover:shadow-md transition-shadow">
+                                <div
+                                    class="w-12 h-12 mx-auto bg-amber-100 dark:bg-amber-900/30 rounded-full flex items-center justify-center mb-3">
+                                    <i class="bi bi-graph-up-arrow text-amber-600 dark:text-amber-400 text-xl"></i>
+                                </div>
+                                <h4 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">
+                                    @if (!empty($questionSuccessRates['successRates']))
+                                        {{ round(max($questionSuccessRates['successRates']), 2) }}%
+                                    @else
+                                        0%
+                                    @endif
+                                </h4>
+                                <small class="text-slate-500 dark:text-slate-400 font-medium">Soal Termudah</small>
+                            </div>
+
+                            <div
+                                class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 text-center hover:shadow-md transition-shadow">
+                                <div
+                                    class="w-12 h-12 mx-auto bg-rose-100 dark:bg-rose-900/30 rounded-full flex items-center justify-center mb-3">
+                                    <i class="bi bi-graph-down-arrow text-rose-600 dark:text-rose-400 text-xl"></i>
+                                </div>
+                                <h4 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">
+                                    @if (!empty($questionSuccessRates['successRates']))
+                                        {{ round(min($questionSuccessRates['successRates']), 2) }}%
+                                    @else
+                                        0%
+                                    @endif
+                                </h4>
+                                <small class="text-slate-500 dark:text-slate-400 font-medium">Soal Tersulit</small>
                             </div>
                         </div>
                     </div>
@@ -210,6 +225,11 @@
     });
 
     function renderCharts() {
+        const isDarkMode = document.documentElement.classList.contains('dark') || document.body.classList.contains(
+            'dark-theme');
+        const textColor = isDarkMode ? '#94a3b8' : '#64748b';
+        const gridColor = isDarkMode ? '#334155' : '#e2e8f0';
+
         // Score Distribution Chart
         @if (!empty($scoreDistribution['ranges']) && array_sum($scoreDistribution['counts']) > 0)
             if (document.querySelector("#scoreDistributionChart")) {
@@ -223,64 +243,57 @@
                     }],
                     chart: {
                         type: 'bar',
-                        height: 400,
+                        height: 350,
+                        fontFamily: 'Plus Jakarta Sans, sans-serif',
+                        background: 'transparent',
                         toolbar: {
-                            show: true,
-                            tools: {
-                                download: true,
-                                selection: false,
-                                zoom: false,
-                                zoomin: false,
-                                zoomout: false,
-                                pan: false,
-                                reset: false
-                            }
+                            show: false
                         }
                     },
                     plotOptions: {
                         bar: {
-                            borderRadius: 8,
-                            dataLabels: {
-                                position: 'top',
-                            },
-                            columnWidth: '60%'
+                            borderRadius: 6,
+                            columnWidth: '50%',
+                            distributed: true,
                         }
                     },
                     dataLabels: {
-                        enabled: true,
-                        offsetY: -20,
-                        style: {
-                            fontSize: '12px',
-                            colors: ["#304758"]
-                        }
+                        enabled: false
+                    },
+                    legend: {
+                        show: false
                     },
                     xaxis: {
                         categories: @json($scoreDistribution['ranges']),
-                        title: {
-                            text: 'Rentang Skor'
-                        },
                         labels: {
+                            style: {
+                                colors: textColor,
+                                fontSize: '12px'
+                            },
                             rotate: -45,
                             rotateAlways: false
+                        },
+                        axisBorder: {
+                            show: false
+                        },
+                        axisTicks: {
+                            show: false
                         }
                     },
                     yaxis: {
-                        title: {
-                            text: 'Jumlah Peserta'
+                        labels: {
+                            style: {
+                                colors: textColor,
+                            }
                         }
                     },
-                    colors: ['#435ebe'],
-                    fill: {
-                        type: 'gradient',
-                        gradient: {
-                            shade: 'light',
-                            type: 'vertical',
-                            shadeIntensity: 0.3,
-                            opacityFrom: 0.9,
-                            opacityTo: 0.7,
-                        }
+                    grid: {
+                        borderColor: gridColor,
+                        strokeDashArray: 4,
                     },
+                    colors: ['#6366f1', '#8b5cf6', '#ec4899', '#f43f5e', '#10b981', '#3b82f6'],
                     tooltip: {
+                        theme: isDarkMode ? 'dark' : 'light',
                         y: {
                             formatter: function(val) {
                                 return val + " peserta"
@@ -308,59 +321,85 @@
                     }],
                     chart: {
                         type: 'bar',
-                        height: 400,
+                        height: 350,
+                        fontFamily: 'Plus Jakarta Sans, sans-serif',
+                        background: 'transparent',
                         toolbar: {
-                            show: true,
-                            tools: {
-                                download: true,
-                                selection: false,
-                                zoom: false,
-                                zoomin: false,
-                                zoomout: false,
-                                pan: false,
-                                reset: false
-                            }
+                            show: false
                         }
                     },
                     plotOptions: {
                         bar: {
                             borderRadius: 6,
                             horizontal: true,
-                            dataLabels: {
-                                position: 'top',
-                            },
+                            barHeight: '60%',
                         }
                     },
                     dataLabels: {
                         enabled: true,
-                        offsetX: 30,
-                        formatter: function(val) {
-                            return val + "%"
-                        },
+                        textAnchor: 'start',
                         style: {
-                            fontSize: '11px',
-                            colors: ["#304758"]
-                        }
+                            colors: ['#fff']
+                        },
+                        formatter: function(val, opt) {
+                            return Math.round(val) + "%"
+                        },
+                        offsetX: 0,
                     },
                     xaxis: {
                         categories: @json($questionSuccessRates['questions']),
-                        title: {
-                            text: 'Persentase Jawaban Benar (%)'
+                        max: 100,
+                        labels: {
+                            style: {
+                                colors: textColor,
+                                fontSize: '12px'
+                            }
                         },
-                        max: 100
+                        axisBorder: {
+                            show: false
+                        },
+                        axisTicks: {
+                            show: false
+                        }
                     },
-                    colors: ['#198754'],
+                    yaxis: {
+                        labels: {
+                            style: {
+                                colors: textColor,
+                            },
+                            maxWidth: 200
+                        }
+                    },
+                    grid: {
+                        borderColor: gridColor,
+                        strokeDashArray: 4,
+                        xaxis: {
+                            lines: {
+                                show: true
+                            }
+                        },
+                        yaxis: {
+                            lines: {
+                                show: false
+                            }
+                        },
+                    },
+                    colors: ['#10b981'],
                     fill: {
                         type: 'gradient',
                         gradient: {
                             shade: 'light',
                             type: 'horizontal',
-                            shadeIntensity: 0.3,
-                            opacityFrom: 0.9,
-                            opacityTo: 0.7,
+                            shadeIntensity: 0.25,
+                            gradientToColors: ['#34d399'],
+                            inverseColors: true,
+                            opacityFrom: 1,
+                            opacityTo: 1,
+                            stops: [0, 100]
                         }
                     },
                     tooltip: {
+                        theme: isDarkMode ? 'dark' : 'light',
                         y: {
                             formatter: function(val) {
                                 return val + "% jawaban benar"

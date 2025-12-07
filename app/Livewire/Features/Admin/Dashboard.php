@@ -33,6 +33,7 @@ class Dashboard extends Component
         
         // Top 5 Competitions by Participation
         $topCompetitions = Competition::withCount('participants')
+            ->having('participants_count', '>', 0)
             ->orderBy('participants_count', 'desc')
             ->take(5)
             ->get();

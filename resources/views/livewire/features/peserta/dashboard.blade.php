@@ -1,220 +1,204 @@
 <div>
-    <div class="page-heading mb-4">
-        <div class="page-title">
-            <div class="row">
-                <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3 class="mb-2">
-                        <i class="bi bi-speedometer2 text-primary me-2"></i>
+    <div>
+        <div>
+            <div>
+                <!-- Page Header -->
+                <div class="mb-8">
+                    <h1
+                        class="text-3xl font-bold text-transparent bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text mb-2 flex items-center gap-2">
+                        <i class="bi bi-speedometer2"></i>
                         Dashboard Peserta
-                    </h3>
-                    <p class="text-subtitle text-muted">Selamat datang kembali, {{ Auth::user()->name }}!</p>
+                    </h1>
+                    <p class="text-slate-400">Selamat datang kembali, {{ Auth::user()->name }}!</p>
                 </div>
-                <div class="col-12 col-md-6 order-md-2 order-first">
-                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="page-content">
-        {{-- STATISTICS CARDS --}}
-        <div class="row mb-4">
-            {{-- Total Kompetisi --}}
-            <div class="col-6 col-lg-3 col-md-6">
-                <div class="card shadow-sm">
-                    <div class="card-body px-4 py-4-5">
-                        <div class="row">
-                            <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start">
-                                <div class="stats-icon blue mb-2">
-                                    <i class="bi bi-trophy-fill"></i>
-                                </div>
+                <!-- Statistics Cards -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <!-- Total Kompetisi -->
+                    <div
+                        class="bg-gradient-to-br from-blue-500/20 to-blue-600/20 border border-blue-500/30 rounded-2xl p-6 hover:-translate-y-1 transition-transform">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-xl bg-blue-500/30 flex items-center justify-center">
+                                <i class="bi bi-trophy-fill text-blue-400 text-2xl"></i>
                             </div>
-                            <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                <h6 class="text-muted font-semibold">Total Kompetisi</h6>
-                                <h6 class="font-extrabold mb-0">{{ $stats['totalParticipations'] }}</h6>
+                            <div class="flex-grow">
+                                <p class="text-slate-400 text-xs mb-1">Total Kompetisi</p>
+                                <h3 class="text-2xl font-bold text-white">{{ $stats['totalParticipations'] }}</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kompetisi Selesai -->
+                    <div
+                        class="bg-gradient-to-br from-green-500/20 to-green-600/20 border border-green-500/30 rounded-2xl p-6 hover:-translate-y-1 transition-transform">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-xl bg-green-500/30 flex items-center justify-center">
+                                <i class="bi bi-check-circle-fill text-green-400 text-2xl"></i>
+                            </div>
+                            <div class="flex-grow">
+                                <p class="text-slate-400 text-xs mb-1">Selesai</p>
+                                <h3 class="text-2xl font-bold text-white">{{ $stats['completedCompetitions'] }}</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Total Skor -->
+                    <div
+                        class="bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 rounded-2xl p-6 hover:-translate-y-1 transition-transform">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-xl bg-purple-500/30 flex items-center justify-center">
+                                <i class="bi bi-star-fill text-purple-400 text-2xl"></i>
+                            </div>
+                            <div class="flex-grow">
+                                <p class="text-slate-400 text-xs mb-1">Total Skor</p>
+                                <h3 class="text-2xl font-bold text-white">{{ number_format($stats['totalScore'], 0) }}
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rata-rata Skor -->
+                    <div
+                        class="bg-gradient-to-br from-red-500/20 to-red-600/20 border border-red-500/30 rounded-2xl p-6 hover:-translate-y-1 transition-transform">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-xl bg-red-500/30 flex items-center justify-center">
+                                <i class="bi bi-graph-up text-red-400 text-2xl"></i>
+                            </div>
+                            <div class="flex-grow">
+                                <p class="text-slate-400 text-xs mb-1">Rata-rata</p>
+                                <h3 class="text-2xl font-bold text-white">{{ number_format($stats['avgScore'], 2) }}
+                                </h3>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {{-- Kompetisi Selesai --}}
-            <div class="col-6 col-lg-3 col-md-6">
-                <div class="card shadow-sm">
-                    <div class="card-body px-4 py-4-5">
-                        <div class="row">
-                            <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start">
-                                <div class="stats-icon green mb-2">
-                                    <i class="bi bi-check-circle-fill"></i>
+                <!-- Charts Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                    <!-- Performance Bar Chart -->
+                    <div
+                        class="lg:col-span-2 bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl overflow-hidden">
+                        <div class="px-6 py-4 bg-slate-900/50 border-b border-slate-700">
+                            <h4 class="text-xl font-bold text-white flex items-center gap-2">
+                                <i class="bi bi-bar-chart-fill text-indigo-400"></i>
+                                Performa Kompetisi
+                            </h4>
+                        </div>
+                        <div class="p-6">
+                            @if (count($chartData['competitions']) > 0)
+                                <div id="performanceBarChart"></div>
+                            @else
+                                <div class="text-center py-12">
+                                    <i class="bi bi-inbox text-slate-600 text-6xl block mb-4"></i>
+                                    <p class="text-slate-400">Belum ada kompetisi yang diselesaikan</p>
                                 </div>
-                            </div>
-                            <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                <h6 class="text-muted font-semibold">Selesai</h6>
-                                <h6 class="font-extrabold mb-0">{{ $stats['completedCompetitions'] }}</h6>
-                            </div>
+                            @endif
+                        </div>
+                    </div>
+
+                    <!-- Completion Donut Chart -->
+                    <div
+                        class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl overflow-hidden">
+                        <div class="px-6 py-4 bg-slate-900/50 border-b border-slate-700">
+                            <h4 class="text-xl font-bold text-white flex items-center gap-2">
+                                <i class="bi bi-pie-chart-fill text-indigo-400"></i>
+                                Status Kompetisi
+                            </h4>
+                        </div>
+                        <div class="p-6">
+                            @if ($stats['totalParticipations'] > 0)
+                                <div id="completionDonutChart"></div>
+                                <div class="text-center mt-4">
+                                    <h5 class="text-3xl font-bold text-white mb-1">{{ $completionData['percentage'] }}%
+                                    </h5>
+                                    <p class="text-slate-400 text-sm">Tingkat Penyelesaian</p>
+                                </div>
+                            @else
+                                <div class="text-center py-8">
+                                    <i class="bi bi-inbox text-slate-600 text-6xl block mb-4"></i>
+                                    <p class="text-slate-400">Belum ada kompetisi</p>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {{-- Total Skor --}}
-            <div class="col-6 col-lg-3 col-md-6">
-                <div class="card shadow-sm">
-                    <div class="card-body px-4 py-4-5">
-                        <div class="row">
-                            <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start">
-                                <div class="stats-icon purple mb-2">
-                                    <i class="bi bi-star-fill"></i>
-                                </div>
-                            </div>
-                            <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                <h6 class="text-muted font-semibold">Total Skor</h6>
-                                <h6 class="font-extrabold mb-0">{{ number_format($stats['totalScore'], 0) }}</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Rata-rata Skor --}}
-            <div class="col-6 col-lg-3 col-md-6">
-                <div class="card shadow-sm">
-                    <div class="card-body px-4 py-4-5">
-                        <div class="row">
-                            <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start">
-                                <div class="stats-icon red mb-2">
-                                    <i class="bi bi-graph-up"></i>
-                                </div>
-                            </div>
-                            <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                <h6 class="text-muted font-semibold">Rata-rata</h6>
-                                <h6 class="font-extrabold mb-0">{{ number_format($stats['avgScore'], 2) }}</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        {{-- CHARTS SECTION --}}
-        <div class="row mb-4">
-            {{-- Performance Bar Chart --}}
-            <div class="col-lg-8 col-md-12 mb-4">
-                <div class="card shadow-sm">
-                    <div class="card-header">
-                        <h4 class="card-title">
-                            <i class="bi bi-bar-chart-fill text-primary me-2"></i>
-                            Performa Kompetisi
-                        </h4>
-                    </div>
-                    <div class="card-body">
-                        @if (count($chartData['competitions']) > 0)
-                            <div id="performanceBarChart"></div>
-                        @else
-                            <div class="text-center py-5">
-                                <i class="bi bi-inbox text-muted" style="font-size: 3rem;"></i>
-                                <p class="text-muted mt-3">Belum ada kompetisi yang diselesaikan</p>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-
-            {{-- Completion Donut Chart --}}
-            <div class="col-lg-4 col-md-12 mb-4">
-                <div class="card shadow-sm">
-                    <div class="card-header">
-                        <h4 class="card-title">
-                            <i class="bi bi-pie-chart-fill text-primary me-2"></i>
-                            Status Kompetisi
-                        </h4>
-                    </div>
-                    <div class="card-body">
-                        @if ($stats['totalParticipations'] > 0)
-                            <div id="completionDonutChart"></div>
-                            <div class="text-center mt-3">
-                                <h5 class="mb-0">{{ $completionData['percentage'] }}%</h5>
-                                <p class="text-muted small">Tingkat Penyelesaian</p>
-                            </div>
-                        @else
-                            <div class="text-center py-4">
-                                <i class="bi bi-inbox text-muted" style="font-size: 3rem;"></i>
-                                <p class="text-muted mt-3">Belum ada kompetisi</p>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        {{-- RECENT ACTIVITIES --}}
-        <div class="row">
-            <div class="col-12">
-                <div class="card shadow-sm">
-                    <div class="card-header">
-                        <h4 class="card-title">
-                            <i class="bi bi-clock-history text-primary me-2"></i>
+                <!-- Recent Activities -->
+                <div
+                    class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl overflow-hidden">
+                    <div class="px-6 py-4 bg-slate-900/50 border-b border-slate-700">
+                        <h4 class="text-xl font-bold text-white flex items-center gap-2">
+                            <i class="bi bi-clock-history text-indigo-400"></i>
                             Aktivitas Terbaru
                         </h4>
                     </div>
-                    <div class="card-body">
+                    <div class="p-6">
                         @if ($recentActivities->count() > 0)
-                            <div class="table-responsive">
-                                <table class="table table-hover mb-0">
-                                    <thead>
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead class="border-b border-slate-700">
                                         <tr>
-                                            <th>Kompetisi</th>
-                                            <th>Status</th>
-                                            <th>Skor</th>
-                                            <th>Tanggal Mulai</th>
-                                            <th>Aksi</th>
+                                            <th
+                                                class="px-4 py-3 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                                                Kompetisi</th>
+                                            <th
+                                                class="px-4 py-3 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                                                Status</th>
+                                            <th
+                                                class="px-4 py-3 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                                                Skor</th>
+                                            <th
+                                                class="px-4 py-3 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                                                Tanggal Mulai</th>
+                                            <th
+                                                class="px-4 py-3 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                                                Aksi</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="divide-y divide-slate-700/50">
                                         @foreach ($recentActivities as $activity)
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <i class="bi bi-trophy text-warning me-2"></i>
-                                                        <strong>{{ $activity->competition->title }}</strong>
+                                            <tr class="hover:bg-slate-800/50 transition">
+                                                <td class="px-4 py-4">
+                                                    <div class="flex items-center gap-2">
+                                                        <i class="bi bi-trophy text-yellow-400"></i>
+                                                        <strong
+                                                            class="text-white">{{ $activity->competition->title }}</strong>
                                                     </div>
                                                 </td>
-                                                <td>
+                                                <td class="px-4 py-4">
                                                     @if ($activity->finished_at)
-                                                        <span class="badge bg-success">
-                                                            <i class="bi bi-check-circle me-1"></i>
+                                                        <span
+                                                            class="inline-flex items-center gap-1 px-3 py-1 bg-green-500/20 text-green-400 border border-green-500/30 rounded-full text-xs font-semibold">
+                                                            <i class="bi bi-check-circle"></i>
                                                             Selesai
                                                         </span>
                                                     @else
-                                                        <span class="badge bg-warning">
-                                                            <i class="bi bi-hourglass-split me-1"></i>
+                                                        <span
+                                                            class="inline-flex items-center gap-1 px-3 py-1 bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 rounded-full text-xs font-semibold">
+                                                            <i class="bi bi-hourglass-split"></i>
                                                             Dalam Progress
                                                         </span>
                                                     @endif
                                                 </td>
-                                                <td>
-                                                    <strong class="text-primary">{{ $activity->total_score }}</strong>
+                                                <td class="px-4 py-4">
+                                                    <strong
+                                                        class="text-indigo-400 text-lg">{{ $activity->total_score }}</strong>
                                                 </td>
-                                                <td>
-                                                    <small class="text-muted">
-                                                        {{ $activity->started_at?->format('d M Y, H:i') ?? '-' }}
-                                                    </small>
+                                                <td class="px-4 py-4">
+                                                    <small
+                                                        class="text-slate-400">{{ $activity->started_at?->format('d M Y, H:i') ?? '-' }}</small>
                                                 </td>
-                                                <td>
+                                                <td class="px-4 py-4">
                                                     @if ($activity->finished_at)
                                                         <a href="{{ route('peserta.competitions.result', $activity->competition_id) }}"
-                                                            class="btn btn-sm btn-primary">
-                                                            <i class="bi bi-eye me-1"></i>
+                                                            class="inline-flex items-center gap-1 px-4 py-2 bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 rounded-lg hover:bg-indigo-500/30 transition text-sm font-medium">
+                                                            <i class="bi bi-eye"></i>
                                                             Lihat Hasil
                                                         </a>
                                                     @else
                                                         <a href="{{ route('peserta.competitions.quiz', $activity->competition_id) }}"
-                                                            class="btn btn-sm btn-success">
-                                                            <i class="bi bi-play-fill me-1"></i>
+                                                            class="inline-flex items-center gap-1 px-4 py-2 bg-green-500/20 text-green-400 border border-green-500/30 rounded-lg hover:bg-green-500/30 transition text-sm font-medium">
+                                                            <i class="bi bi-play-fill"></i>
                                                             Lanjutkan
                                                         </a>
                                                     @endif
@@ -225,11 +209,12 @@
                                 </table>
                             </div>
                         @else
-                            <div class="text-center py-5">
-                                <i class="bi bi-inbox text-muted" style="font-size: 3rem;"></i>
-                                <p class="text-muted mt-3 mb-3">Belum ada aktivitas</p>
-                                <a href="{{ route('peserta.competitions.list') }}" class="btn btn-primary">
-                                    <i class="bi bi-plus-circle me-1"></i>
+                            <div class="text-center py-12">
+                                <i class="bi bi-inbox text-slate-600 text-8xl block mb-4"></i>
+                                <p class="text-slate-400 mb-6">Belum ada aktivitas</p>
+                                <a href="{{ route('peserta.competitions.list') }}"
+                                    class="inline-flex items-center gap-2 px-6 py-3 gradient-primary text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-indigo-500/50 transition-all">
+                                    <i class="bi bi-plus-circle"></i>
                                     Mulai Kompetisi
                                 </a>
                             </div>
@@ -239,125 +224,199 @@
             </div>
         </div>
     </div>
-</div>
 
-{{-- ApexCharts Library --}}
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    {{-- ApexCharts Library --}}
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Performance Bar Chart
-        @if (count($chartData['competitions']) > 0)
-            const performanceOptions = {
-                series: [{
-                    name: 'Skor',
-                    data: @json($chartData['scores'])
-                }],
-                chart: {
-                    type: 'bar',
-                    height: 350,
-                    toolbar: {
-                        show: true,
-                        tools: {
-                            download: true,
-                            selection: false,
-                            zoom: false,
-                            zoomin: false,
-                            zoomout: false,
-                            pan: false,
-                            reset: false
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if dark theme is active
+            const isDarkTheme = !document.body.classList.contains('light-theme');
+
+            // Theme colors
+            const textColor = isDarkTheme ? '#e2e8f0' : '#0f172a';
+            const gridColor = isDarkTheme ? '#334155' : '#e2e8f0';
+            const tooltipBg = isDarkTheme ? '#1e293b' : '#ffffff';
+
+            // Performance Bar Chart
+            @if (count($chartData['competitions']) > 0)
+                const performanceOptions = {
+                    series: [{
+                        name: 'Skor',
+                        data: @json($chartData['scores'])
+                    }],
+                    chart: {
+                        type: 'bar',
+                        height: 350,
+                        background: 'transparent',
+                        toolbar: {
+                            show: true,
+                            tools: {
+                                download: true,
+                                selection: false,
+                                zoom: false,
+                                zoomin: false,
+                                zoomout: false,
+                                pan: false,
+                                reset: false
+                            }
                         }
-                    }
-                },
-                plotOptions: {
-                    bar: {
-                        borderRadius: 8,
-                        dataLabels: {
-                            position: 'top',
-                        },
-                    }
-                },
-                dataLabels: {
-                    enabled: true,
-                    offsetY: -20,
-                    style: {
-                        fontSize: '12px',
-                        colors: ["#304758"]
-                    }
-                },
-                xaxis: {
-                    categories: @json($chartData['competitions']),
-                    labels: {
-                        rotate: -45,
-                        rotateAlways: true,
+                    },
+                    theme: {
+                        mode: isDarkTheme ? 'dark' : 'light'
+                    },
+                    plotOptions: {
+                        bar: {
+                            borderRadius: 8,
+                            dataLabels: {
+                                position: 'top',
+                            },
+                        }
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        offsetY: -20,
                         style: {
-                            fontSize: '11px'
+                            fontSize: '12px',
+                            colors: [textColor]
                         }
+                    },
+                    xaxis: {
+                        categories: @json($chartData['competitions']),
+                        labels: {
+                            rotate: -45,
+                            rotateAlways: true,
+                            style: {
+                                fontSize: '11px',
+                                colors: textColor
+                            }
+                        }
+                    },
+                    yaxis: {
+                        title: {
+                            text: 'Skor',
+                            style: {
+                                color: textColor
+                            }
+                        },
+                        labels: {
+                            style: {
+                                colors: textColor
+                            }
+                        }
+                    },
+                    grid: {
+                        borderColor: gridColor
+                    },
+                    colors: ['#6366f1'],
+                    fill: {
+                        type: 'gradient',
+                        gradient: {
+                            shade: 'light',
+                            type: 'vertical',
+                            shadeIntensity: 0.3,
+                            opacityFrom: 0.9,
+                            opacityTo: 0.7,
+                        }
+                    },
+                    tooltip: {
+                        theme: isDarkTheme ? 'dark' : 'light'
                     }
-                },
-                yaxis: {
-                    title: {
-                        text: 'Skor'
-                    }
-                },
-                colors: ['#435ebe'],
-                fill: {
-                    type: 'gradient',
-                    gradient: {
-                        shade: 'light',
-                        type: 'vertical',
-                        shadeIntensity: 0.3,
-                        opacityFrom: 0.9,
-                        opacityTo: 0.7,
-                    }
-                }
-            };
+                };
 
-            const performanceChart = new ApexCharts(document.querySelector("#performanceBarChart"),
-                performanceOptions);
-            performanceChart.render();
-        @endif
+                const performanceChart = new ApexCharts(document.querySelector("#performanceBarChart"),
+                    performanceOptions);
+                performanceChart.render();
+            @endif
 
-        // Completion Donut Chart
-        @if ($stats['totalParticipations'] > 0)
-            const donutOptions = {
-                series: [{{ $completionData['completed'] }}, {{ $completionData['inProgress'] }}],
-                chart: {
-                    type: 'donut',
-                    height: 280
-                },
-                labels: ['Selesai', 'Dalam Progress'],
-                colors: ['#198754', '#ffc107'],
-                legend: {
-                    position: 'bottom'
-                },
-                plotOptions: {
-                    pie: {
-                        donut: {
-                            size: '70%',
-                            labels: {
-                                show: true,
-                                total: {
+            // Completion Donut Chart
+            @if ($stats['totalParticipations'] > 0)
+                const donutOptions = {
+                    series: [{{ $completionData['completed'] }}, {{ $completionData['inProgress'] }}],
+                    chart: {
+                        type: 'donut',
+                        height: 280,
+                        background: 'transparent'
+                    },
+                    theme: {
+                        mode: isDarkTheme ? 'dark' : 'light'
+                    },
+                    labels: ['Selesai', 'Dalam Progress'],
+                    colors: ['#22c55e', '#eab308'],
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            colors: textColor
+                        }
+                    },
+                    plotOptions: {
+                        pie: {
+                            donut: {
+                                size: '70%',
+                                labels: {
                                     show: true,
-                                    label: 'Total',
-                                    formatter: function(w) {
-                                        return {{ $stats['totalParticipations'] }}
+                                    total: {
+                                        show: true,
+                                        label: 'Total',
+                                        color: textColor,
+                                        formatter: function(w) {
+                                            return {{ $stats['totalParticipations'] }}
+                                        }
                                     }
                                 }
                             }
                         }
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        formatter: function(val, opts) {
+                            return opts.w.config.series[opts.seriesIndex]
+                        },
+                        style: {
+                            colors: ['#fff']
+                        }
+                    },
+                    tooltip: {
+                        theme: isDarkTheme ? 'dark' : 'light'
                     }
-                },
-                dataLabels: {
-                    enabled: true,
-                    formatter: function(val, opts) {
-                        return opts.w.config.series[opts.seriesIndex]
-                    }
-                }
-            };
+                };
 
-            const donutChart = new ApexCharts(document.querySelector("#completionDonutChart"), donutOptions);
-            donutChart.render();
-        @endif
-    });
-</script>
+                const donutChart = new ApexCharts(document.querySelector("#completionDonutChart"), donutOptions);
+                donutChart.render();
+            @endif
+        });
+    </script>
+
+    <style>
+        body.light-theme .bg-gradient-to-br {
+            background: white !important;
+            border-color: #e2e8f0 !important;
+        }
+
+        body.light-theme .text-white {
+            color: #0f172a !important;
+        }
+
+        body.light-theme .text-slate-300,
+        body.light-theme .text-slate-400 {
+            color: #64748b !important;
+        }
+
+        body.light-theme .border-slate-700 {
+            border-color: #e2e8f0 !important;
+        }
+
+        body.light-theme .bg-slate-900,
+        body.light-theme .bg-slate-800 {
+            background: #f8fafc !important;
+        }
+
+        body.light-theme .bg-slate-800\/50 {
+            background: #f8fafc !important;
+        }
+
+        body.light-theme .bi-inbox {
+            color: #cbd5e1 !important;
+        }
+    </style>
+</div>

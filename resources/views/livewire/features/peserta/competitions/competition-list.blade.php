@@ -1,146 +1,158 @@
 <div>
     <div>
-        <div class="page-heading mb-4">
-            <div class="page-title">
-                <div class="row">
-                    <div class="col-12 col-md-6 order-md-1 order-last">
-                        <h3 class="mb-2">
-                            <i class="bi bi-trophy-fill text-warning me-2"></i>
-                            Daftar Kompetisi
-                        </h3>
-                        <p class="text-subtitle text-muted">Temukan dan ikuti kompetisi yang tersedia.</p>
+        <div>
+            <div>
+                <!-- Page Header -->
+                <div class="mb-8">
+                    <h1
+                        class="text-3xl font-bold text-transparent bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text mb-2 flex items-center gap-2">
+                        <i class="bi bi-trophy-fill"></i>
+                        Daftar Kompetisi
+                    </h1>
+                    <p class="text-slate-400">Temukan dan ikuti kompetisi yang tersedia.</p>
+                </div>
+
+                <!-- Tabs Navigation -->
+                <div class="flex flex-wrap gap-2 mb-6 bg-slate-800/50 border border-slate-700 rounded-xl p-2">
+                    <button
+                        class="tab-btn active flex items-center gap-2 px-6 py-3 rounded-lg text-white font-semibold transition-all"
+                        data-tab="active">
+                        <i class="bi bi-lightning-charge-fill"></i>
+                        Kompetisi Aktif
+                        <span
+                            class="px-2 py-0.5 bg-green-500/30 text-green-400 border border-green-500/50 rounded-full text-xs font-bold">{{ $activeCompetitions->count() }}</span>
+                    </button>
+                    <button
+                        class="tab-btn flex items-center gap-2 px-6 py-3 rounded-lg text-slate-400 font-semibold hover:text-white hover:bg-slate-700/50 transition-all"
+                        data-tab="draft">
+                        <i class="bi bi-clock-history"></i>
+                        Segera Hadir
+                        <span
+                            class="px-2 py-0.5 bg-cyan-500/30 text-cyan-400 border border-cyan-500/50 rounded-full text-xs font-bold">{{ $draftCompetitions->count() }}</span>
+                    </button>
+                    <button
+                        class="tab-btn flex items-center gap-2 px-6 py-3 rounded-lg text-slate-400 font-semibold hover:text-white hover:bg-slate-700/50 transition-all"
+                        data-tab="inactive">
+                        <i class="bi bi-archive-fill"></i>
+                        Sudah Berakhir
+                        <span
+                            class="px-2 py-0.5 bg-slate-600 text-slate-300 border border-slate-500 rounded-full text-xs font-bold">{{ $inactiveCompetitions->count() }}</span>
+                    </button>
+                </div>
+
+                <!-- Tabs Content -->
+                <div>
+                    <!-- Active Competitions Tab -->
+                    <div class="tab-content active" data-tab="active">
+                        @if ($activeCompetitions->isEmpty())
+                            <div
+                                class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-12 text-center">
+                                <i class="bi bi-trophy text-yellow-400/30 text-8xl block mb-4"></i>
+                                <h5 class="text-slate-300 text-xl mb-2">Belum ada kompetisi yang aktif</h5>
+                                <p class="text-slate-400">Kompetisi baru akan segera hadir. Stay tuned!</p>
+                            </div>
+                        @else
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                @foreach ($activeCompetitions as $competition)
+                                    @include(
+                                        'livewire.features.peserta.competitions.partials.competition-card',
+                                        [
+                                            'competition' => $competition,
+                                            'statusClass' => 'active',
+                                        ]
+                                    )
+                                @endforeach
+                            </div>
+                        @endif
                     </div>
-                    <div class="col-12 col-md-6 order-md-2 order-first">
-                        <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Daftar Kompetisi</li>
-                            </ol>
-                        </nav>
+
+                    <!-- Draft Competitions Tab -->
+                    <div class="tab-content hidden" data-tab="draft">
+                        @if ($draftCompetitions->isEmpty())
+                            <div
+                                class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-12 text-center">
+                                <i class="bi bi-calendar-event text-cyan-400/30 text-8xl block mb-4"></i>
+                                <h5 class="text-slate-300 text-xl mb-2">Belum ada kompetisi yang akan datang</h5>
+                                <p class="text-slate-400">Kompetisi baru akan segera dijadwalkan!</p>
+                            </div>
+                        @else
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                @foreach ($draftCompetitions as $competition)
+                                    @include(
+                                        'livewire.features.peserta.competitions.partials.competition-card',
+                                        [
+                                            'competition' => $competition,
+                                            'statusClass' => 'draft',
+                                        ]
+                                    )
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+
+                    <!-- Inactive Competitions Tab -->
+                    <div class="tab-content hidden" data-tab="inactive">
+                        @if ($inactiveCompetitions->isEmpty())
+                            <div
+                                class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-12 text-center">
+                                <i class="bi bi-archive text-slate-600 text-8xl block mb-4"></i>
+                                <h5 class="text-slate-300 text-xl mb-2">Belum ada kompetisi yang berakhir</h5>
+                                <p class="text-slate-400">Kompetisi yang sudah selesai akan muncul di sini.</p>
+                            </div>
+                        @else
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                @foreach ($inactiveCompetitions as $competition)
+                                    @include(
+                                        'livewire.features.peserta.competitions.partials.competition-card',
+                                        [
+                                            'competition' => $competition,
+                                            'statusClass' => 'inactive',
+                                        ]
+                                    )
+                                @endforeach
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
-
-
-        <section class="section">
-            {{-- Tabs Navigation --}}
-            <ul class="nav nav-pills mb-4" id="competitionTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="active-tab" data-bs-toggle="pill" data-bs-target="#active"
-                        type="button" role="tab" aria-controls="active" aria-selected="true">
-                        <i class="bi bi-lightning-charge-fill me-2"></i>
-                        Kompetisi Aktif
-                        <span class="badge bg-success ms-2">{{ $activeCompetitions->count() }}</span>
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="draft-tab" data-bs-toggle="pill" data-bs-target="#draft" type="button"
-                        role="tab" aria-controls="draft" aria-selected="false">
-                        <i class="bi bi-clock-history me-2"></i>
-                        Segera Hadir
-                        <span class="badge bg-info ms-2">{{ $draftCompetitions->count() }}</span>
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="inactive-tab" data-bs-toggle="pill" data-bs-target="#inactive"
-                        type="button" role="tab" aria-controls="inactive" aria-selected="false">
-                        <i class="bi bi-archive-fill me-2"></i>
-                        Sudah Berakhir
-                        <span class="badge bg-secondary ms-2">{{ $inactiveCompetitions->count() }}</span>
-                    </button>
-                </li>
-            </ul>
-
-            {{-- Tabs Content --}}
-            <div class="tab-content" id="competitionTabsContent">
-                {{-- Active Competitions Tab --}}
-                <div class="tab-pane fade show active" id="active" role="tabpanel" aria-labelledby="active-tab">
-                    @if ($activeCompetitions->isEmpty())
-                        <div class="card border-0 shadow-lg">
-                            <div class="card-body text-center py-5">
-                                <div class="mb-4">
-                                    <i class="bi bi-trophy text-warning" style="font-size: 5rem; opacity: 0.3;"></i>
-                                </div>
-                                <h5 class="text-muted mb-2">Belum ada kompetisi yang aktif</h5>
-                                <p class="text-muted small">Kompetisi baru akan segera hadir. Stay tuned!</p>
-                            </div>
-                        </div>
-                    @else
-                        <div class="row match-height">
-                            @foreach ($activeCompetitions as $competition)
-                                @include(
-                                    'livewire.features.peserta.competitions.partials.competition-card',
-                                    [
-                                        'competition' => $competition,
-                                        'statusClass' => 'active',
-                                    ]
-                                )
-                            @endforeach
-                        </div>
-                    @endif
-                </div>
-
-                {{-- Draft Competitions Tab --}}
-                <div class="tab-pane fade" id="draft" role="tabpanel" aria-labelledby="draft-tab">
-                    @if ($draftCompetitions->isEmpty())
-                        <div class="card border-0 shadow-lg">
-                            <div class="card-body text-center py-5">
-                                <div class="mb-4">
-                                    <i class="bi bi-calendar-event text-info"
-                                        style="font-size: 5rem; opacity: 0.3;"></i>
-                                </div>
-                                <h5 class="text-muted mb-2">Belum ada kompetisi yang akan datang</h5>
-                                <p class="text-muted small">Kompetisi baru akan segera dijadwalkan!</p>
-                            </div>
-                        </div>
-                    @else
-                        <div class="row match-height">
-                            @foreach ($draftCompetitions as $competition)
-                                @include(
-                                    'livewire.features.peserta.competitions.partials.competition-card',
-                                    [
-                                        'competition' => $competition,
-                                        'statusClass' => 'draft',
-                                    ]
-                                )
-                            @endforeach
-                        </div>
-                    @endif
-                </div>
-
-                {{-- Inactive Competitions Tab --}}
-                <div class="tab-pane fade" id="inactive" role="tabpanel" aria-labelledby="inactive-tab">
-                    @if ($inactiveCompetitions->isEmpty())
-                        <div class="card border-0 shadow-lg">
-                            <div class="card-body text-center py-5">
-                                <div class="mb-4">
-                                    <i class="bi bi-archive text-secondary" style="font-size: 5rem; opacity: 0.3;"></i>
-                                </div>
-                                <h5 class="text-muted mb-2">Belum ada kompetisi yang berakhir</h5>
-                                <p class="text-muted small">Kompetisi yang sudah selesai akan muncul di sini.</p>
-                            </div>
-                        </div>
-                    @else
-                        <div class="row match-height">
-                            @foreach ($inactiveCompetitions as $competition)
-                                @include(
-                                    'livewire.features.peserta.competitions.partials.competition-card',
-                                    [
-                                        'competition' => $competition,
-                                        'statusClass' => 'inactive',
-                                    ]
-                                )
-                            @endforeach
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </section>
     </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+
+                    // Remove active class from all buttons and contents
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active', 'bg-gradient-to-r',
+                            'from-indigo-500', 'to-purple-600');
+                        btn.classList.add('text-slate-400', 'hover:text-white',
+                            'hover:bg-slate-700/50');
+                    });
+                    tabContents.forEach(content => content.classList.add('hidden'));
+
+                    // Add active class to clicked button and corresponding content
+                    this.classList.add('active', 'bg-gradient-to-r', 'from-indigo-500',
+                        'to-purple-600');
+                    this.classList.remove('text-slate-400', 'hover:text-white',
+                        'hover:bg-slate-700/50');
+                    document.querySelector(`.tab-content[data-tab="${tabName}"]`).classList.remove(
+                        'hidden');
+                });
+            });
+        });
+    </script>
+
+</div>
+
+@push('styles')
     <style>
-        /* Add smooth animations */
+        /* Fade in animation */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -153,8 +165,44 @@
             }
         }
 
-        .card {
+        .tab-content {
             animation: fadeInUp 0.5s ease-out;
         }
+
+        body.light-theme .bg-gradient-to-br {
+            background: white !important;
+            border-color: #e2e8f0 !important;
+        }
+
+        body.light-theme .text-white {
+            color: #0f172a !important;
+        }
+
+        body.light-theme .text-slate-300,
+        body.light-theme .text-slate-400 {
+            color: #64748b !important;
+        }
+
+        body.light-theme .border-slate-700 {
+            border-color: #e2e8f0 !important;
+        }
+
+        body.light-theme .bg-slate-800,
+        body.light-theme .bg-slate-900 {
+            background: #f8fafc !important;
+        }
+
+        body.light-theme .tab-btn {
+            color: #64748b !important;
+        }
+
+        body.light-theme .tab-btn.active {
+            color: white !important;
+        }
+
+        body.light-theme .tab-btn:hover {
+            background: #f1f5f9 !important;
+            color: #0f172a !important;
+        }
     </style>
-</div>
+@endpush
