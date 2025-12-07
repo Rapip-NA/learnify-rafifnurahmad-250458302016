@@ -33,10 +33,10 @@ Route::prefix('admin')
 
         // Category Routes
         Route::prefix('categories')->name('categories.')->group(function () {
-            Route::get('/', Admin\category\CategoryIndex::class)->name('index');
-            Route::get('/create', Admin\category\CategoryCreate::class)->name('create');
-            Route::get('/{category}', Admin\category\CategoryView::class)->name('view');
-            Route::get('/{category}/edit', Admin\category\CategoryEdit::class)->name('edit');
+            Route::get('/', Admin\Category\CategoryIndex::class)->name('index');
+            Route::get('/create', Admin\Category\CategoryCreate::class)->name('create');
+            Route::get('/{category}', Admin\Category\CategoryView::class)->name('view');
+            Route::get('/{category}/edit', Admin\Category\CategoryEdit::class)->name('edit');
         });
 
         // Question Routes
