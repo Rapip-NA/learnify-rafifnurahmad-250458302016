@@ -52,6 +52,8 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: /public_html/
           log-level: verbose
+          timeout: 300000
+          dangerous-clean-slate: false
           exclude: |
             **/.git*
             **/.git*/**
@@ -63,6 +65,10 @@ jobs:
             **/README.md
             **/phpunit.xml
             **/package-lock.json
+            **/storage/logs/**
+            **/storage/framework/cache/**
+            **/storage/framework/sessions/**
+            **/storage/framework/views/**
       
       - name: ✅ Deployment Complete
         run: echo "Deployment successful!"
