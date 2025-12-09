@@ -38,6 +38,14 @@ class Dashboard extends Component
             ->take(5)
             ->get();
         
+        // Top 5 Active Competitions for Chart
+        $topActiveCompetitions = Competition::where('status', 'active')
+            ->withCount('participants')
+            ->having('participants_count', '>', 0)
+            ->orderBy('participants_count', 'desc')
+            ->take(5)
+            ->get();
+        
         // Recent Competitions
         $recentCompetitions = Competition::with('creator')
             ->orderBy('created_at', 'desc')
@@ -49,6 +57,21 @@ class Dashboard extends Component
             'peserta' => User::where('role', 'peserta')->count(),
             'qualifier' => User::where('role', 'qualifier')->count(),
             'admin' => User::where('role', 'admin')->count(),
+        ];
+        
+        // Format data for charts
+        $usersByRoleChart = [
+            'labels' => ['Peserta', 'Qualifier', 'Admin'],
+            'values' => [
+                $usersByRole['peserta'],
+                $usersByRole['qualifier'],
+                $usersByRole['admin'],
+            ],
+        ];
+        
+        $topActiveCompetitionsChart = [
+            'labels' => $topActiveCompetitions->pluck('title')->toArray(),
+            'values' => $topActiveCompetitions->pluck('participants_count')->toArray(),
         ];
         
         // Performance Metrics
@@ -78,6 +101,8 @@ class Dashboard extends Component
             'topCompetitions' => $topCompetitions,
             'recentCompetitions' => $recentCompetitions,
             'usersByRole' => $usersByRole,
+            'usersByRoleChart' => $usersByRoleChart,
+            'topActiveCompetitionsChart' => $topActiveCompetitionsChart,
             'metrics' => [
                 'avgScore' => $avgScore,
                 'completionRate' => $completionRate,

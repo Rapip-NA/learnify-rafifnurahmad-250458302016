@@ -126,7 +126,7 @@
                                 <i class="bi bi-inbox text-slate-600 text-6xl block mb-4"></i>
                                 <p class="text-slate-400">No competitions found.</p>
                             </td>
-                        </tr>
+                        </tr>   
                     @endforelse
                 </tbody>
             </table>

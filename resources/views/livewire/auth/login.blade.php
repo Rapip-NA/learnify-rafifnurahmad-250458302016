@@ -30,12 +30,6 @@
                 </div>
 
                 <div>
-                    <div class="flex items-center justify-between mb-2">
-                        <label for="password" class="block text-sm font-medium form-label">Password</label>
-                        <a href="#"
-                            class="text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors">Lupa
-                            Password?</a>
-                    </div>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                             <svg class="h-5 w-5 icon-color" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -51,14 +45,6 @@
                     @error('password')
                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                     @enderror
-                </div>
-
-                <div class="flex items-center">
-                    <input wire:model="remember" id="remember-me" type="checkbox"
-                        class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                    <label for="remember-me" class="ml-2 block text-sm text-muted">
-                        Ingat saya
-                    </label>
                 </div>
 
                 <button type="submit"
