@@ -504,14 +504,18 @@
 
             // User Role Donut Chart
             @if ($stats['totalUsers'] > 0)
+                console.log('👥 User Role Chart - Users exist:', {{ $stats['totalUsers'] }});
+                console.log('👥 User Role Data:', @json($usersByRole));
+
                 if (document.querySelector("#userRoleChart")) {
+                    console.log('✅ #userRoleChart element found');
                     document.querySelector("#userRoleChart").innerHTML = '';
 
                     const roleOptions = {
                         series: [
-                            {{ $usersByRole['peserta'] }},
-                            {{ $usersByRole['qualifier'] }},
-                            {{ $usersByRole['admin'] }}
+                            {{ $usersByRole['peserta'] ?? 0 }},
+                            {{ $usersByRole['qualifier'] ?? 0 }},
+                            {{ $usersByRole['admin'] ?? 0 }}
                         ],
                         chart: {
                             type: 'donut',
@@ -561,8 +565,12 @@
 
                     const roleChart = new ApexCharts(document.querySelector("#userRoleChart"), roleOptions);
                     roleChart.render();
-                    console.log('✅ User Role chart rendered');
+                    console.log('✅ User Role chart rendered successfully');
+                } else {
+                    console.error('❌ #userRoleChart element not found!');
                 }
+            @else
+                console.log('⚠️ No users found, skipping User Role chart');
             @endif
         }
 
