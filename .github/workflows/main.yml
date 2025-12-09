@@ -8,42 +8,42 @@ jobs:
   web-deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: 🚚 Get latest code
         uses: actions/checkout@v3
-      
+
       - name: 🐘 Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: "8.2"
           extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, mysql
           coverage: none
-      
+
       - name: 📦 Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
-          cache: 'npm'
-      
+          node-version: "18"
+          cache: "npm"
+
       - name: 📄 Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-      
+
       - name: 🎼 Install Composer Dependencies
         run: composer install --no-dev --optimize-autoloader --no-interaction
-      
+
       - name: 📥 Install NPM Dependencies
         run: npm ci
-      
+
       - name: 🏗️ Build Assets
         run: npm run build
-      
+
       - name: 🔐 Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
-      
+
       - name: 🔑 Generate App Key (if needed)
         run: php artisan key:generate --show
-      
+
       - name: 📂 Sync files via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.4
         with:
@@ -63,6 +63,6 @@ jobs:
             **/README.md
             **/phpunit.xml
             **/package-lock.json
-      
+
       - name: ✅ Deployment Complete
         run: echo "Deployment successful!"
