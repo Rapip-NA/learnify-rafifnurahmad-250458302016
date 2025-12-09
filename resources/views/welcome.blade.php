@@ -386,7 +386,7 @@
                     <div class="slide-in">
                         <h1
                             class="text-6xl md:text-7xl text-center font-black text-white leading-tight text-gradient-animated">
-                            Kompetisi Pembelajaran yang Memukau
+                            Kompetisi Pembelajaran yang Memukau🌟
                         </h1>
 
                         <p class="text-xl text-slate-300 leading-relaxed">
