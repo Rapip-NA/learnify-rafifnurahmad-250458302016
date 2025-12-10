@@ -53,12 +53,32 @@ class CategorySeeder extends Seeder
                 'name' => 'Sosiologi',
                 'description' => 'Soal-soal sosiologi meliputi teori sosial, struktur sosial, dan perubahan sosial'
             ],
+            [
+                'name' => 'Teknologi Informasi',
+                'description' => 'Soal-soal TI meliputi pemrograman, jaringan, database, dan keamanan siber'
+            ],
+            [
+                'name' => 'Seni Budaya',
+                'description' => 'Soal-soal seni budaya meliputi seni rupa, musik, tari, dan teater'
+            ],
+            [
+                'name' => 'Pendidikan Agama',
+                'description' => 'Soal-soal pendidikan agama meliputi akhlak, ibadah, dan sejarah agama'
+            ],
+            [
+                'name' => 'Olahraga',
+                'description' => 'Soal-soal olahraga meliputi permainan, atletik, dan kesehatan jasmani'
+            ],
+            [
+                'name' => 'Pengetahuan Umum',
+                'description' => 'Soal-soal pengetahuan umum dari berbagai bidang'
+            ],
         ];
 
         foreach ($categories as $category) {
             Category::create($category);
         }
 
-        $this->command->info('10 categories created successfully');
+        $this->command->info('✓ 15 categories created successfully');
     }
 }

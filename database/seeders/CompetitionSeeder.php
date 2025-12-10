@@ -75,6 +75,6 @@ class CompetitionSeeder extends Seeder
             ]);
         }
 
-        $this->command->info('15 competitions created successfully (5 draft, 5 active, 5 inactive)');
+        $this->command->info('✓ 15 competitions created successfully (5 draft, 5 active, 5 inactive)');
     }
 }

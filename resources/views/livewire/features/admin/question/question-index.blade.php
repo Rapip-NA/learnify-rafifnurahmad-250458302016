@@ -266,11 +266,115 @@
                         @endforelse
                     </div>
 
-                    <!-- Pagination -->
-                    <div class="px-4 md:px-6 py-4 border-t border-slate-700">
-                        {{ $questions->links() }}
-                    </div>
                 </div>
+
+                <!-- Mobile Pagination -->
+                @if ($questions->hasPages())
+                    <div
+                        class="md:hidden mb-6 bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-4">
+                        <div class="flex flex-col gap-4">
+                            <!-- Results Info -->
+                            <div class="text-sm text-slate-400 text-center">
+                                Showing {{ $questions->firstItem() }} to {{ $questions->lastItem() }} of
+                                {{ $questions->total() }} results
+                            </div>
+
+                            <!-- Pagination Controls -->
+                            <div class="flex items-center justify-center gap-2">
+                                {{-- Previous Button --}}
+                                @if ($questions->onFirstPage())
+                                    <span
+                                        class="px-4 py-2 text-sm text-slate-600 bg-slate-800 border border-slate-700 rounded-lg cursor-not-allowed">
+                                        «
+                                    </span>
+                                @else
+                                    <button wire:click="previousPage"
+                                        class="px-4 py-2 text-sm text-slate-300 bg-slate-800 border border-slate-700 rounded-lg hover:bg-slate-700 hover:text-white transition">
+                                        «
+                                    </button>
+                                @endif
+
+                                {{-- Page Info --}}
+                                <span
+                                    class="px-4 py-2 text-sm font-semibold text-white bg-indigo-600 border border-indigo-500 rounded-lg">
+                                    {{ $questions->currentPage() }} / {{ $questions->lastPage() }}
+                                </span>
+
+                                {{-- Next Button --}}
+                                @if ($questions->hasMorePages())
+                                    <button wire:click="nextPage"
+                                        class="px-4 py-2 text-sm text-slate-300 bg-slate-800 border border-slate-700 rounded-lg hover:bg-slate-700 hover:text-white transition">
+                                        »
+                                    </button>
+                                @else
+                                    <span
+                                        class="px-4 py-2 text-sm text-slate-600 bg-slate-800 border border-slate-700 rounded-lg cursor-not-allowed">
+                                        »
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                <!-- Desktop Pagination -->
+                @if ($questions->hasPages())
+                    <div class="hidden md:block">
+                        <div class="px-6 py-4 border-t border-slate-700">
+                            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                                <!-- Results Info -->
+                                <div class="text-sm text-slate-400">
+                                    Showing {{ $questions->firstItem() }} to {{ $questions->lastItem() }} of
+                                    {{ $questions->total() }} results
+                                </div>
+
+                                <!-- Pagination Links -->
+                                <div class="flex items-center gap-1">
+                                    {{-- Previous Button --}}
+                                    @if ($questions->onFirstPage())
+                                        <span
+                                            class="px-3 py-2 text-sm text-slate-600 bg-slate-800 border border-slate-700 rounded-lg cursor-not-allowed">
+                                            « Previous
+                                        </span>
+                                    @else
+                                        <button wire:click="previousPage"
+                                            class="px-3 py-2 text-sm text-slate-300 bg-slate-800 border border-slate-700 rounded-lg hover:bg-slate-700 hover:text-white transition">
+                                            « Previous
+                                        </button>
+                                    @endif
+
+                                    {{-- Page Numbers --}}
+                                    @foreach ($questions->getUrlRange(1, $questions->lastPage()) as $page => $url)
+                                        @if ($page == $questions->currentPage())
+                                            <span
+                                                class="px-3 py-2 text-sm font-semibold text-white bg-indigo-600 border border-indigo-500 rounded-lg">
+                                                {{ $page }}
+                                            </span>
+                                        @else
+                                            <button wire:click="gotoPage({{ $page }})"
+                                                class="px-3 py-2 text-sm text-slate-300 bg-slate-800 border border-slate-700 rounded-lg hover:bg-slate-700 hover:text-white transition">
+                                                {{ $page }}
+                                            </button>
+                                        @endif
+                                    @endforeach
+
+                                    {{-- Next Button --}}
+                                    @if ($questions->hasMorePages())
+                                        <button wire:click="nextPage"
+                                            class="px-3 py-2 text-sm text-slate-300 bg-slate-800 border border-slate-700 rounded-lg hover:bg-slate-700 hover:text-white transition">
+                                            Next »
+                                        </button>
+                                    @else
+                                        <span
+                                            class="px-3 py-2 text-sm text-slate-600 bg-slate-800 border border-slate-700 rounded-lg cursor-not-allowed">
+                                            Next »
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
@@ -344,6 +448,19 @@
 
         body.light-theme .bi-inbox {
             color: #cbd5e1 !important;
+        }
+
+        /* Pagination light theme */
+        body.light-theme .bg-slate-800 {
+            background: white !important;
+        }
+
+        body.light-theme .text-slate-600 {
+            color: #94a3b8 !important;
+        }
+
+        body.light-theme .hover\:bg-slate-700:hover {
+            background-color: #f1f5f9 !important;
         }
     </style>
 </div>
