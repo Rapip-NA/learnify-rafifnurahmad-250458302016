@@ -141,14 +141,14 @@
 
                             @foreach ($answers as $index => $answer)
                                 <div
-                                    class="flex gap-3 mb-3 items-center p-4 rounded-xl bg-slate-900 border border-slate-700">
-                                    <div class="flex items-center gap-2">
+                                    class="flex flex-col md:flex-row gap-3 mb-3 items-start md:items-center p-4 rounded-xl bg-slate-900 border border-slate-700">
+                                    <div class="flex items-center gap-2 md:w-auto w-full">
                                         <input type="radio" wire:click="setCorrectAnswer({{ $index }})"
                                             name="correct_answer" {{ $answer['is_correct'] ? 'checked' : '' }}
                                             class="w-4 h-4 text-indigo-500 focus:ring-indigo-500 cursor-pointer">
                                         <label class="text-xs text-slate-400">Correct?</label>
                                     </div>
-                                    <div class="flex-grow">
+                                    <div class="flex-grow w-full md:w-auto">
                                         <input type="text" wire:model="answers.{{ $index }}.answer_text"
                                             placeholder="Answer {{ $index + 1 }}"
                                             class="w-full px-3 py-2 bg-slate-800 border @error('answers.' . $index . '.answer_text') border-red-500 @else border-slate-700 @enderror rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
@@ -158,7 +158,7 @@
                                     </div>
                                     @if (count($answers) > 2)
                                         <button type="button" wire:click="removeAnswer({{ $index }})"
-                                            class="inline-flex items-center gap-1 px-3 py-2 bg-red-500/20 text-red-400 border border-red-500/30 font-semibold rounded-lg hover:bg-red-500/30 transition text-sm"
+                                            class="inline-flex items-center justify-center gap-1 px-3 py-2 bg-red-500/20 text-red-400 border border-red-500/30 font-semibold rounded-lg hover:bg-red-500/30 transition text-sm w-full md:w-auto"
                                             title="Remove Answer">
                                             <i class="bi bi-x-lg"></i>
                                             Remove
@@ -242,5 +242,5 @@
             background: #f8fafc !important;
         }
     </style>
->>>>>>> develop
+
 </div>

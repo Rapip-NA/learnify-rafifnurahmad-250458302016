@@ -1,17 +1,18 @@
-<div class="flex justify-center items-center min-h-[calc(100vh-200px)]">
-    <div class="w-full max-w-md slide-in">
-        <div class="auth-card backdrop-blur-xl rounded-3xl shadow-2xl border p-8 sm:p-10 relative overflow-hidden">
+<div class="flex justify-center items-center min-h-[calc(100vh-140px)] sm:min-h-[calc(100vh-200px)]">
+    <div class="w-full max-w-md mx-4 sm:mx-0 slide-in">
+        <div class="auth-card backdrop-blur-xl rounded-3xl shadow-2xl border p-6 sm:p-10 relative overflow-hidden">
             <!-- Decorative gradient top -->
             <div class="absolute top-0 left-0 w-full h-2 gradient-accent"></div>
 
-            <div class="text-center mb-10">
-                <h1 class="text-3xl font-bold text-secondary mb-2">Buat Akun Baru 🚀</h1>
-                <p class="text-muted">Bergabunglah dengan ribuan pembelajar lainnya.</p>
+            <div class="text-center mb-6 sm:mb-10">
+                <h1 class="text-2xl sm:text-3xl font-bold text-secondary mb-2">Buat Akun Baru 🚀</h1>
+                <p class="text-muted text-sm sm:text-base">Bergabunglah dengan ribuan pembelajar lainnya.</p>
             </div>
 
-            <form wire:submit.prevent="register" class="space-y-5">
+            <form wire:submit.prevent="register" class="space-y-4 sm:space-y-5">
                 <div>
-                    <label for="name" class="block text-sm font-medium form-label mb-2">Nama Lengkap</label>
+                    <label for="name" class="block text-sm font-medium form-label mb-1.5 sm:mb-2">Nama
+                        Lengkap</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                             <svg class="h-5 w-5 icon-color" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -20,16 +21,17 @@
                             </svg>
                         </div>
                         <input wire:model="name" type="text" id="name"
-                            class="form-input w-full pl-11 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors outline-none @error('name') border-red-500 ring-red-500 @enderror"
+                            class="form-input w-full pl-11 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors outline-none text-sm sm:text-base @error('name') border-red-500 ring-red-500 @enderror"
                             placeholder="John Doe">
                     </div>
                     @error('name')
-                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                        <p class="mt-1 text-xs sm:text-sm text-red-500">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <div>
-                    <label for="email" class="block text-sm font-medium form-label mb-2">Email Address</label>
+                    <label for="email" class="block text-sm font-medium form-label mb-1.5 sm:mb-2">Email
+                        Address</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                             <svg class="h-5 w-5 icon-color" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -39,16 +41,16 @@
                             </svg>
                         </div>
                         <input wire:model="email" type="email" id="email"
-                            class="form-input w-full pl-11 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors outline-none @error('email') border-red-500 ring-red-500 @enderror"
+                            class="form-input w-full pl-11 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors outline-none text-sm sm:text-base @error('email') border-red-500 ring-red-500 @enderror"
                             placeholder="nama@email.com">
                     </div>
                     @error('email')
-                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                        <p class="mt-1 text-xs sm:text-sm text-red-500">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <div>
-                    <label for="password" class="block text-sm font-medium form-label mb-2">Password</label>
+                    <label for="password" class="block text-sm font-medium form-label mb-1.5 sm:mb-2">Password</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                             <svg class="h-5 w-5 icon-color" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -58,16 +60,17 @@
                             </svg>
                         </div>
                         <input wire:model="password" type="password" id="password"
-                            class="form-input w-full pl-11 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors outline-none @error('password') border-red-500 ring-red-500 @enderror"
+                            class="form-input w-full pl-11 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors outline-none text-sm sm:text-base @error('password') border-red-500 ring-red-500 @enderror"
                             placeholder="••••••••">
                     </div>
                     @error('password')
-                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                        <p class="mt-1 text-xs sm:text-sm text-red-500">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <div>
-                    <label for="password_confirmation" class="block text-sm font-medium form-label mb-2">Konfirmasi
+                    <label for="password_confirmation"
+                        class="block text-sm font-medium form-label mb-1.5 sm:mb-2">Konfirmasi
                         Password</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -77,21 +80,21 @@
                             </svg>
                         </div>
                         <input wire:model="password_confirmation" type="password" id="password_confirmation"
-                            class="form-input w-full pl-11 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors outline-none"
+                            class="form-input w-full pl-11 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors outline-none text-sm sm:text-base"
                             placeholder="••••••••">
                     </div>
                 </div>
 
                 <div class="pt-2">
                     <button type="submit"
-                        class="w-full gradient-accent text-white font-bold py-3.5 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5">
+                        class="w-full gradient-accent text-white font-bold py-3 sm:py-3.5 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 text-sm sm:text-base">
                         Daftar Sekarang
                     </button>
                 </div>
             </form>
 
-            <div class="mt-8 text-center">
-                <p class="text-muted">Sudah punya akun?
+            <div class="mt-6 sm:mt-8 text-center">
+                <p class="text-muted text-sm sm:text-base">Sudah punya akun?
                     <a href="{{ route('login') }}"
                         class="font-bold text-pink-400 hover:text-pink-300 transition-colors">Masuk</a>
                 </p>

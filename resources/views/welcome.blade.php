@@ -335,19 +335,21 @@
                         <span class="text-white font-bold text-lg">L</span>
                     </div>
                     <span
-                        class="font-bold text-xl text-transparent bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text">Learnify</span>
+                        class="font-bold text-lg sm:text-xl text-transparent bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text">Learnify</span>
                 </div>
 
-                <!-- Menu -->
-                <div class="hidden md:flex items-center gap-8 relative z-10">
-                    <a href="#kompetisi" class="text-slate-400 hover:text-white transition font-medium">Kompetisi</a>
-                    <a href="#tentang" class="text-slate-400 hover:text-white transition font-medium">Tentang</a>
-                    <a href="{{ route('global.leaderboard') }}"
-                        class="text-slate-400 hover:text-white transition font-medium">Leaderboard</a>
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center gap-6 lg:gap-8 relative z-10">
+                    <a href="#kompetisi"
+                        class="text-slate-400 hover:text-white transition font-medium text-sm lg:text-base">Kompetisi</a>
+                    <a href="#tentang"
+                        class="text-slate-400 hover:text-white transition font-medium text-sm lg:text-base">Tentang</a>
+                    {{-- <a href="{{ route('global.leaderboard') }}"
+                        class="text-slate-400 hover:text-white transition font-medium text-sm lg:text-base">Leaderboard</a> --}}
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="flex items-center gap-4 relative z-10">
+                <div class="flex items-center gap-2 sm:gap-4 relative z-10">
                     <!-- Theme Toggle Button -->
                     <button id="theme-toggle"
                         class="w-10 h-10 flex items-center justify-center border-2 border-slate-700 hover:border-indigo-500 rounded-lg transition-all hover:shadow-lg">
@@ -368,10 +370,10 @@
                     </button>
 
                     <a href="{{ route('login') }}"
-                        class="hidden sm:block text-slate-400 hover:text-white transition font-medium">Login</a>
+                        class="hidden sm:block text-slate-400 hover:text-white transition font-medium text-sm lg:text-base">Login</a>
                     <a href="{{ route('register') }}"
-                        class="gradient-primary text-white px-6 py-2 rounded-full font-semibold btn-glow hover:shadow-lg transition shadow-lg">
-                        Daftar Sekarang
+                        class="gradient-primary text-white px-4 sm:px-6 py-2 rounded-full text-sm sm:text-base font-semibold btn-glow hover:shadow-lg transition shadow-lg whitespace-nowrap">
+                        Daftar
                     </a>
                 </div>
             </div>
@@ -379,56 +381,59 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="pt-40 pb-32 px-4 sm:px-6 lg:px-8 relative z-10">
+    <section class="pt-24 sm:pt-32 lg:pt-40 pb-16 sm:pb-24 lg:pb-32 px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="max-w-7xl mx-auto">
-            <div class="space-y-8">
-                <div class="space-y-8 flex flex-col items-center justify-center">
-                    <div class="slide-in">
+            <div class="space-y-6 sm:space-y-8">
+                <div class="space-y-6 sm:space-y-8 flex flex-col items-center justify-center">
+                    <div class="slide-in text-center">
                         <h1
-                            class="text-6xl md:text-7xl text-center font-black text-white leading-tight text-gradient-animated">
-                            Kompetisi Pembelajaran yang Memukau🌟
+                            class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight text-gradient-animated px-2">
+                            Kompetisi Pembelajaran yang Memukau
                         </h1>
 
-                        <p class="text-xl text-slate-300 leading-relaxed">
+                        <p
+                            class="text-base sm:text-lg lg:text-xl text-slate-300 leading-relaxed mt-4 sm:mt-6 max-w-3xl mx-auto px-4">
                             Bergabunglah dengan ribuan peserta dari seluruh Indonesia. Raih hadiah fantastis, perluas
                             jaringan, dan tunjukkan potensi terbaikmu.
                         </p>
                     </div>
 
-                    <div class="flex flex-col sm:flex-row gap-4 slide-in" style="animation-delay: 0.1s">
+                    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 slide-in w-full sm:w-auto px-4"
+                        style="animation-delay: 0.1s">
                         <a href="#kompetisi"
-                            class="gradient-primary text-white px-8 py-4 rounded-full font-bold text-lg btn-glow hover:shadow-2xl transition shadow-lg text-center">
+                            class="gradient-primary text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-base sm:text-lg btn-glow hover:shadow-2xl transition shadow-lg text-center">
                             ✨ Mulai Kompetisi
                         </a>
                         <a href="#tentang"
-                            class="border-2 border-indigo-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-indigo-500 hover:bg-opacity-10 transition backdrop-blur-sm text-center">
+                            class="border-2 border-indigo-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-base sm:text-lg hover:bg-indigo-500 hover:bg-opacity-10 transition backdrop-blur-sm text-center">
                             📚 Pelajari Lebih
                         </a>
                     </div>
                 </div>
 
                 <!-- Stats -->
-                <div class="grid grid-cols-3 gap-6 pt-8 slide-in" style="animation-delay: 0.2s">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 pt-4 sm:pt-8 slide-in"
+                    style="animation-delay: 0.2s">
                     <div
-                        class="bg-slate-800 bg-opacity-50 border border-slate-700 rounded-xl p-4 backdrop-blur-sm hover:border-indigo-500 transition">
+                        class="bg-slate-800 bg-opacity-50 border border-slate-700 rounded-xl p-4 sm:p-6 backdrop-blur-sm hover:border-indigo-500 transition text-center">
                         <div
-                            class="text-3xl font-bold text-transparent bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text stat-number">
+                            class="text-2xl sm:text-3xl lg:text-4xl font-bold text-transparent bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text stat-number">
                             50K+</div>
-                        <div class="text-sm text-slate-400">Peserta Aktif</div>
+                        <div class="text-xs sm:text-sm text-slate-400 mt-1">Peserta Aktif</div>
                     </div>
                     <div
-                        class="bg-slate-800 bg-opacity-50 border border-slate-700 rounded-xl p-4 backdrop-blur-sm hover:border-pink-500 transition">
+                        class="bg-slate-800 bg-opacity-50 border border-slate-700 rounded-xl p-4 sm:p-6 backdrop-blur-sm hover:border-pink-500 transition text-center">
                         <div
-                            class="text-3xl font-bold text-transparent bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text stat-number">
+                            class="text-2xl sm:text-3xl lg:text-4xl font-bold text-transparent bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text stat-number">
                             $500K</div>
-                        <div class="text-sm text-slate-400">Total Hadiah</div>
+                        <div class="text-xs sm:text-sm text-slate-400 mt-1">Total Hadiah</div>
                     </div>
                     <div
-                        class="bg-slate-800 bg-opacity-50 border border-slate-700 rounded-xl p-4 backdrop-blur-sm hover:border-cyan-500 transition">
+                        class="bg-slate-800 bg-opacity-50 border border-slate-700 rounded-xl p-4 sm:p-6 backdrop-blur-sm hover:border-cyan-500 transition text-center">
                         <div
-                            class="text-3xl font-bold text-transparent bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text stat-number">
+                            class="text-2xl sm:text-3xl lg:text-4xl font-bold text-transparent bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text stat-number">
                             15+</div>
-                        <div class="text-sm text-slate-400">Kategori</div>
+                        <div class="text-xs sm:text-sm text-slate-400 mt-1">Kategori</div>
                     </div>
                 </div>
 
@@ -437,21 +442,21 @@
     </section>
 
     <!-- Daftar Kompetisi Section -->
-    <section id="kompetisi" class="py-32 px-4 sm:px-6 lg:px-8 relative z-10">
+    <section id="kompetisi" class="py-16 sm:py-24 lg:py-32 px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="max-w-7xl mx-auto">
             <!-- Section Header -->
-            <div class="text-center mb-20 space-y-4">
-                <h2 class="text-5xl md:text-6xl font-black text-white">
+            <div class="text-center mb-12 sm:mb-16 lg:mb-20 space-y-3 sm:space-y-4">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white px-4">
                     <span class="section-title">Kompetisi Terbaru</span>
                 </h2>
-                <p class="text-xl text-slate-300 max-w-2xl mx-auto">
+                <p class="text-base sm:text-lg lg:text-xl text-slate-300 max-w-2xl mx-auto px-4">
                     Pilih kompetisi yang sesuai dengan minat dan kemampuanmu. Setiap kompetisi menawarkan kesempatan
                     luar biasa.
                 </p>
             </div>
 
             <!-- Kompetisi Cards Grid -->
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                 @forelse($competitions as $index => $competition)
                     <!-- Competition Card -->
                     <div
@@ -527,42 +532,52 @@
     </section>
 
     <!-- About Section -->
-    <section id="tentang" class="py-32 px-4 sm:px-6 lg:px-8 relative z-10 bg-slate-900 bg-opacity-50">
+    <section id="tentang"
+        class="py-16 sm:py-24 lg:py-32 px-4 sm:px-6 lg:px-8 relative z-10 bg-slate-900 bg-opacity-50">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-20 space-y-4">
-                <h2 class="text-5xl md:text-6xl font-black text-white">
+            <div class="text-center mb-12 sm:mb-16 lg:mb-20 space-y-3 sm:space-y-4">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white px-4">
                     <span class="section-title">Tentang Learnify</span>
                 </h2>
-                <p class="text-xl text-slate-300 max-w-3xl mx-auto">
+                <p class="text-base sm:text-lg lg:text-xl text-slate-300 max-w-3xl mx-auto px-4">
                     Learnify adalah platform kompetisi pembelajaran yang dirancang untuk membantu peserta mengembangkan
                     keterampilan mereka melalui berbagai kompetisi yang menantang dan menarik.
                 </p>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
                 <div
-                    class="card-hover bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-8 space-y-4">
-                    <div class="w-16 h-16 gradient-primary rounded-xl flex items-center justify-center text-3xl">🎯
+                    class="card-hover bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-6 sm:p-8 space-y-3 sm:space-y-4">
+                    <div
+                        class="w-12 h-12 sm:w-16 sm:h-16 gradient-primary rounded-xl flex items-center justify-center text-2xl sm:text-3xl">
+                        🎯
                     </div>
-                    <h3 class="text-2xl font-black text-white">Kompetisi Berkualitas</h3>
-                    <p class="text-slate-400">Kompetisi dirancang oleh para ahli untuk memastikan pembelajaran yang
+                    <h3 class="text-xl sm:text-2xl font-black text-white">Kompetisi Berkualitas</h3>
+                    <p class="text-sm sm:text-base text-slate-400">Kompetisi dirancang oleh para ahli untuk memastikan
+                        pembelajaran yang
                         efektif dan menyenangkan.</p>
                 </div>
 
                 <div
-                    class="card-hover bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-8 space-y-4">
-                    <div class="w-16 h-16 gradient-accent rounded-xl flex items-center justify-center text-3xl">🏅
+                    class="card-hover bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-6 sm:p-8 space-y-3 sm:space-y-4">
+                    <div
+                        class="w-12 h-12 sm:w-16 sm:h-16 gradient-accent rounded-xl flex items-center justify-center text-2xl sm:text-3xl">
+                        🏅
                     </div>
-                    <h3 class="text-2xl font-black text-white">Hadiah Menarik</h3>
-                    <p class="text-slate-400">Dapatkan hadiah menarik dan sertifikat untuk setiap kompetisi yang
+                    <h3 class="text-xl sm:text-2xl font-black text-white">Hadiah Menarik</h3>
+                    <p class="text-sm sm:text-base text-slate-400">Dapatkan hadiah menarik dan sertifikat untuk setiap
+                        kompetisi yang
                         diikuti.</p>
                 </div>
 
                 <div
-                    class="card-hover bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-8 space-y-4">
-                    <div class="w-16 h-16 bg-cyan-600 rounded-xl flex items-center justify-center text-3xl">🌐</div>
-                    <h3 class="text-2xl font-black text-white">Komunitas Global</h3>
-                    <p class="text-slate-400">Bergabung dengan ribuan peserta dari berbagai negara dan perluas jaringan
+                    class="card-hover bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-6 sm:p-8 space-y-3 sm:space-y-4">
+                    <div
+                        class="w-12 h-12 sm:w-16 sm:h-16 bg-cyan-600 rounded-xl flex items-center justify-center text-2xl sm:text-3xl">
+                        🌐</div>
+                    <h3 class="text-xl sm:text-2xl font-black text-white">Komunitas Global</h3>
+                    <p class="text-sm sm:text-base text-slate-400">Bergabung dengan ribuan peserta dari berbagai negara
+                        dan perluas jaringan
                         Anda.</p>
                 </div>
             </div>
@@ -570,50 +585,56 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-slate-900 border-t border-slate-800 py-12 px-4 sm:px-6 lg:px-8 relative z-10">
+    <footer class="bg-slate-900 border-t border-slate-800 py-8 sm:py-12 px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="max-w-7xl mx-auto">
-            <div class="grid md:grid-cols-4 gap-8 mb-8">
-                <div>
-                    <div class="flex items-center gap-2 mb-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
+                <div class="col-span-2 md:col-span-1">
+                    <div class="flex items-center gap-2 mb-3 sm:mb-4">
                         <div class="w-8 h-8 gradient-primary rounded-lg flex items-center justify-center">
                             <span class="text-white font-bold">L</span>
                         </div>
-                        <span class="font-bold text-white text-lg">Learnify</span>
+                        <span class="font-bold text-white text-base sm:text-lg">Learnify</span>
                     </div>
-                    <p class="text-slate-400 text-sm">Platform kompetisi pembelajaran terdepan di Indonesia</p>
+                    <p class="text-slate-400 text-xs sm:text-sm">Platform kompetisi pembelajaran terdepan di Indonesia
+                    </p>
                 </div>
                 <div>
-                    <h4 class="text-white font-bold mb-3">Platform</h4>
-                    <ul class="space-y-2 text-slate-400 text-sm">
+                    <h4 class="text-white font-bold mb-2 sm:mb-3 text-sm sm:text-base">Platform</h4>
+                    <ul class="space-y-1 sm:space-y-2 text-slate-400 text-xs sm:text-sm">
                         <li><a href="#kompetisi" class="hover:text-white transition">Kompetisi</a></li>
-                        <li><a href="{{ route('global.leaderboard') }}"
-                                class="hover:text-white transition">Leaderboard</a></li>
+                        {{-- <li><a href="{{ route('global.leaderboard') }}"
+                                class="hover:text-white transition">Leaderboard</a></li> --}}
                         <li><a href="#tentang" class="hover:text-white transition">Tentang</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="text-white font-bold mb-3">Perusahaan</h4>
-                    <ul class="space-y-2 text-slate-400 text-sm">
+                    <h4 class="text-white font-bold mb-2 sm:mb-3 text-sm sm:text-base">Perusahaan</h4>
+                    <ul class="space-y-1 sm:space-y-2 text-slate-400 text-xs sm:text-sm">
                         <li><a href="#" class="hover:text-white transition">Tentang</a></li>
                         <li><a href="#" class="hover:text-white transition">Blog</a></li>
                         <li><a href="#" class="hover:text-white transition">Kontak</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="text-white font-bold mb-3">Legal</h4>
-                    <ul class="space-y-2 text-slate-400 text-sm">
+                    <h4 class="text-white font-bold mb-2 sm:mb-3 text-sm sm:text-base">Legal</h4>
+                    <ul class="space-y-1 sm:space-y-2 text-slate-400 text-xs sm:text-sm">
                         <li><a href="#" class="hover:text-white transition">Privacy</a></li>
                         <li><a href="#" class="hover:text-white transition">Terms</a></li>
                         <li><a href="#" class="hover:text-white transition">Cookie</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="border-t border-slate-800 pt-8 flex justify-between items-center">
-                <p class="text-slate-500 text-sm">© 2025 Learnify. All rights reserved.</p>
-                <div class="flex gap-4">
-                    <a href="#" class="text-slate-400 hover:text-white transition">Twitter</a>
-                    <a href="#" class="text-slate-400 hover:text-white transition">Facebook</a>
-                    <a href="#" class="text-slate-400 hover:text-white transition">Instagram</a>
+            <div
+                class="border-t border-slate-800 pt-6 sm:pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
+                <p class="text-slate-500 text-xs sm:text-sm text-center sm:text-left">© 2025 Learnify. All rights
+                    reserved.</p>
+                <div class="flex gap-3 sm:gap-4">
+                    <a href="#"
+                        class="text-slate-400 hover:text-white transition text-xs sm:text-sm">Twitter</a>
+                    <a href="#"
+                        class="text-slate-400 hover:text-white transition text-xs sm:text-sm">Facebook</a>
+                    <a href="#"
+                        class="text-slate-400 hover:text-white transition text-xs sm:text-sm">Instagram</a>
                 </div>
             </div>
         </div>

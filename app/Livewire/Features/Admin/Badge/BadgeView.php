@@ -14,11 +14,11 @@ class BadgeView extends Component
 
     public Badge $badge;
     
-    public function mount($badge)
+    public function mount(Badge $badge)
     {
-        $this->badge = Badge::with(['users' => function($query) {
+        $this->badge = $badge->load(['users' => function($query) {
             $query->orderBy('user_badges.awarded_at', 'desc');
-        }])->findOrFail($badge);
+        }]);
     }
 
     public function render()

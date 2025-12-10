@@ -144,23 +144,39 @@
 
                                     {{-- Answer Options --}}
                                     <div class="mb-6 space-y-3" wire:key="question-{{ $currentQuestion->id }}">
-                                        @foreach ($currentQuestion->answers as $answer)
-                                            <label
-                                                class="flex items-start p-4 border rounded-xl cursor-pointer transition-all
+                                        @if ($currentQuestion->question_type === 'essay')
+                                            {{-- Essay Answer Textarea --}}
+                                            <div class="mb-6">
+                                                <label class="block text-slate-200 font-semibold mb-2">Tulis Jawaban
+                                                    Anda:</label>
+                                                <textarea wire:model="essayAnswerText" rows="8"
+                                                    class="w-full bg-slate-800/50 border border-slate-600 rounded-xl text-slate-200 placeholder-slate-500 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all p-4"
+                                                    placeholder="Ketik jawaban essay Anda di sini..."></textarea>
+                                                <small class="text-slate-400 block mt-2 flex items-center gap-2">
+                                                    <i class="bi bi-info-circle"></i>
+                                                    Jawaban essay akan dinilai oleh admin. Tulis dengan lengkap dan
+                                                    jelas.
+                                                </small>
+                                            </div>
+                                        @else
+                                            @foreach ($currentQuestion->answers as $answer)
+                                                <label
+                                                    class="flex items-start p-4 border rounded-xl cursor-pointer transition-all
                                     @if ($selectedAnswer === $answer->id) border-indigo-500 bg-indigo-500/10
                                     @else
                                         border-slate-600 hover:border-slate-500 hover:bg-slate-800/50 @endif"
-                                                wire:key="answer-{{ $answer->id }}">
-                                                <input type="radio" name="question_{{ $currentQuestion->id }}"
-                                                    value="{{ $answer->id }}"
-                                                    wire:click="selectAnswer({{ $answer->id }})"
-                                                    class="mt-1 w-5 h-5 text-indigo-500 focus:ring-indigo-500 focus:ring-2"
-                                                    @if ($selectedAnswer === $answer->id) checked @endif>
-                                                <span class="ml-3 flex-grow text-slate-200">
-                                                    {{ $answer->answer_text }}
-                                                </span>
-                                            </label>
-                                        @endforeach
+                                                    wire:key="answer-{{ $answer->id }}">
+                                                    <input type="radio" name="question_{{ $currentQuestion->id }}"
+                                                        value="{{ $answer->id }}"
+                                                        wire:click="selectAnswer({{ $answer->id }})"
+                                                        class="mt-1 w-5 h-5 text-indigo-500 focus:ring-indigo-500 focus:ring-2"
+                                                        @if ($selectedAnswer === $answer->id) checked @endif>
+                                                    <span class="ml-3 flex-grow text-slate-200">
+                                                        {{ $answer->answer_text }}
+                                                    </span>
+                                                </label>
+                                            @endforeach
+                                        @endif
                                     </div>
 
                                     {{-- Flash Messages --}}
@@ -210,111 +226,7 @@
         </div>
     </div>
 
-<<<<<<< HEAD
-        {{-- ===================== QUESTION CARD ===================== --}}
-        @if ($currentQuestion)
-            <div class="row justify-content-center">
-                <div class="col-lg-10">
 
-                    <div class="card shadow-lg">
-                        <div class="card-body">
-
-                            {{-- Tags --}}
-                            <div class="d-flex justify-content-between mb-3">
-                                <span class="badge bg-primary">
-                                    {{ $currentQuestion->category->name ?? 'Umum' }}
-                                </span>
-
-                                <span
-                                    class="badge
-                                    @if ($currentQuestion->difficulty_level === 'easy') bg-success
-                                    @elseif($currentQuestion->difficulty_level === 'medium') bg-warning
-                                    @else bg-danger @endif">
-                                    {{ ucfirst($currentQuestion->difficulty_level) }}
-                                    • {{ $currentQuestion->point_weight }} poin
-                                </span>
-                            </div>
-
-                            {{-- Question Text --}}
-                            <h5 class="fw-bold mb-4">
-                                {{ $currentQuestion->question_text }}
-                            </h5>
-
-                            {{-- Answer Options --}}
-                            <div class="mb-4" wire:key="question-{{ $currentQuestion->id }}">
-                                @if ($currentQuestion->question_type === 'essay')
-                                    {{-- Essay Answer Textarea --}}
-                                    <div class="mb-3">
-                                        <label class="form-label fw-bold">Tulis Jawaban Anda:</label>
-                                        <textarea wire:model="essayAnswerText" rows="8" class="form-control"
-                                            placeholder="Ketik jawaban essay Anda di sini..." style="font-size: 1rem;"></textarea>
-                                        <small class="text-muted">
-                                            <i class="bi bi-info-circle"></i>
-                                            Jawaban essay akan dinilai oleh admin. Tulis dengan lengkap dan jelas.
-                                        </small>
-                                    </div>
-                                @else
-                                    {{-- Multiple Choice Options --}}
-                                    @foreach ($currentQuestion->answers as $answer)
-                                        <label
-                                            class="d-flex align-items-start border rounded p-3 mb-2
-                                            @if ($selectedAnswer === $answer->id) border-primary bg-light
-                                            @else
-                                                border-secondary @endif
-                                            "
-                                            wire:key="answer-{{ $answer->id }}">
-                                            <input type="radio" name="question_{{ $currentQuestion->id }}"
-                                                value="{{ $answer->id }}"
-                                                wire:click="selectAnswer({{ $answer->id }})"
-                                                class="form-check-input me-3 mt-1"
-                                                @if ($selectedAnswer === $answer->id) checked @endif>
-                                            <span class="flex-grow-1">
-                                                {{ $answer->answer_text }}
-                                            </span>
-                                        </label>
-                                    @endforeach
-                                @endif
-                            </div>
-
-                            {{-- Flash Messages --}}
-                            @if (session()->has('success'))
-                                <div class="alert alert-success">{{ session('success') }}</div>
-                            @endif
-
-                            @if (session()->has('error'))
-                                <div class="alert alert-danger">{{ session('error') }}</div>
-                            @endif
-
-                            {{-- Navigation Buttons --}}
-                            <div class="d-flex justify-content-between">
-
-                                {{-- PREVIOUS --}}
-                                <button wire:click="previousQuestion" class="btn btn-outline-secondary px-4"
-                                    @if ($currentQuestionIndex === 0) disabled @endif>
-                                    ← Sebelumnya
-                                </button>
-
-                                {{-- NEXT / FINISH --}}
-                                @if ($currentQuestionIndex < $totalQuestions - 1)
-                                    <button wire:click="nextQuestion" class="btn btn-primary px-4 fw-bold">
-                                        Selanjutnya →
-                                    </button>
-                                @else
-                                    <button wire:click="finishCompetition" class="btn btn-success px-4 fw-bold">
-                                        Selesai
-                                    </button>
-                                @endif
-
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        @endif
-
-    @endif
 </div>
 
 @push('scripts')
@@ -324,83 +236,74 @@
             Swal.fire({
                 title: '<strong>Kompetisi Dimulai!</strong>',
                 html: `
-=======
-    @push('scripts')
-        <script>
-            // Show success notification when competition is started
-            @if (session('competition_started'))
-                Swal.fire({
-                    title: '<strong>Kompetisi Dimulai!</strong>',
-                    html: `
->>>>>>> develop
-                <div class="text-start">
-                    <p class="text-muted mb-3">Timer sudah berjalan. Selamat mengerjakan!</p>
-                    <div class="alert alert-success" style="font-size: 0.9rem;">
-                        <i class="bi bi-check-circle me-2"></i>
-                        <strong>Tips:</strong>
-                        <ul class="mt-2 mb-0 ps-3">
-                            <li>Perhatikan sisa waktu di bagian atas</li>
-                            <li>Jawaban otomatis tersimpan saat berpindah soal</li>
-                            <li>Anda dapat menavigasi antar soal menggunakan tombol navigasi</li>
-                        </ul>
-                    </div>
-                </div>
-            `,
-                    icon: 'success',
-                    confirmButtonText: '<i class="bi bi-play-fill me-1"></i> Mulai Mengerjakan',
-                    confirmButtonColor: '#6366f1',
-                    customClass: {
-                        confirmButton: 'btn btn-lg px-4'
-                    },
-                    allowOutsideClick: false,
-                    allowEscapeKey: false
-                });
-            @endif
-        </script>
-    @endpush
+                        <div class="text-left text-slate-700 dark:text-slate-300">
+                            <p class="mb-3">Timer sudah berjalan. Selamat mengerjakan!</p>
+                            <div class="bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400 p-4 rounded-lg text-sm">
+                                <i class="bi bi-check-circle me-2"></i>
+                                <strong>Tips:</strong>
+                                <ul class="mt-2 mb-0 pl-4 list-disc">
+                                    <li>Perhatikan sisa waktu di bagian atas</li>
+                                    <li>Jawaban otomatis tersimpan saat berpindah soal</li>
+                                    <li>Anda dapat menavigasi antar soal menggunakan tombol navigasi</li>
+                                </ul>
+                            </div>
+                        </div>
+                        `,
+                icon: 'success',
+                confirmButtonText: '<i class="bi bi-play-fill me-1"></i> Mulai Mengerjakan',
+                confirmButtonColor: '#6366f1',
+                customClass: {
+                    confirmButton: 'btn btn-lg px-4'
+                },
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            });
+        @endif
+    </script>
+@endpush
 
-    @push('styles')
-        <style>
-            /* Fade in animation */
-            @keyframes fadeInUp {
-                from {
-                    opacity: 0;
-                    transform: translateY(20px);
-                }
-
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
+@push('styles')
+    <style>
+        /* Fade in animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
 
-            .tab-content {
-                animation: fadeInUp 0.5s ease-out;
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
+        }
 
-            body.light-theme .bg-gradient-to-br {
-                background: white !important;
-                border-color: #e2e8f0 !important;
-            }
+        .tab-content {
+            animation: fadeInUp 0.5s ease-out;
+        }
 
-            body.light-theme .text-white {
-                color: #0f172a !important;
-            }
+        body.light-theme .bg-gradient-to-br {
+            background: white !important;
+            border-color: #e2e8f0 !important;
+        }
 
-            body.light-theme .text-slate-200,
-            body.light-theme .text-slate-300,
-            body.light-theme .text-slate-400 {
-                color: #64748b !important;
-            }
+        body.light-theme .text-white {
+            color: #0f172a !important;
+        }
 
-            body.light-theme .border-slate-600,
-            body.light-theme .border-slate-700 {
-                border-color: #e2e8f0 !important;
-            }
+        body.light-theme .text-slate-200,
+        body.light-theme .text-slate-300,
+        body.light-theme .text-slate-400 {
+            color: #64748b !important;
+        }
 
-            body.light-theme .bg-slate-700,
-            body.light-theme .bg-slate-800 {
-                background: #f1f5f9 !important;
-            }
-        </style>
-    @endpush
+        body.light-theme .border-slate-600,
+        body.light-theme .border-slate-700 {
+            border-color: #e2e8f0 !important;
+        }
+
+        body.light-theme .bg-slate-700,
+        body.light-theme .bg-slate-800 {
+            background: #f1f5f9 !important;
+        }
+    </style>
+@endpush

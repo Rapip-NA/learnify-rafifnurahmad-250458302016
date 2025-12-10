@@ -16,7 +16,7 @@ class CompetitionQuiz extends Component
 {
     public $competition;
     public $participant;
-    public $questions;
+    public $questions = [];
     public $currentQuestionIndex = 0;
     public $selectedAnswer = null;
     public $essayAnswerText = ''; // For essay-type questions

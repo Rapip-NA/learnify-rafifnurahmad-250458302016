@@ -51,8 +51,8 @@ Route::prefix('admin')
         Route::prefix('badges')->name('badges.')->group(function () {
             Route::get('/', Admin\Badge\BadgeIndex::class)->name('index');
             Route::get('/create', Admin\Badge\BadgeCreate::class)->name('create');
-            Route::get('/{badge}/edit', Admin\Badge\BadgeEdit::class)->name('edit');
             Route::get('/{badge}', Admin\Badge\BadgeView::class)->name('view');
+            Route::get('/{badge}/edit', Admin\Badge\BadgeEdit::class)->name('edit');
         });
     });
 

@@ -249,31 +249,31 @@
     <!-- Navigation -->
     <nav class="fixed top-0 left-0 right-0 bg-slate-950 bg-opacity-80 backdrop-blur-md z-50 border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 lg:h-20">
+            <div class="flex items-center justify-between h-14 sm:h-16 lg:h-20">
                 <!-- Logo -->
-                <a href="/" class="flex items-center gap-3 group">
+                <a href="/" class="flex items-center gap-2 sm:gap-3 group">
                     <div
-                        class="w-10 h-10 gradient-primary rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform glow-pulse">
-                        <span class="text-white font-bold text-lg">L</span>
+                        class="w-8 h-8 sm:w-10 sm:h-10 gradient-primary rounded-lg sm:rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform glow-pulse">
+                        <span class="text-white font-bold text-base sm:text-lg">L</span>
                     </div>
                     <span
-                        class="text-2xl font-bold text-transparent bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text">Learnify</span>
+                        class="text-xl sm:text-2xl font-bold text-transparent bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text">Learnify</span>
                 </a>
 
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2 sm:gap-4">
                     <!-- Theme Toggle Button -->
                     <button id="theme-toggle"
-                        class="w-10 h-10 flex items-center justify-center border-2 border-slate-700 hover:border-indigo-500 rounded-lg transition-all hover:shadow-lg">
+                        class="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center border-2 border-slate-700 hover:border-indigo-500 rounded-lg transition-all hover:shadow-lg">
                         <!-- Sun Icon (Light Mode) -->
-                        <svg id="sun-icon" class="w-5 h-5 text-slate-400 hidden" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
+                        <svg id="sun-icon" class="w-4 h-4 sm:w-5 sm:h-5 text-slate-400 hidden" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
                             </path>
                         </svg>
                         <!-- Moon Icon (Dark Mode) -->
-                        <svg id="moon-icon" class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
+                        <svg id="moon-icon" class="w-4 h-4 sm:w-5 sm:h-5 text-slate-400" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
                             </path>
@@ -282,20 +282,21 @@
 
                     <!-- Back to Home -->
                     <a href="/"
-                        class="text-slate-400 hover:text-white transition-colors font-medium text-sm flex items-center gap-2">
+                        class="text-slate-400 hover:text-white transition-colors font-medium text-xs sm:text-sm flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                         </svg>
-                        Kembali ke Beranda
+                        <span class="hidden sm:inline">Kembali ke Beranda</span>
+                        <span class="sm:hidden">Beranda</span>
                     </a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <section class="relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+    <section class="relative min-h-screen flex items-center pt-20 pb-12 sm:pt-24 sm:pb-16 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 transition-all duration-300">
             {{ $slot }}
         </div>
     </section>

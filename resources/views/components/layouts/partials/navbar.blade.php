@@ -2,7 +2,7 @@
 <nav class="sticky top-0 z-30 bg-slate-900/80 backdrop-blur-md border-b border-slate-700 px-6 py-4">
     <div class="flex items-center justify-between">
         <!-- Mobile Menu Button -->
-        <button onclick="toggleSidebar()" class="lg:hidden text-slate-400 hover:text-white transition">
+        <button onclick="toggleSidebar(event)" class="lg:hidden text-slate-400 hover:text-white transition">
             <i class="bi bi-list text-2xl"></i>
         </button>
 

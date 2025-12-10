@@ -13,7 +13,7 @@
                             <p class="text-slate-400">Update the details and answers for this question.</p>
                         </div>
                         <a href="{{ route('admin.questions.index') }}"
-                            class="inline-flex items-center gap-2 px-6 py-3 bg-slate-800 border border-slate-700 text-white font-semibold rounded-xl hover:bg-slate-700 transition-all">
+                            class="inline-flex justify-center items-center gap-2 px-6 py-3 bg-slate-800 border border-slate-700 text-white font-semibold rounded-xl hover:bg-slate-700 transition-all w-full md:w-auto">
                             <i class="bi bi-arrow-left"></i>
                             Back to List
                         </a>
@@ -23,11 +23,11 @@
                 <!-- Form Card -->
                 <div
                     class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl overflow-hidden">
-                    <div class="px-6 py-4 border-b border-slate-700">
+                    <div class="px-4 py-4 md:px-6 md:py-4 border-b border-slate-700">
                         <h3 class="text-xl font-bold text-white">Update Question Details</h3>
                     </div>
 
-                    <div class="p-6">
+                    <div class="p-4 md:p-6">
                         <form wire:submit.prevent="update" class="space-y-6">
                             <!-- Competition & Category -->
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -123,8 +123,9 @@
                             </div>
 
                             <!-- Answers Section -->
-                            <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-6">
-                                <div class="flex justify-between items-center mb-4">
+                            <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-4 md:p-6">
+                                <div
+                                    class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
                                     <label class="text-lg font-semibold text-white">
                                         Answers <span class="text-red-400">*</span>
                                         <span class="text-sm text-slate-400">(at least 2 required)</span>
@@ -145,7 +146,7 @@
 
                                 @foreach ($answers as $index => $answer)
                                     <div
-                                        class="flex gap-3 mb-3 items-center p-4 rounded-xl bg-slate-900 border border-slate-700">
+                                        class="flex flex-col md:flex-row gap-3 mb-3 items-start md:items-center p-4 rounded-xl bg-slate-900 border border-slate-700">
                                         <div class="flex items-center gap-2">
                                             <input type="radio" wire:click="setCorrectAnswer({{ $index }})"
                                                 name="correct_answer" {{ $answer['is_correct'] ? 'checked' : '' }}
@@ -179,13 +180,13 @@
                             </div>
 
                             <!-- Buttons -->
-                            <div class="flex justify-end gap-4 pt-6 border-t border-slate-700">
+                            <div class="flex flex-col md:flex-row justify-end gap-4 pt-6 border-t border-slate-700">
                                 <a href="{{ route('admin.questions.index') }}"
-                                    class="px-6 py-3 bg-slate-700 text-white font-semibold rounded-xl hover:bg-slate-600 transition-all">
+                                    class="inline-flex justify-center items-center px-6 py-3 bg-slate-700 text-white font-semibold rounded-xl hover:bg-slate-600 transition-all w-full md:w-auto">
                                     Cancel
                                 </a>
                                 <button type="button" onclick="confirmUpdate()"
-                                    class="inline-flex items-center gap-2 px-6 py-3 gradient-primary text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-indigo-500/50 transition-all">
+                                    class="inline-flex items-center gap-2 px-6 py-3 gradient-primary text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-indigo-500/50 transition-all w-full md:w-auto justify-center">
                                     <i class="bi bi-check-circle"></i>
                                     Update Question
                                 </button>

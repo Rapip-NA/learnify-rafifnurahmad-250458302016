@@ -6,7 +6,7 @@
                 <div class="mb-8">
                     <div>
                         <h1
-                            class="text-3xl font-bold text-transparent bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text mb-2 flex items-center gap-2">
+                            class="text-2xl md:text-3xl font-bold text-transparent bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text mb-2 flex items-center gap-2">
                             <i class="bi bi-shield-check"></i>
                             Daftar Qualifier
                         </h1>
@@ -42,9 +42,9 @@
                     </div>
                 </div>
 
-                <!-- Table Card -->
+                <!-- Desktop Table View -->
                 <div
-                    class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl overflow-hidden">
+                    class="hidden md:block bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="w-full">
                             <thead class="bg-slate-900/50 border-b border-slate-700">
@@ -147,18 +147,93 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
 
-                    <!-- Pagination -->
-                    <div class="px-6 py-4 border-t border-slate-700">
-                        <div class="flex items-center justify-between">
-                            <div class="text-sm text-slate-400">
-                                Menampilkan {{ $qualifiers->firstItem() ?? 0 }} - {{ $qualifiers->lastItem() ?? 0 }}
-                                dari
-                                {{ $qualifiers->total() }} qualifier
+                <!-- Mobile Card View -->
+                <div class="md:hidden grid grid-cols-1 gap-4">
+                    @forelse($qualifiers as $q)
+                        <div
+                            class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-4 relative overflow-hidden">
+                            <!-- ID Badge -->
+                            <div class="absolute top-0 right-0 p-3">
+                                <span class="px-2 py-1 text-xs font-semibold rounded-lg bg-slate-700 text-slate-300">
+                                    #{{ $q->id }}
+                                </span>
                             </div>
-                            <div>
-                                {{ $qualifiers->links() }}
+
+                            <div class="space-y-4">
+                                <!-- User Info -->
+                                <div>
+                                    <h3 class="text-white font-semibold text-lg pr-12">{{ $q->name }}</h3>
+                                    <div class="flex items-center gap-2 mt-1 text-slate-400 text-sm">
+                                        <i class="bi bi-envelope"></i>
+                                        <span>{{ $q->email }}</span>
+                                    </div>
+                                </div>
+
+                                <!-- Stats Grid -->
+                                <div class="grid grid-cols-2 gap-3 pb-2 border-b border-slate-700/50">
+                                    <div class="bg-slate-800/50 rounded-xl p-3 text-center border border-slate-700/50">
+                                        <div class="text-xs text-slate-400 mb-1">Soal Diverifikasi</div>
+                                        <span
+                                            class="px-2 py-1 rounded-lg text-xs font-semibold bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                                            {{ $q->verified_questions_count }}
+                                        </span>
+                                    </div>
+                                    <div class="bg-slate-800/50 rounded-xl p-3 text-center border border-slate-700/50">
+                                        <div class="text-xs text-slate-400 mb-1">Jawaban Diverifikasi</div>
+                                        <span
+                                            class="px-2 py-1 rounded-lg text-xs font-semibold bg-green-500/20 text-green-400 border border-green-500/30">
+                                            {{ $q->verified_participant_answers_count }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Meta Info -->
+                                <div class="flex items-center gap-4 text-sm text-slate-400">
+                                    <div class="flex items-center gap-2">
+                                        <i class="bi bi-calendar-event"></i>
+                                        <span>Terdaftar: {{ $q->created_at->format('d M Y') }}</span>
+                                    </div>
+                                </div>
+
+                                <!-- Actions -->
+                                <div class="grid grid-cols-2 gap-3 pt-2">
+                                    <a href="{{ route('admin.qualifier.show', $q->id) }}" wire:navigate
+                                        class="flex items-center justify-center gap-2 p-2 rounded-xl bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 border border-blue-500/30 transition text-sm font-medium">
+                                        <i class="bi bi-eye"></i> Detail
+                                    </a>
+                                    <button onclick="confirmDeleteQualifier({{ $q->id }})"
+                                        class="flex items-center justify-center gap-2 p-2 rounded-xl bg-red-500/10 text-red-400 hover:bg-red-500/20 border border-red-500/30 transition text-sm font-medium">
+                                        <i class="bi bi-trash"></i> Hapus
+                                    </button>
+                                </div>
                             </div>
+                        </div>
+                    @empty
+                        <div
+                            class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-8 text-center">
+                            <i class="bi bi-inbox text-slate-600 text-6xl block mb-4"></i>
+                            @if ($search)
+                                <p class="text-slate-400 text-lg mb-2">Tidak ada qualifier ditemukan untuk
+                                    "{{ $search }}"</p>
+                            @else
+                                <p class="text-slate-400 text-lg">Belum ada qualifier terdaftar</p>
+                            @endif
+                        </div>
+                    @endforelse
+                </div>
+
+                <!-- Pagination -->
+                <div
+                    class="px-4 py-4 md:px-6 md:py-4 bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl mt-4">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div class="text-sm text-slate-400 text-center md:text-left">
+                            Menampilkan {{ $qualifiers->firstItem() ?? 0 }} - {{ $qualifiers->lastItem() ?? 0 }} dari
+                            {{ $qualifiers->total() }} qualifier
+                        </div>
+                        <div class="flex justify-center md:justify-end w-full md:w-auto">
+                            {{ $qualifiers->links() }}
                         </div>
                     </div>
                 </div>

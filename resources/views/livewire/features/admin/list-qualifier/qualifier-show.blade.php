@@ -12,12 +12,19 @@
                             </h1>
                             <p class="text-slate-400">Informasi lengkap mengenai qualifier</p>
                         </div>
-                        <button wire:click="deleteQualifier"
-                            wire:confirm="Apakah Anda yakin ingin menghapus qualifier ini? Data tidak dapat dikembalikan!"
-                            class="inline-flex items-center gap-2 px-6 py-3 bg-red-500/20 text-red-400 border border-red-500/30 font-semibold rounded-xl hover:bg-red-500/30 transition-all">
-                            <i class="bi bi-trash"></i>
-                            Hapus
-                        </button>
+                        <div class="flex gap-4">
+                            <a href="{{ route('admin.qualifier.index') }}" wire:navigate
+                                class="inline-flex items-center gap-2 px-6 py-3 bg-slate-500/20 text-slate-400 border border-slate-500/30 font-semibold rounded-xl hover:bg-slate-500/30 transition-all">
+                                <i class="bi bi-arrow-left"></i>
+                                Kembali
+                            </a>
+                            <button wire:click="deleteQualifier"
+                                wire:confirm="Apakah Anda yakin ingin menghapus qualifier ini? Data tidak dapat dikembalikan!"
+                                class="inline-flex items-center gap-2 px-6 py-3 bg-red-500/20 text-red-400 border border-red-500/30 font-semibold rounded-xl hover:bg-red-500/30 transition-all">
+                                <i class="bi bi-trash"></i>
+                                Hapus
+                            </button>
+                        </div>
                     </div>
                 </div>
 

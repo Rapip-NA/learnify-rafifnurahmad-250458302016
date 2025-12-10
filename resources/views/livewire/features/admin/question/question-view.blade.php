@@ -13,7 +13,7 @@
                             <p class="text-slate-400">View detailed information and answers for this question.</p>
                         </div>
                         <a href="{{ route('admin.questions.index') }}"
-                            class="inline-flex items-center gap-2 px-6 py-3 bg-slate-800 border border-slate-700 text-white font-semibold rounded-xl hover:bg-slate-700 transition-all">
+                            class="inline-flex justify-center items-center gap-2 px-6 py-3 bg-slate-800 border border-slate-700 text-white font-semibold rounded-xl hover:bg-slate-700 transition-all w-full md:w-auto">
                             <i class="bi bi-arrow-left"></i>
                             Back to List
                         </a>
@@ -24,8 +24,9 @@
                 <div
                     class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl overflow-hidden">
                     <!-- Header with Badges and Actions -->
-                    <div class="px-6 py-4 bg-slate-900/50 border-b border-slate-700 flex justify-between items-center">
-                        <div class="flex items-center gap-2">
+                    <div
+                        class="px-4 py-4 md:px-6 md:py-4 bg-slate-900/50 border-b border-slate-700 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                        <div class="flex flex-wrap items-center gap-2">
                             @if ($question->validation_status === 'approved')
                                 <span
                                     class="px-4 py-2 rounded-full text-sm font-semibold bg-green-500/20 text-green-400 border border-green-500/30">Approved</span>
@@ -63,7 +64,7 @@
                     </div>
 
                     <!-- Body -->
-                    <div class="p-6 space-y-6">
+                    <div class="p-4 md:p-6 space-y-6">
                         <!-- Basic Information -->
                         <div class="border-b border-slate-700 pb-6">
                             <h3 class="text-xl font-bold text-white mb-4">Basic Information</h3>
@@ -144,7 +145,7 @@
                     </div>
 
                     <!-- Footer -->
-                    <div class="px-6 py-4 bg-slate-900/50 border-t border-slate-700">
+                    <div class="px-4 py-4 md:px-6 bg-slate-900/50 border-t border-slate-700">
                         <h4 class="text-sm font-semibold text-white mb-3">Timestamps</h4>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                             <div>

@@ -177,10 +177,10 @@
         <div class="blob w-80 h-80 rounded-full bg-cyan-500" style="bottom: 0; left: 50%; animation-delay: 4s;"></div>
     </div>
 
-    <div class="flex min-h-screen relative z-10">
-        <!-- Sidebar -->
-        @include('components.layouts.partials.sidebar')
+    <!-- Sidebar -->
+    @include('components.layouts.partials.sidebar')
 
+    <div class="flex min-h-screen relative z-10">
         <!-- Main Content Wrapper -->
         <div id="main-content" class="flex-1 flex flex-col transition-all duration-300 lg:ml-64">
             <!-- Navbar -->
@@ -255,7 +255,13 @@
         });
 
         // Sidebar toggle function
-        function toggleSidebar() {
+        function toggleSidebar(e) {
+            // Stop propagation if event exists to prevent immediate closing by document listener
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebar-overlay');
 
@@ -266,13 +272,17 @@
         // Close sidebar when clicking outside on mobile
         document.addEventListener('click', (e) => {
             const sidebar = document.getElementById('sidebar');
-            const sidebarToggle = document.querySelector('[onclick="toggleSidebar()"]');
+            const sidebarToggle = document.querySelector('[onclick*="toggleSidebar"]');
 
-            if (window.innerWidth < 1024 &&
-                !sidebar.contains(e.target) &&
-                !sidebarToggle?.contains(e.target) &&
-                sidebar.classList.contains('show')) {
-                toggleSidebar();
+            // If screen is small and sidebar is shown
+            if (window.innerWidth < 1024 && sidebar.classList.contains('show')) {
+                // If the click is NOT inside the sidebar
+                if (!sidebar.contains(e.target)) {
+                    // Close sidebar logic directly here to avoid circular dependency
+                    const overlay = document.getElementById('sidebar-overlay');
+                    sidebar.classList.remove('show');
+                    overlay.classList.add('hidden');
+                }
             }
         });
     </script>

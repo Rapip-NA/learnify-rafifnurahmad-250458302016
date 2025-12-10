@@ -12,7 +12,7 @@
                         <p class="text-slate-400">Fill the form to create a new competition.</p>
                     </div>
                     <a href="{{ route('admin.competitions.index') }}"
-                        class="inline-flex items-center gap-2 px-6 py-3 bg-slate-800 border border-slate-700 text-white font-semibold rounded-xl hover:bg-slate-700 transition-all">
+                        class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-slate-800 border border-slate-700 text-white font-semibold rounded-xl hover:bg-slate-700 transition-all w-full md:w-auto">
                         <i class="bi bi-arrow-left"></i>
                         Back to List
                     </a>
@@ -141,13 +141,13 @@
                     </div>
 
                     <!-- Buttons -->
-                    <div class="flex justify-end gap-4 pt-6 border-t border-slate-700">
+                    <div class="flex flex-col-reverse sm:flex-row justify-end gap-4 pt-6 border-t border-slate-700">
                         <a href="{{ route('admin.competitions.index') }}"
-                            class="px-6 py-3 bg-slate-700 text-white font-semibold rounded-xl hover:bg-slate-600 transition-all">
+                            class="px-6 py-3 bg-slate-700 text-white font-semibold rounded-xl hover:bg-slate-600 transition-all text-center">
                             Cancel
                         </a>
                         <button type="submit"
-                            class="inline-flex items-center gap-2 px-6 py-3 gradient-primary text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-indigo-500/50 transition-all">
+                            class="inline-flex items-center justify-center gap-2 px-6 py-3 gradient-primary text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-indigo-500/50 transition-all">
                             <i class="bi bi-check-circle"></i>
                             Create Competition
                         </button>

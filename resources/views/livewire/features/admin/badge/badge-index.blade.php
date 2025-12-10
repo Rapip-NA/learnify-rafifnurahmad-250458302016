@@ -14,7 +14,7 @@
                             <p class="text-slate-400">Kelola badge dan reward sistem</p>
                         </div>
                         <a href="{{ route('admin.badges.create') }}" wire:navigate
-                            class="inline-flex items-center gap-2 px-6 py-3 gradient-primary text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-indigo-500/50 transition-all">
+                            class="inline-flex justify-center items-center gap-2 px-6 py-3 gradient-primary text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-indigo-500/50 transition-all w-full md:w-auto">
                             <i class="bi bi-plus-circle"></i>
                             Tambah Badge
                         </a>
@@ -30,7 +30,8 @@
                 @endif
 
                 <!-- Search Card -->
-                <div class="mb-6 bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-6">
+                <div
+                    class="mb-6 bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-4 md:p-6">
                     <input type="text" wire:model.live.debounce.300ms="search"
                         class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
                         placeholder="Cari badge...">
@@ -223,6 +224,10 @@
 
         body.light-theme .bi-inbox {
             color: #cbd5e1 !important;
+        }
+
+        body.light-theme .sticky {
+            background: white !important;
         }
     </style>
 </div>

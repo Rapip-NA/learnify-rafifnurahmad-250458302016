@@ -6,7 +6,7 @@
                 <div class="mb-8">
                     <div>
                         <h1
-                            class="text-3xl font-bold text-transparent bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text mb-2 flex items-center gap-2">
+                            class="text-2xl md:text-3xl font-bold text-transparent bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text mb-2 flex items-center gap-2">
                             <i class="bi bi-people-fill"></i>
                             Daftar Peserta
                         </h1>
@@ -23,7 +23,8 @@
                 @endif
 
                 <!-- Filters Card -->
-                <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-6 mb-6">
+                <div
+                    class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-4 md:p-6 mb-6">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div class="md:col-span-2">
                             <input type="text" wire:model.live.debounce.300ms="search"
@@ -43,8 +44,9 @@
                 </div>
 
                 <!-- Table Card -->
+                <!-- Desktop Table View -->
                 <div
-                    class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl overflow-hidden">
+                    class="hidden md:block bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="w-full">
                             <thead class="bg-slate-900/50 border-b border-slate-700">
@@ -133,17 +135,76 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
 
-                    <!-- Pagination -->
-                    <div class="px-6 py-4 border-t border-slate-700">
-                        <div class="flex items-center justify-between">
-                            <div class="text-sm text-slate-400">
-                                Menampilkan {{ $peserta->firstItem() ?? 0 }} - {{ $peserta->lastItem() ?? 0 }} dari
-                                {{ $peserta->total() }} peserta
+                <!-- Mobile Card View -->
+                <div class="md:hidden grid grid-cols-1 gap-4">
+                    @forelse($peserta as $p)
+                        <div
+                            class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-4 relative overflow-hidden">
+                            <!-- ID Badge -->
+                            <div class="absolute top-0 right-0 p-3">
+                                <span class="px-2 py-1 text-xs font-semibold rounded-lg bg-slate-700 text-slate-300">
+                                    #{{ $p->id }}
+                                </span>
                             </div>
-                            <div>
-                                {{ $peserta->links() }}
+
+                            <div class="space-y-4">
+                                <!-- User Info -->
+                                <div>
+                                    <h3 class="text-white font-semibold text-lg pr-12">{{ $p->name }}</h3>
+                                    <div class="flex items-center gap-2 mt-1 text-slate-400 text-sm">
+                                        <i class="bi bi-envelope"></i>
+                                        <span>{{ $p->email }}</span>
+                                    </div>
+                                </div>
+
+                                <!-- Meta Info -->
+                                <div
+                                    class="flex items-center gap-4 text-sm text-slate-400 border-t border-slate-700/50 pt-3">
+                                    <div class="flex items-center gap-2">
+                                        <i class="bi bi-calendar-event"></i>
+                                        <span>Terdaftar: {{ $p->created_at->format('d M Y') }}</span>
+                                    </div>
+                                </div>
+
+                                <!-- Actions -->
+                                <div class="grid grid-cols-2 gap-3 pt-2">
+                                    <a href="{{ route('admin.peserta.show', $p->id) }}" wire:navigate
+                                        class="flex items-center justify-center gap-2 p-2 rounded-xl bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 border border-blue-500/30 transition text-sm font-medium">
+                                        <i class="bi bi-eye"></i> Detail
+                                    </a>
+                                    <button onclick="confirmDeletePeserta({{ $p->id }})"
+                                        class="flex items-center justify-center gap-2 p-2 rounded-xl bg-red-500/10 text-red-400 hover:bg-red-500/20 border border-red-500/30 transition text-sm font-medium">
+                                        <i class="bi bi-trash"></i> Hapus
+                                    </button>
+                                </div>
                             </div>
+                        </div>
+                    @empty
+                        <div
+                            class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-8 text-center">
+                            <i class="bi bi-inbox text-slate-600 text-6xl block mb-4"></i>
+                            @if ($search)
+                                <p class="text-slate-400 text-lg mb-2">Tidak ada peserta ditemukan untuk
+                                    "{{ $search }}"</p>
+                            @else
+                                <p class="text-slate-400 text-lg">Belum ada peserta terdaftar</p>
+                            @endif
+                        </div>
+                    @endforelse
+                </div>
+
+                <!-- Pagination -->
+                <div
+                    class="px-4 py-4 md:px-6 md:py-4 bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl mt-4">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div class="text-sm text-slate-400 text-center md:text-left">
+                            Menampilkan {{ $peserta->firstItem() ?? 0 }} - {{ $peserta->lastItem() ?? 0 }} dari
+                            {{ $peserta->total() }} peserta
+                        </div>
+                        <div class="flex justify-center md:justify-end w-full md:w-auto">
+                            {{ $peserta->links() }}
                         </div>
                     </div>
                 </div>

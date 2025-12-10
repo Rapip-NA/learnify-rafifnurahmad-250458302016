@@ -3,19 +3,20 @@
         <div>
             <div>
                 <!-- Page Header -->
-                <div class="mb-8">
+                <div class="mb-6 md:mb-8">
                     <h1
-                        class="text-3xl font-bold text-transparent bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text mb-2 flex items-center gap-2">
+                        class="text-2xl md:text-3xl font-bold text-transparent bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text mb-2 flex items-center gap-2">
                         <i class="bi bi-trophy-fill"></i>
                         Daftar Kompetisi
                     </h1>
-                    <p class="text-slate-400">Temukan dan ikuti kompetisi yang tersedia.</p>
+                    <p class="text-slate-400 text-sm md:text-base">Temukan dan ikuti kompetisi yang tersedia.</p>
                 </div>
 
                 <!-- Tabs Navigation -->
-                <div class="flex flex-wrap gap-2 mb-6 bg-slate-800/50 border border-slate-700 rounded-xl p-2">
+                <div
+                    class="flex flex-col md:flex-row flex-wrap gap-2 mb-6 bg-slate-800/50 border border-slate-700 rounded-xl p-2">
                     <button
-                        class="tab-btn active flex items-center gap-2 px-6 py-3 rounded-lg text-white font-semibold transition-all"
+                        class="tab-btn active flex items-center justify-center md:justify-start gap-2 w-full md:w-auto px-4 py-3 md:px-6 md:py-3 rounded-lg text-white font-semibold transition-all text-sm md:text-base"
                         data-tab="active">
                         <i class="bi bi-lightning-charge-fill"></i>
                         Kompetisi Aktif
@@ -23,7 +24,7 @@
                             class="px-2 py-0.5 bg-green-500/30 text-green-400 border border-green-500/50 rounded-full text-xs font-bold">{{ $activeCompetitions->count() }}</span>
                     </button>
                     <button
-                        class="tab-btn flex items-center gap-2 px-6 py-3 rounded-lg text-slate-400 font-semibold hover:text-white hover:bg-slate-700/50 transition-all"
+                        class="tab-btn flex items-center justify-center md:justify-start gap-2 w-full md:w-auto px-4 py-3 md:px-6 md:py-3 rounded-lg text-slate-400 font-semibold hover:text-white hover:bg-slate-700/50 transition-all text-sm md:text-base"
                         data-tab="draft">
                         <i class="bi bi-clock-history"></i>
                         Segera Hadir
@@ -31,7 +32,7 @@
                             class="px-2 py-0.5 bg-cyan-500/30 text-cyan-400 border border-cyan-500/50 rounded-full text-xs font-bold">{{ $draftCompetitions->count() }}</span>
                     </button>
                     <button
-                        class="tab-btn flex items-center gap-2 px-6 py-3 rounded-lg text-slate-400 font-semibold hover:text-white hover:bg-slate-700/50 transition-all"
+                        class="tab-btn flex items-center justify-center md:justify-start gap-2 w-full md:w-auto px-4 py-3 md:px-6 md:py-3 rounded-lg text-slate-400 font-semibold hover:text-white hover:bg-slate-700/50 transition-all text-sm md:text-base"
                         data-tab="inactive">
                         <i class="bi bi-archive-fill"></i>
                         Sudah Berakhir
@@ -46,8 +47,8 @@
                     <div class="tab-content active" data-tab="active">
                         @if ($activeCompetitions->isEmpty())
                             <div
-                                class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-12 text-center">
-                                <i class="bi bi-trophy text-yellow-400/30 text-8xl block mb-4"></i>
+                                class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-8 md:p-12 text-center">
+                                <i class="bi bi-trophy text-yellow-400/30 text-6xl md:text-8xl block mb-4"></i>
                                 <h5 class="text-slate-300 text-xl mb-2">Belum ada kompetisi yang aktif</h5>
                                 <p class="text-slate-400">Kompetisi baru akan segera hadir. Stay tuned!</p>
                             </div>
@@ -70,8 +71,8 @@
                     <div class="tab-content hidden" data-tab="draft">
                         @if ($draftCompetitions->isEmpty())
                             <div
-                                class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-12 text-center">
-                                <i class="bi bi-calendar-event text-cyan-400/30 text-8xl block mb-4"></i>
+                                class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-8 md:p-12 text-center">
+                                <i class="bi bi-calendar-event text-cyan-400/30 text-6xl md:text-8xl block mb-4"></i>
                                 <h5 class="text-slate-300 text-xl mb-2">Belum ada kompetisi yang akan datang</h5>
                                 <p class="text-slate-400">Kompetisi baru akan segera dijadwalkan!</p>
                             </div>
@@ -94,8 +95,8 @@
                     <div class="tab-content hidden" data-tab="inactive">
                         @if ($inactiveCompetitions->isEmpty())
                             <div
-                                class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-12 text-center">
-                                <i class="bi bi-archive text-slate-600 text-8xl block mb-4"></i>
+                                class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-8 md:p-12 text-center">
+                                <i class="bi bi-archive text-slate-600 text-6xl md:text-8xl block mb-4"></i>
                                 <h5 class="text-slate-300 text-xl mb-2">Belum ada kompetisi yang berakhir</h5>
                                 <p class="text-slate-400">Kompetisi yang sudah selesai akan muncul di sini.</p>
                             </div>

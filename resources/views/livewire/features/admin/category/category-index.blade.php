@@ -12,7 +12,7 @@
                         <p class="text-slate-400">Manage and organize all competition categories.</p>
                     </div>
                     <a href="{{ route('admin.categories.create') }}"
-                        class="inline-flex items-center gap-2 px-6 py-3 gradient-primary text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-indigo-500/50 transition-all">
+                        class="inline-flex items-center justify-center gap-2 px-6 py-3 gradient-primary text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-indigo-500/50 transition-all w-full md:w-auto">
                         <i class="bi bi-plus-lg"></i>
                         Add New Category
                     </a>
@@ -54,9 +54,58 @@
                 </div>
             </div>
 
-            <!-- Table Card -->
+            <!-- Mobile Card View (Visible on small screens) -->
+            <div class="grid grid-cols-1 gap-6 md:hidden mb-6">
+                @forelse ($categories as $category)
+                    <div
+                        class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-5 space-y-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-white text-lg mb-1">{{ $category->name }}</h3>
+                                <p class="text-xs text-slate-500">ID: {{ $category->id }}</p>
+                            </div>
+                            <span class="text-xs text-slate-400">{{ $category->created_at->format('M d, Y') }}</span>
+                        </div>
+
+                        <p class="text-sm text-slate-400 line-clamp-3">{{ $category->description }}</p>
+
+                        <div class="flex items-center justify-end gap-2 pt-4 border-t border-slate-700/50">
+                            <!-- View Button -->
+                            <a href="{{ route('admin.categories.view', $category) }}"
+                                class="p-2 rounded-lg bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 border border-blue-500/30 transition flex-1 text-center"
+                                title="View">
+                                <i class="bi bi-eye"></i>
+                            </a>
+
+                            <!-- Edit Button -->
+                            <a href="{{ route('admin.categories.edit', $category) }}"
+                                class="p-2 rounded-lg bg-yellow-500/20 text-yellow-400 hover:bg-yellow-500/30 border border-yellow-500/30 transition flex-1 text-center"
+                                title="Edit">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+
+                            <!-- Delete Button -->
+                            <button onclick="confirmDeleteCategory({{ $category->id }})"
+                                class="p-2 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500/30 border border-red-500/30 transition flex-1 text-center"
+                                title="Delete">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                @empty
+                    <div class="text-center py-12 bg-slate-800/50 rounded-2xl border border-slate-700">
+                        <i class="bi bi-inbox text-slate-600 text-6xl block mb-4"></i>
+                        <p class="text-slate-400 text-lg mb-2">No categories found.</p>
+                        @if ($search)
+                            <p class="text-slate-500 text-sm">Try adjusting your search criteria.</p>
+                        @endif
+                    </div>
+                @endforelse
+            </div>
+
+            <!-- Desktop Table View (Hidden on small screens) -->
             <div
-                class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl overflow-hidden">
+                class="hidden md:block bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="w-full">
                         <thead class="bg-slate-900/50 border-b border-slate-700">

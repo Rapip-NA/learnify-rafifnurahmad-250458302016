@@ -14,7 +14,7 @@
             </a>
 
             <!-- Mobile Close Button -->
-            <button onclick="toggleSidebar()" class="lg:hidden text-slate-400 hover:text-white transition">
+            <button onclick="toggleSidebar(event)" class="lg:hidden text-slate-400 hover:text-white transition">
                 <i class="bi bi-x text-2xl"></i>
             </button>
         </div>
