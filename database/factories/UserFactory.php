@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -23,10 +24,14 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        static $counter = 0;
+        $counter++;
+        
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'name' => 'User ' . Str::random(10),
+            'email' => 'user' . $counter . '_' . Str::random(5) . '@example.com',
             'password' => static::$password ??= Hash::make('password'),
+            'role' => 'peserta', // Default role
         ];
     }
 

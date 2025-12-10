@@ -13,33 +13,39 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('competitions', function (Blueprint $table) {
-            // Add uid column after id
-            $table->string('uid', 36)->nullable()->after('id');
-        });
+        // Check if table has existing records
+        $hasRecords = DB::table('competitions')->exists();
 
-        // Generate UID for existing competitions
-        $competitions = DB::table('competitions')->get();
-        foreach ($competitions as $competition) {
-            DB::table('competitions')
-                ->where('id', $competition->id)
-                ->update(['uid' => (string) Str::uuid()]);
+        if ($hasRecords) {
+            // For existing databases with data
+            Schema::table('competitions', function (Blueprint $table) {
+                $table->string('uid', 36)->nullable()->after('id');
+            });
+
+            // Generate UID for existing competitions
+            $competitions = DB::table('competitions')->get();
+            foreach ($competitions as $competition) {
+                DB::table('competitions')
+                    ->where('id', $competition->id)
+                    ->update(['uid' => (string) Str::uuid()]);
+            }
+
+            // Make uid unique and not nullable
+            Schema::table('competitions', function (Blueprint $table) {
+                $table->string('uid', 36)->unique()->change();
+            });
+        } else {
+            // For fresh migrations (no existing data)
+            // Create as nullable first to let model boot method handle UID generation
+            Schema::table('competitions', function (Blueprint $table) {
+                $table->string('uid', 36)->nullable()->unique()->after('id');
+            });
         }
-
-        // Make uid unique and not nullable
-        Schema::table('competitions', function (Blueprint $table) {
-            $table->string('uid', 36)->nullable(false)->unique()->change();
-            $table->index('uid');
-        });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('competitions', function (Blueprint $table) {
-            $table->dropIndex(['uid']);
             $table->dropColumn('uid');
         });
     }
