@@ -88,11 +88,11 @@
                     <span class="font-medium">Leaderboard</span>
                 </a>
 
-                <a href="{{ route('admin.analytics') }}"
+                {{-- <a href="{{ route('admin.analytics') }}"
                     class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800/50 hover:text-white transition-all {{ request()->routeIs('admin.analytics') ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg' : '' }}">
                     <i class="bi bi-graph-up text-lg"></i>
                     <span class="font-medium">Analytics</span>
-                </a>
+                </a> --}}
             </div>
         @elseif (Auth::user()->role === 'peserta')
             <!-- Peserta Menu -->

@@ -16,15 +16,15 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Create users first
-        User::factory(10)->create([
+        User::factory(5)->create([
             'role' => 'admin'
         ]);
 
-        User::factory(10)->create([
+        User::factory(5)->create([
             'role' => 'qualifier'
         ]);
 
-        User::factory(50)->create([
+        User::factory(10)->create([
             'role' => 'peserta'
         ]);
 
